@@ -22,6 +22,7 @@ Turkish name: Çağların Kılıcı. Developer: Mehmet Mutlu (https://mm-apps.co
 - [Türkçe](https://bladesofages.mm-apps.com/)
 - [English](https://bladesofages.mm-apps.com/en/)
 - [Support](https://bladesofages.mm-apps.com/en/support/)
+- [Press kit](https://bladesofages.mm-apps.com/en/press/)
 - [Privacy](https://bladesofages.mm-apps.com/en/privacy/)
 - [Terms of Use](https://bladesofages.mm-apps.com/en/terms/)
 - [Delete account](https://bladesofages.mm-apps.com/en/delete-account/)

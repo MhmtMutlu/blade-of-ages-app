@@ -391,6 +391,18 @@ ul { margin: 0; padding: 0; list-style: none; }
 .realm-step b { font: 800 22px/1.2 var(--head); color: var(--text); }
 .realm-next { margin-left: auto; text-align: right; }
 .card.realm-step:hover { transform: translateY(-2px); }
+.shots { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(180px, 240px); justify-content: center; gap: 18px;
+  overflow-x: auto; padding: 8px 4px 20px; scroll-snap-type: x mandatory; }
+.shots-wide { justify-content: start; }
+.shot { scroll-snap-align: start; }
+.shot img { border-radius: 26px; border: 6px solid #fff; box-shadow: var(--shadow); background: #fff; }
+.center { text-align: center; }
+.press .band.narrow > h1 { font-size: clamp(38px, 5.4vw, 60px); margin: 18px 0 0; }
+.press .museum-card { margin-top: 20px; }
+.press .facts { border-top: 0; padding-top: 0; margin-top: 14px; }
+.press-about p + p { margin-top: 12px; }
+.press-about .dots { margin-top: 14px; }
+.muted { color: var(--text-muted); font-size: 14px; }
 /* realms index */
 .realms-index { padding-top: 40px; }
 .realms-index h1 { font-size: clamp(38px, 5.4vw, 64px); margin: 18px 0 0; }

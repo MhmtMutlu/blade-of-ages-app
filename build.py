@@ -47,10 +47,12 @@ PAGES = {
 GAMEDATA = json.loads((ROOT / "data/game.json").read_text(encoding="utf-8"))
 REALMS = {r["id"]: r for r in GAMEDATA["realms"]}
 PAGES["realms"] = {"tr": "diyarlar/", "*": "realms/"}
+PAGES["press"] = {"tr": "basin/", "*": "press/"}
 for _rid in FACTS["realmsLive"]:
     PAGES[f"realm:{_rid}"] = {"tr": f"diyarlar/{_rid}/", "*": f"realms/{FACTS['realmSlugs'][_rid]}/"}
-GENERATED = {"home", "realms"} | {f"realm:{r}" for r in FACTS["realmsLive"]}
-FOOTER_DOCS = ["support", "privacy", "kvkk", "terms", "delete"]
+GENERATED = {"home", "realms", "press"} | {f"realm:{r}" for r in FACTS["realmsLive"]}
+FOOTER_DOCS = ["support", "press", "privacy", "kvkk", "terms", "delete"]
+SHOTS_LANG = "tr"  # the in-game screenshots (scripts/shots.py) are captured with the Turkish interface
 
 errors: list[str] = []
 warnings: list[str] = []
@@ -102,6 +104,12 @@ def mark_svg(cls: str = "mark") -> str:
     return f'<svg class="{cls}" viewBox="0 0 64 64" aria-hidden="true" focusable="false"><use href="/assets/mark.svg#m"/></svg>'
 
 
+def og_image(lang: str, page: str) -> str:
+    """The page's share card (scripts/og.py): a realm's own card, else the home card in the page's language."""
+    name = f"og-{page.split(':', 1)[1]}-{lang}.jpg" if page.startswith("realm:") else f"og-{lang}.jpg"
+    return f"/assets/og/{name}" if (ROOT / "assets/og" / name).exists() else "/assets/icon-512.png"
+
+
 def head(t: T, title: str, desc: str, page: str, jsonld: dict | None, extra: str = "") -> str:
     lang = t.lang
     code = LANGS[lang]
@@ -117,6 +125,8 @@ def head(t: T, title: str, desc: str, page: str, jsonld: dict | None, extra: str
     ld = ""
     if jsonld:
         ld = '<script type="application/ld+json">' + json.dumps(jsonld, ensure_ascii=False, separators=(",", ":")) + "</script>"
+    og = og_image(lang, page)
+    og_size = '\n<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">' if og.endswith(".jpg") else ""
     og_locale_alts = "".join(f'<meta property="og:locale:alternate" content="{LANGS[c][3]}">' for c in langs if c != lang)
     return f"""<!doctype html>
 <html lang="{code[1]}">
@@ -139,9 +149,10 @@ def head(t: T, title: str, desc: str, page: str, jsonld: dict | None, extra: str
 <meta property="og:title" content="{esc(title)}">
 <meta property="og:description" content="{esc(desc)}">
 <meta property="og:url" content="{BASE}{url(lang, page)}">
-<meta property="og:image" content="{BASE}/assets/icon-512.png">
+<meta property="og:image" content="{BASE}{og}">{og_size}
+<meta property="og:image:alt" content="{t.h('og.alt')}">
 <meta property="og:locale" content="{code[3]}">{og_locale_alts}
-<meta name="twitter:card" content="summary">
+<meta name="twitter:card" content="{'summary_large_image' if og.endswith('.jpg') else 'summary'}">
 {extra}{ld}
 <script src="/assets/site.js" defer></script>
 </head>"""
@@ -431,6 +442,19 @@ def realm_sources(t: T, rid: str) -> str:
   <h2 id="sources-title" class="h-small">{t.h('realm.sources')}</h2><ul class="sources">{items}</ul></section>"""
 
 
+def realm_shots(t: T, rid: str) -> str:
+    shots = sorted((ROOT / "assets/shots").glob(f"{rid}-*.webp"))
+    if not shots:
+        return ""
+    name = g(t.lang, f"realms.{rid}.name")
+    imgs = "".join(f'<li class="shot"><img src="/assets/shots/{p.name}" width="390" height="844" alt="{t.h("realm.shot.alt", realm=name, n=n + 1)}" loading="lazy" decoding="async"></li>'
+                   for n, p in enumerate(shots))
+    note = "" if t.lang == SHOTS_LANG else f'<p class="fine-note center">{t.h("shots.lang")}</p>'
+    return f"""<section class="band" id="shots" aria-labelledby="shots-title">
+  <h2 id="shots-title">{t.h('realm.shots.title')}</h2><ul class="shots">{imgs}</ul>{note}
+</section>"""
+
+
 def build_realm(rid: str, lang: str) -> str:
     t, r, L = T(lang), REALMS[rid], lang
     i = era_index(r["era"])
@@ -488,6 +512,7 @@ def build_realm(rid: str, lang: str) -> str:
   <h2 id="foes-title">{t.h('realm.foes.title')}</h2><p class="section-lead">{t.h('realm.foes.lead')}</p>
   <ul class="foes">{foes}</ul>
 </section>
+{realm_shots(t, rid)}
 <section class="band" id="boss" aria-labelledby="boss-title">
   <div class="card boss-card">
     <div class="boss-fig"><img src="/assets/art/{art(boss)}.webp" width="480" height="480" alt="{gh(L, f'bosses.{boss}.name')}" loading="lazy" decoding="async"></div>
@@ -560,6 +585,51 @@ def build_realms(lang: str) -> str:
         {**crumb_ld, "@id": f"{page_url}#breadcrumb"},
     ]}
     return head(t, title, lead, page, jsonld) + f"\n<body>\n{header(t, page)}{body}{footer(t)}\n</body>\n</html>\n"
+
+
+def build_press(lang: str) -> str:
+    t, L = T(lang), lang
+    page = "press"
+    trail = [(t("crumb.home"), url(L)), (t("doc.press"), None)]
+    crumb_html, crumb_ld = crumbs(t, trail)
+    langs = t.vars["appLanguages"]
+    status = t("cta.soon") if FACTS["stage"] == "prelaunch" else t("press.status.live")
+    sheet = [(t("press.f.name"), f"{t('brand')} ({t('brand.alt')})"), (t("press.f.dev"), SITE["copyrightHolder"]),
+             (t("press.f.platforms"), ", ".join(FACTS["platforms"])), (t("press.f.status"), status),
+             (t("press.f.price"), t("faq.price.a")), (t("press.f.langs"), langs),
+             (t("press.f.content"), t("og.counts")), (t("press.f.contact"), SITE["contact"])]
+    sheet_html = "".join(f"<div><dt>{esc(k)}</dt><dd>{esc(v)}</dd></div>" for k, v in sheet)
+    sheet_html = sheet_html.replace(esc(SITE["contact"]) + "</dd>", f'<a href="mailto:{esc(SITE["contact"])}">{esc(SITE["contact"])}</a></dd>')
+    feats = "".join(f"<li>{t.h(f'press.feat.{k}')}</li>" for k in ("blades", "realms", "myth", "fair"))
+    files = [("press/icon-1024.png", t("press.file.icon"), "PNG · 1024×1024"), ("press/mark.svg", t("press.file.mark"), "SVG"),
+             (f"og/og-{L}.jpg", t("press.file.og"), "JPEG · 1200×630")]
+    files_html = "".join(f'<li><a href="/assets/{f}" download>{esc(n)}</a> <span class="muted">{esc(k)}</span></li>' for f, n, k in files)
+    shots = ["hero-select", "map"] + [f"{r}-1" for r in FACTS["realmsLive"]]
+    shots_html = "".join(f'<li class="shot"><a href="/assets/shots/{s}.webp"><img src="/assets/shots/{s}.webp" width="390" height="844" alt="{t.h("press.shot.alt", n=i + 1)}" loading="lazy" decoding="async"></a></li>'
+                         for i, s in enumerate(shots))
+    note = "" if L == SHOTS_LANG else f'<p class="fine-note center">{t.h("shots.lang")}</p>'
+    figs = [REALMS[r]["boss"] for r in FACTS["realmsLive"]]
+    figs_html = "".join(f'<li class="card hero-chip"><a href="/assets/art/{art(b)}.webp"><img src="/assets/art/{art(b)}.webp" width="480" height="480" alt="{gh(L, f"bosses.{b}.name")}" loading="lazy" decoding="async"></a><span>{gh(L, f"bosses.{b}.name")}</span></li>' for b in figs)
+    h1 = t("press.title")
+    body = f"""<main id="main" class="press">
+<div class="band narrow">{crumb_html}
+  <h1>{esc(h1)}</h1><p class="section-lead left">{t.h('press.lead')}</p>
+  <div class="card museum-card"><h2 class="h-small">{t.h('press.facts')}</h2><dl class="facts">{sheet_html}</dl></div>
+  <div class="card museum-card press-about"><h2 class="h-small">{t.h('press.about')}</h2><p>{t.h('hero.lead')}</p><p>{t.h('journey.lead')}</p><ul class="dots">{feats}</ul></div>
+  <div class="card museum-card"><h2 class="h-small">{t.h('press.files')}</h2><ul class="dots">{files_html}</ul><p class="fine-note">{t.h('press.usage')}</p></div>
+</div>
+<section class="band" aria-labelledby="press-shots"><h2 id="press-shots">{t.h('press.shots')}</h2><ul class="shots shots-wide">{shots_html}</ul>{note}</section>
+<section class="band" aria-labelledby="press-art"><h2 id="press-art">{t.h('press.art')}</h2><ul class="hero-strip">{figs_html}</ul></section>
+</main>"""
+    page_url = f"{BASE}{url(L, page)}"
+    jsonld = {"@context": "https://schema.org", "@graph": [
+        {"@type": "AboutPage", "@id": f"{page_url}#webpage", "url": page_url, "name": h1, "description": t("press.lead"),
+         "inLanguage": LANGS[L][2], "isPartOf": {"@type": "WebSite", "@id": f"{BASE}/#website", "url": f"{BASE}/", "name": t("brand")},
+         "about": {"@id": f"{BASE}/#game"}, "breadcrumb": {"@id": f"{page_url}#breadcrumb"}},
+        {**crumb_ld, "@id": f"{page_url}#breadcrumb"},
+    ]}
+    title = f"{h1} · {t('brand')}"
+    return head(t, title, t("press.lead"), page, jsonld) + f"\n<body>\n{header(t, page)}{body}{footer(t)}\n</body>\n</html>\n"
 
 
 def build_404() -> str:
@@ -716,6 +786,8 @@ def main() -> int:
                 pages[rel] = build_home(lang)
             elif page == "realms":
                 pages[rel] = build_realms(lang)
+            elif page == "press":
+                pages[rel] = build_press(lang)
             elif page.startswith("realm:"):
                 pages[rel] = build_realm(page.split(":", 1)[1], lang)
             else:

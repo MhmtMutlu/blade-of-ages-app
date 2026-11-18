@@ -31,6 +31,11 @@ Araştırma: `docs/research/seo.md`, `docs/research/geo.md`, `docs/research/tasa
 | `assets/arena.js` | Oynanabilir giriş: dışa bakan kılıçlar, yürü = geniş yörünge, dur = dar ve hızlı, dört yönden ve halka dalgalarıyla gelen düşmanlar. İlk boyamadan sonra başlar, ekran dışında durur, hareket azaltma tercihinde kendiliğinden başlamaz |
 | `assets/site.js` | Dil menüsü ve Çağlar Yolculuğu'ndaki katmanlı kayma |
 | `assets/art/` | Oyunun kil SVG'lerinden üretilen WebP'ler (`scripts/art.py`) |
+| `data/game.json` | Diyar sayfalarının verisi ve oyunun 7 dildeki metinleri (`scripts/sync-game.py`). Elle düzenlenmez; oyun deposundan kayarsa derleme durur |
+| `content/myth.json` | Diyar sayfalarının "Mitte ve tarihte" bölümü ve kaynakları (doğrulanmış bağlantılar) |
+| `assets/og/` | Paylaşım kartları, 1200×630, dil ve diyar başına (`scripts/og.py`) |
+| `assets/shots/` | Oyunun PlayMode test koşularından gerçek ekran görüntüleri (`scripts/shots.py`; Türkçe arayüz) |
+| `assets/press/` | Basın kiti dosyaları: 1024 px simge, marka işareti SVG |
 | `assets/fonts/` | Baloo 2 ve Nunito alt kümeleri (`scripts/subset-fonts.py`, SIL OFL) |
 
 **Denetimler:**
@@ -49,6 +54,9 @@ Araştırma: `docs/research/seo.md`, `docs/research/geo.md`, `docs/research/tasa
 python3 -m venv .venv && .venv/bin/pip install pillow numpy fonttools brotli
 .venv/bin/python scripts/art.py
 .venv/bin/python scripts/subset-fonts.py
+.venv/bin/python scripts/og.py          # paylaşım kartları
+.venv/bin/python scripts/shots.py       # oyun içi ekran görüntüleri
+python3 scripts/sync-game.py            # diyar verisi ve oyun metinleri
 ```
 
 **Yerel önizleme:** `python3 -m http.server 8742`
@@ -64,10 +72,13 @@ python3 -m venv .venv && .venv/bin/pip install pillow numpy fonttools brotli
 - Çağlar Yolculuğu: I–III. çağ diorama; IV–V. çağ "Silik'in sildiği" çağlar olarak
 - Nasıl oynanır, kahramanlar, adil oyun, SSS
 
+- Diyarlar dizini ve bitmiş 6 diyarın sayfası (Göbeklitepe, Sümer, Mısır, Yunan, Hitit, İskandinav): müze düzeni,
+  düşmanlar, boss fazları ve karşı hamleler, diyar donanımı, oyun içi görüntüler, BreadcrumbList
+- Paylaşım kartları (ana sayfa ve her diyar, tr/en), basın kiti (`/basin/`, `/en/press/`)
+
 **Sırada:**
-- Diyar ve boss sayfaları ("Gün Işığında Mit Müzesi").
 - ja, ko, zh-Hant, de ve fr metinleri.
-- OG görselleri, basın kiti.
+- İngilizce arayüzle ekran görüntüleri (şimdi Türkçe; İngilizce sayfalar bunu bir notla söylüyor).
 - DNS (`bladesofages.mm-apps.com`) ve GitHub Pages.
 
 ## Hukuk metinleri ve oyun birlikte değişir
