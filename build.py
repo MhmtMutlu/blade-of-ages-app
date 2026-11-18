@@ -30,7 +30,7 @@ LANGS = {
 PUBLISHED = [c for c, v in LANGS.items() if v[4]]
 X_DEFAULT = "en"
 CSP = ("default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; font-src 'self'; "
-       "connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'")
+       "connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'")
 ROMAN = ["I", "II", "III", "IV", "V"]
 SRC = ROOT / "src"
 
@@ -48,9 +48,10 @@ GAMEDATA = json.loads((ROOT / "data/game.json").read_text(encoding="utf-8"))
 REALMS = {r["id"]: r for r in GAMEDATA["realms"]}
 PAGES["realms"] = {"tr": "diyarlar/", "*": "realms/"}
 PAGES["press"] = {"tr": "basin/", "*": "press/"}
+PAGES["heroes"] = {"tr": "kahramanlar/", "*": "heroes/"}
 for _rid in FACTS["realmsLive"]:
     PAGES[f"realm:{_rid}"] = {"tr": f"diyarlar/{_rid}/", "*": f"realms/{FACTS['realmSlugs'][_rid]}/"}
-GENERATED = {"home", "realms", "press"} | {f"realm:{r}" for r in FACTS["realmsLive"]}
+GENERATED = {"home", "realms", "press", "heroes"} | {f"realm:{r}" for r in FACTS["realmsLive"]}
 FOOTER_DOCS = ["support", "press", "privacy", "kvkk", "terms", "delete"]
 SHOTS_LANG = "tr"  # the in-game screenshots (scripts/shots.py) are captured with the Turkish interface
 
@@ -173,7 +174,7 @@ def header(t: T, page: str = "home") -> str:
 <header class="top">
   <a class="logo" href="{url(t.lang)}">{mark_svg()}<span>{t.h('brand')}</span></a>
   <nav aria-label="{t.h('nav.label')}"><ul class="nav">{links}</ul></nav>
-  <details class="langs"><summary aria-label="{t.h('lang.label')}">{esc(LANGS[t.lang][2].upper())}</summary><ul>{others}</ul></details>
+  <details class="langs"><summary aria-label="{esc(LANGS[t.lang][2].upper())} · {t.h('lang.label')}">{esc(LANGS[t.lang][2].upper())}</summary><ul>{others}</ul></details>
 </header>"""
 
 
@@ -256,13 +257,19 @@ def journey(t: T) -> str:
 </section>"""
 
 
+def hero_img(h: str, alt: str = "") -> str:
+    size = 256 if h == "kaya" else 240
+    return f'<img src="/assets/art/hero-{h}.webp" width="{size}" height="{size}" alt="{alt}" loading="lazy" decoding="async">'
+
+
 def heroes(t: T) -> str:
-    cards = "".join(
-        f'<li class="card hero-chip"><img src="/assets/art/hero-{h}.webp" width="{256 if h == "kaya" else 240}" height="{256 if h == "kaya" else 240}" alt="" loading="lazy" decoding="async"><span>{t.h("hero." + h)}</span></li>'
-        for h in FACTS["heroShowcase"])
+    page = url(t.lang, "heroes")
+    cards = "".join(f'<li><a class="card hero-chip" href="{page}#hero-{h}">{hero_img(h)}<span>{gh(t.lang, f"heroes.{h}.name")}</span></a></li>'
+                    for h in GAMEDATA["heroes"])
     return f"""<section class="band" id="heroes" aria-labelledby="heroes-title">
   <h2 id="heroes-title">{t.h('heroes.title')}</h2><p class="section-lead">{t.h('heroes.lead')}</p>
   <ul class="hero-strip">{cards}</ul>
+  <p class="center"><a class="btn" href="{page}">{t.h('heroes.all')}</a></p>
 </section>"""
 
 
@@ -599,6 +606,46 @@ def build_realms(lang: str) -> str:
     return head(t, title, t("meta.realms.desc"), page, jsonld) + f"\n<body>\n{header(t, page)}{body}{footer(t)}\n</body>\n</html>\n"
 
 
+def build_heroes(lang: str) -> str:
+    t, L = T(lang), lang
+    page = "heroes"
+    h1, lead = t("heroes.page.title"), t("heroes.page.lead")
+    trail = [(t("crumb.home"), url(L)), (h1, None)]
+    crumb_html, crumb_ld = crumbs(t, trail)
+    text = GAMEDATA["text"][L]
+    cards, items = "", []
+    for h in GAMEDATA["heroes"]:
+        name = g(L, f"heroes.{h}.name")
+        items.append({"@type": "ListItem", "position": len(items) + 1, "name": name, "url": f"{BASE}{url(L, page)}#hero-{h}"})
+        title, style, quote = (text.get(f"heroes.{h}.{k}") for k in ("title", "playstyle", "quote"))
+        details = ""
+        if title:
+            details += f'<p class="hero-title">{esc(title)}</p>'
+        details += f'<dl class="hero-facts"><div><dt>{t.h("hero.f.homeland")}</dt><dd>{gh(L, f"heroes.{h}.realm")}</dd></div>'
+        if style:
+            details += f'<div><dt>{t.h("hero.f.style")}</dt><dd>{esc(style)}</dd></div>'
+        details += "</dl>"
+        details += f'<blockquote class="hero-quote">{esc(quote)}</blockquote>' if quote else f'<p class="fine-note">{t.h("hero.unknown")}</p>'
+        cards += f"""<li class="card hero-card-full" id="hero-{h}">
+  <div class="hero-fig">{hero_img(h, esc(name))}</div>
+  <div class="hero-body"><h2 class="h-small">{esc(name)}</h2>{details}</div>
+</li>"""
+    body = f"""<main id="main" class="band heroes-page">
+  {crumb_html}
+  <h1>{esc(h1)}</h1><p class="section-lead left">{esc(lead)}</p>
+  <ul class="hero-grid">{cards}</ul>
+</main>"""
+    page_url = f"{BASE}{url(L, page)}"
+    jsonld = {"@context": "https://schema.org", "@graph": [
+        {"@type": "CollectionPage", "@id": f"{page_url}#webpage", "url": page_url, "name": h1, "description": lead,
+         "inLanguage": LANGS[L][2], "isPartOf": {"@type": "WebSite", "@id": f"{BASE}/#website", "url": f"{BASE}/", "name": t("brand")},
+         "about": {"@id": f"{BASE}/#game"}, "breadcrumb": {"@id": f"{page_url}#breadcrumb"},
+         "mainEntity": {"@type": "ItemList", "itemListElement": items}},
+        {**crumb_ld, "@id": f"{page_url}#breadcrumb"},
+    ]}
+    return head(t, t("meta.heroes.title"), t("meta.heroes.desc"), page, jsonld) + f"\n<body>\n{header(t, page)}{body}{footer(t)}\n</body>\n</html>\n"
+
+
 def build_press(lang: str) -> str:
     t, L = T(lang), lang
     page = "press"
@@ -808,6 +855,8 @@ def main() -> int:
                 pages[rel] = build_home(lang)
             elif page == "realms":
                 pages[rel] = build_realms(lang)
+            elif page == "heroes":
+                pages[rel] = build_heroes(lang)
             elif page == "press":
                 pages[rel] = build_press(lang)
             elif page.startswith("realm:"):

@@ -404,6 +404,29 @@ ul { margin: 0; padding: 0; list-style: none; }
 .press-about p + p { margin-top: 12px; }
 .press-about .dots { margin-top: 14px; }
 .muted { color: var(--text-muted); font-size: 14px; }
+/* heroes page */
+.heroes-page h1 { font-size: clamp(38px, 5.4vw, 64px); margin: 18px 0 0; }
+.hero-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+@media (max-width: 1020px) { .hero-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 640px) {
+  .hero-grid { grid-template-columns: 1fr; }
+  .hero-card-full { grid-template-rows: none; grid-template-columns: 110px 1fr; align-items: start; }
+  .hero-card-full .hero-fig { width: auto; }
+  .hero-body .h-small, .hero-body .hero-title { text-align: left; }
+}
+.hero-card-full { display: grid; grid-template-rows: auto 1fr; gap: 12px; padding: 18px; scroll-margin-top: 90px; }
+.hero-card-full .hero-fig { width: 150px; justify-self: center; }
+.hero-card-full:target { box-shadow: 0 0 0 3px var(--accent), var(--shadow); }
+.hero-fig { border-radius: 18px; background: radial-gradient(circle at 50% 70%, #E6F6F1, #fff 72%); padding: 6px; }
+.hero-body .h-small { font-size: 24px; text-align: center; }
+.hero-body .hero-title { text-align: center; }
+.hero-title { color: var(--text-muted); font-weight: 800; font-size: 14px; margin-top: 4px; }
+.hero-facts { display: grid; gap: 8px; margin: 12px 0 0; }
+.hero-facts dt { font: 800 11px/1.2 var(--body); letter-spacing: .06em; text-transform: uppercase; color: var(--text-muted); }
+.hero-facts dd { margin: 2px 0 0; color: var(--text-soft); font-size: 15px; }
+.hero-quote { margin: 12px 0 0; padding-left: 12px; border-left: 3px solid var(--accent); font-style: italic; color: var(--text); }
+.hero-strip a.hero-chip { display: block; text-decoration: none; color: var(--text); }
+#heroes .center { margin-top: 8px; }
 /* realms index */
 .realms-index { padding-top: 40px; }
 .realms-index h1 { font-size: clamp(38px, 5.4vw, 64px); margin: 18px 0 0; }

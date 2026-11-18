@@ -75,6 +75,10 @@ python3 scripts/sync-game.py            # diyar verisi ve oyun metinleri
 - Diyarlar dizini ve bitmiş 6 diyarın sayfası (Göbeklitepe, Sümer, Mısır, Yunan, Hitit, İskandinav): müze düzeni,
   düşmanlar, boss fazları ve karşı hamleler, diyar donanımı, oyun içi görüntüler, BreadcrumbList
 - Paylaşım kartları (ana sayfa ve her diyar, tr/en), basın kiti (`/basin/`, `/en/press/`)
+- Kahramanlar sayfası (`/kahramanlar/`, `/<dil>/heroes/`): 21 kahramanın hepsi; unvan, memleket, oyun tarzı ve söz oyundan
+- Dil bilimci incelemesi (18 Kasım): 7 dilin hepsi anadili düzeyinde gözden geçirildi
+- Lighthouse (canlı site, 18 Kasım): erişilebilirlik, en iyi uygulamalar ve SEO 100 hedefi; GitHub Pages önbellek
+  süresi 10 dakika ve değiştirilemiyor (Cloudflare yalnız DNS'te)
 
 - 7 dil: tr, en, ja, ko, zh-Hant, de, fr (site metinleri, gizlilik, koşullar, hesap silme, destek, paylaşım kartları).
   Çeviriler yayından önce anadili konuşan birine okutulmalı (LQA)

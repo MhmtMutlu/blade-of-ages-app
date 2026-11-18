@@ -59,7 +59,8 @@ IMAGES = [
     ("ground-hitit", "hitit/hitit_ground_0.svg", 256, "tile"),
     ("ground-iskandinav", "iskandinav/iskandinav_ground_0.svg", 256, "tile"),
 ] + [(f"hero-{h}", f"heroes/hero_{h}.svg", 240, "sprite") for h in (
-    "nefertari", "muwatalli", "antiope", "sigrun", "tomoe", "tomris", "itzel", "jin")] + [
+    "nefertari", "muwatalli", "antiope", "sigrun", "tomoe", "tomris", "itzel", "jin",
+    "aristos", "nergal", "brigid", "rostam", "arjun", "vasilisa", "oya", "tane", "qori", "lucius", "yushin", "unutus")] + [
     # Realm pages: the rest of each live realm's enemies (240) and elites (320)
     (rel.split("/")[1].removesuffix(".svg").replace("_", "-"), rel, size, "sprite") for rel, size in (
         ("gobeklitepe/totem_tasiyici.svg", 320),

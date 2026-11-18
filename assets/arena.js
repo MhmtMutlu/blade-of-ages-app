@@ -22,7 +22,9 @@
   const R_WIDE = 70, R_TIGHT = 46, OMEGA_MOVE = 3.6, OMEGA_STAND = 5.2, RADIUS_LERP = 6;
   const BODY = 40; // hero body centre above the feet, px at scale 1
   const SWORDS = 6, HIT_COOLDOWN = 0.22, DAMAGE = 1, HERO_SPEED = 260, AUTO_SPEED = 90;
-  const SPAWN_EVERY = 0.55, RING_EVERY = 10, RING_COUNT = 12, MAX_ENEMIES = 46, COIN_VALUE = 5;
+  const SPAWN_EVERY = 0.55, RING_EVERY = 10, RING_COUNT = 12, COIN_VALUE = 5;
+  const MAX_ENEMIES = matchMedia("(pointer: coarse)").matches ? 32 : 46; // phones: fewer sprites per frame
+  const MAX_DPR = 1.5; // sharp enough for the clay sprites; a 3x phone would otherwise fill 4x the pixels
   const TYPES = {
     boar: { src: "tas-domuz", hp: 3, speed: 52, box: 92, knock: 85 },
     scorpion: { src: "akrep-ruhu", hp: 2, speed: 62, box: 80, knock: 110 },
@@ -48,7 +50,8 @@
 
   function resize() {
     const r = root.getBoundingClientRect();
-    dpr = Math.min(2, window.devicePixelRatio || 1);
+    dpr = Math.min(MAX_DPR, window.devicePixelRatio || 1);
+    cache.clear(); // scaled sprites and the blade depend on size and dpr
     W = r.width; H = r.height;
     S = Math.max(0.78, Math.min(1.25, Math.min(W, H) / 640));
     canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
@@ -192,20 +195,55 @@
     ctx.beginPath(); ctx.ellipse(x, y, w, w * 0.32, 0, 0, Math.PI * 2); ctx.fill();
   }
 
+  // Per-frame cost matters on phones: sprites are scaled once into offscreen canvases (per size, dpr and facing) and the
+  // blade, with its gradients, is drawn once; each frame only copies pixels.
+  const cache = new Map();
+  function scaled(im, box, flip) {
+    const px = Math.max(1, Math.round(box * dpr));
+    const key = im.src + "|" + px + "|" + (flip ? 1 : 0);
+    let c = cache.get(key);
+    if (!c) {
+      c = document.createElement("canvas");
+      c.width = c.height = px;
+      const g = c.getContext("2d");
+      if (flip) { g.translate(px, 0); g.scale(-1, 1); }
+      g.drawImage(im, 0, 0, px, px);
+      cache.set(key, c);
+    }
+    return c;
+  }
+
   function drawSprite(im, x, y, box, flip, bob) {
     if (!im) return;
-    ctx.save();
-    ctx.translate(x, y + bob);
-    if (flip) ctx.scale(-1, 1);
-    ctx.drawImage(im, -box / 2, -box * 0.86, box, box);
-    ctx.restore();
+    ctx.drawImage(scaled(im, box, flip), x - box / 2, y + bob - box * 0.86, box, box);
+  }
+
+  // The blade sprite covers x in [-0.5, 0.7]·len and y in [-1, 0.35]·len around the blade's pivot.
+  const BLADE_BOX = { x0: -0.5, x1: 0.7, y0: -1, y1: 0.35 };
+  function bladeSprite() {
+    let c = cache.get("blade");
+    if (c) return c;
+    const len = 44 * S, b = BLADE_BOX;
+    c = document.createElement("canvas");
+    c.width = Math.ceil((b.x1 - b.x0) * len * dpr); c.height = Math.ceil((b.y1 - b.y0) * len * dpr);
+    const g = c.getContext("2d");
+    g.scale(dpr, dpr); g.translate(-b.x0 * len, -b.y0 * len);
+    paintBlade(g);
+    cache.set("blade", c);
+    return c;
   }
 
   function drawBlade(th) {
-    const r = st.r, len = 44 * S, w = 6.5 * S;
+    const r = st.r, len = 44 * S, b = BLADE_BOX, sprite = bladeSprite();
     ctx.save();
     ctx.translate(st.x + Math.cos(th) * r, st.y - BODY * S + Math.sin(th) * r);
     ctx.rotate(th);
+    ctx.drawImage(sprite, b.x0 * len, b.y0 * len, (b.x1 - b.x0) * len, (b.y1 - b.y0) * len);
+    ctx.restore();
+  }
+
+  function paintBlade(ctx) {
+    const len = 44 * S, w = 6.5 * S;
     // light trail behind the blade (opposite to the spin direction)
     ctx.save();
     ctx.rotate(Math.PI / 2);
@@ -225,7 +263,6 @@
     ctx.beginPath(); ctx.rect(-len * 0.24, -w * 2, 5 * S, w * 4); ctx.fill(); ctx.stroke(); // guard
     ctx.fillStyle = "#8A5A3A";
     ctx.fillRect(-len * 0.4, -w * 0.55, len * 0.16, w * 1.1);
-    ctx.restore();
   }
 
   function draw() {
@@ -263,7 +300,7 @@
       }
     }
     const coin = img["gold-coin"];
-    for (const c of st.coins) if (coin) ctx.drawImage(coin, c.x - 11 * S, c.y - 11 * S, 22 * S, 22 * S);
+    if (coin) { const cs = scaled(coin, 22 * S, false); for (const c of st.coins) ctx.drawImage(cs, c.x - 11 * S, c.y - 11 * S, 22 * S, 22 * S); }
   }
 
   function frame(now) {

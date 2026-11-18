@@ -1,6 +1,6 @@
 # Blades of Ages
 
-> Blades of Ages is a one-thumb action game in which outward-facing blades spin around your hero. Cut through waves of monsters and defeat bosses across 5 ages and 12 mythological realms.
+> Blades of Ages is a one-thumb action game in which outward-facing blades spin around your hero. Cut through waves of enemies and defeat bosses across 5 ages and 12 mythological realms.
 
 Status: not yet released (coming soon to the App Store). Platforms: iPhone, iPad.
 Turkish name: Çağların Kılıcı. Developer: Mehmet Mutlu (https://mm-apps.com/).
