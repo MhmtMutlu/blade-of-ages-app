@@ -1,6 +1,6 @@
-# ages-of-blades-app
+# blade-of-ages-app
 
-Blades of Ages (TR: Çağların Kılıcı) tanıtım sitesi: tanıtım sayfası, diyar ve boss sayfaları, gizlilik politikası,
+Blade of Ages: Çağların Kılıcı tanıtım sitesi: tanıtım sayfası, diyar ve boss sayfaları, gizlilik politikası,
 KVKK aydınlatma metni, kullanım koşulları, hesap silme, destek ve basın kiti. Statik, GitHub Pages ile yayınlanır.
 Kurulum deseni kardeş sitelerle aynı (`zirve-app`: `build.py`, `data/facts.json`, `content/i18n/`).
 
@@ -11,6 +11,7 @@ Kurulum deseni kardeş sitelerle aynı (`zirve-app`: `build.py`, `data/facts.jso
 | Tasarım yönü | **D + A**: oynanabilir giriş (dönen kılıçlarla kes, altın topla) ve altında Çağlar Yolculuğu. Diyar ve boss sayfaları "Gün Işığında Mit Müzesi" düzeninde, bileşenler oyunun Gün Kili dilinden (`docs/research/tasarim-adaylari.md`) |
 | Ad | EN **Blades of Ages**, TR **Çağların Kılıcı** |
 | Alan adı | `bladesofages.mm-apps.com` (DNS henüz yok) |
+| **19 Kasım 2026** | Ad tek: **Blade of Ages: Çağların Kılıcı** (her dilde, tekil "Blade"); alan adı `bladeofages.mm-apps.com`. Yalnız görünen ad değişti: bundle id `com.mhmtmutlu.agesofblades`, API `api.agesofblades.mm-apps.com`, dosya, klasör ve sınıf adları aynı. Depo: `MhmtMutlu/blade-of-ages-app`. Yukarıdaki iki satır tarihsel |
 | Diller | Dalga 1, 7 dil: tr (kök), en, ja, ko, zh-Hant, de, fr |
 | Adil oyun cümlesi | Yalnız "zorunlu reklam yok, ödüllü reklam isteğe bağlı". Can sistemi netleşene kadar "enerji yok" yazılmaz |
 
@@ -85,7 +86,8 @@ python3 scripts/sync-game.py            # diyar verisi ve oyun metinleri
 
 **Sırada:**
 - İngilizce arayüzle ekran görüntüleri (şimdi Türkçe; İngilizce sayfalar bunu bir notla söylüyor).
-- DNS (`bladesofages.mm-apps.com`) ve GitHub Pages.
+- DNS (`bladeofages.mm-apps.com`) ve GitHub Pages.
+- Paylaşım kartlarını (`assets/og/*.jpg`) yeni adla yeniden üret (`scripts/og.py`); 19 Kasım'da hepsi eski adı taşıyor.
 
 ## Hukuk metinleri ve oyun birlikte değişir
 
@@ -109,5 +111,6 @@ Raporlarda sahibe sorulacaklar listesi var (`seo.md` §8.2, `geo.md` §9). Sitey
 - Kültürel danışman
 - mm-apps.com hub bağlantısı
 
-**Oyun deposuna düşen iş:** ad kararı gereği Unity `productName` "Ages of Blades" → "Blades of Ages" hizalanmalı. API
-alt alanı (`api.agesofblades…`) görünür bir yer değil; değiştirmek isteğe bağlı.
+**Oyun deposuna düşen iş:** 19 Kasım ad kararı gereği Unity `productName` (bugün eski, sözcükleri ters sıralı ad) ve
+App Store adı "Blade of Ages: Çağların Kılıcı" olmalı (30 karakter, App Store sınırında). Bundle id ve API alt alanı (`api.agesofblades…`) teknik
+kimlik; değişmiyor.

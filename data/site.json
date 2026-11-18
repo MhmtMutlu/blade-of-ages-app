@@ -1,6 +1,6 @@
 {
   "_doc": "Site settings (not facts about the game: those are in facts.json).",
-  "baseUrl": "https://bladesofages.mm-apps.com",
+  "baseUrl": "https://bladeofages.mm-apps.com",
   "contact": "destek@mm-apps.com",
   "developerUrl": "https://mm-apps.com/",
   "copyrightYear": "2026",

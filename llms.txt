@@ -1,9 +1,9 @@
-# Blades of Ages
+# Blade of Ages: Çağların Kılıcı
 
-> Blades of Ages is a one-thumb action game in which outward-facing blades spin around your hero. Cut through waves of enemies and defeat bosses across 5 ages and 12 mythological realms.
+> Blade of Ages: Çağların Kılıcı is a one-thumb action game in which outward-facing blades spin around your hero. Cut through waves of enemies and defeat bosses across 5 ages and 12 mythological realms.
 
 Status: not yet released (coming soon to the App Store). Platforms: iPhone, iPad.
-Turkish name: Çağların Kılıcı. Developer: Mehmet Mutlu (https://mm-apps.com/).
+Short name: Blade of Ages. Developer: Mehmet Mutlu (https://mm-apps.com/).
 
 ## Facts
 - Ages: 5; mythological realms: 12; maps: 120 (10 per realm); heroes: 21
@@ -19,22 +19,22 @@ Turkish name: Çağların Kılıcı. Developer: Mehmet Mutlu (https://mm-apps.co
 - Lost Age (Timeless): Silik
 
 ## Pages
-- [Türkçe](https://bladesofages.mm-apps.com/)
-- [English](https://bladesofages.mm-apps.com/en/)
-- [日本語](https://bladesofages.mm-apps.com/ja/)
-- [한국어](https://bladesofages.mm-apps.com/ko/)
-- [繁體中文](https://bladesofages.mm-apps.com/zh-hant/)
-- [Deutsch](https://bladesofages.mm-apps.com/de/)
-- [Français](https://bladesofages.mm-apps.com/fr/)
-- [Support](https://bladesofages.mm-apps.com/en/support/)
-- [Press kit](https://bladesofages.mm-apps.com/en/press/)
-- [Privacy](https://bladesofages.mm-apps.com/en/privacy/)
-- [Terms of Use](https://bladesofages.mm-apps.com/en/terms/)
-- [Delete account](https://bladesofages.mm-apps.com/en/delete-account/)
-- [Realms](https://bladesofages.mm-apps.com/en/realms/)
-- [Realm of Göbekli Tepe: Hill of Standing Stones](https://bladesofages.mm-apps.com/en/realms/gobekli-tepe/): boss Mother Vulture, maps 1–10
-- [Realm of Sumer: Cedar Forest of Uruk](https://bladesofages.mm-apps.com/en/realms/sumer/): boss Humbaba, maps 11–20
-- [Realm of Egypt: Hourglass Desert](https://bladesofages.mm-apps.com/en/realms/egypt/): boss Apep, Serpent of Chaos, maps 21–30
-- [Realm of Greece: Labyrinth Island](https://bladesofages.mm-apps.com/en/realms/greece/): boss Medusa, the Gorgon, maps 31–40
-- [Realm of Hatti: Storm Mountains](https://bladesofages.mm-apps.com/en/realms/hittite/): boss Illuyanka, maps 41–50
-- [Realm of Scandinavia: Frozen Fjord](https://bladesofages.mm-apps.com/en/realms/norse/): boss Fenrir, maps 51–60
+- [Türkçe](https://bladeofages.mm-apps.com/)
+- [English](https://bladeofages.mm-apps.com/en/)
+- [日本語](https://bladeofages.mm-apps.com/ja/)
+- [한국어](https://bladeofages.mm-apps.com/ko/)
+- [繁體中文](https://bladeofages.mm-apps.com/zh-hant/)
+- [Deutsch](https://bladeofages.mm-apps.com/de/)
+- [Français](https://bladeofages.mm-apps.com/fr/)
+- [Support](https://bladeofages.mm-apps.com/en/support/)
+- [Press kit](https://bladeofages.mm-apps.com/en/press/)
+- [Privacy](https://bladeofages.mm-apps.com/en/privacy/)
+- [Terms of Use](https://bladeofages.mm-apps.com/en/terms/)
+- [Delete account](https://bladeofages.mm-apps.com/en/delete-account/)
+- [Realms](https://bladeofages.mm-apps.com/en/realms/)
+- [Realm of Göbekli Tepe: Hill of Standing Stones](https://bladeofages.mm-apps.com/en/realms/gobekli-tepe/): boss Mother Vulture, maps 1–10
+- [Realm of Sumer: Cedar Forest of Uruk](https://bladeofages.mm-apps.com/en/realms/sumer/): boss Humbaba, maps 11–20
+- [Realm of Egypt: Hourglass Desert](https://bladeofages.mm-apps.com/en/realms/egypt/): boss Apep, Serpent of Chaos, maps 21–30
+- [Realm of Greece: Labyrinth Island](https://bladeofages.mm-apps.com/en/realms/greece/): boss Medusa, the Gorgon, maps 31–40
+- [Realm of Hatti: Storm Mountains](https://bladeofages.mm-apps.com/en/realms/hittite/): boss Illuyanka, maps 41–50
+- [Realm of Scandinavia: Frozen Fjord](https://bladeofages.mm-apps.com/en/realms/norse/): boss Fenrir, maps 51–60

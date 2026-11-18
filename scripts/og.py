@@ -147,8 +147,9 @@ def home_card(lang: str, t: dict) -> Image.Image:
     icon = Image.open(ROOT / "assets/icon-180.png").convert("RGBA").resize((92, 92), Image.LANCZOS)
     icon.putalpha(rounded_mask(icon.size, 22))
     img.paste(icon, (88, 100), icon)
-    d.text((200, 146), t["brand"], font=font(None, "head", 54), fill=TEXT, anchor="ls")
-    d.text((202, 184), t["brand.alt"], font=font(None, "body", 24), fill=MUTED, anchor="ls")
+    short, sub = t["brand"].split(": ", 1)  # the one name as a lockup, as in the site header
+    d.text((200, 146), f"{short}:", font=font(None, "head", 54), fill=TEXT, anchor="ls")
+    d.text((202, 184), sub, font=font(None, "body", 24), fill=MUTED, anchor="ls")
     y = 230
     size = 60
     while True:  # shrink the title until it fits in two lines
@@ -206,7 +207,9 @@ def realm_card(lang: str, t: dict, rid: str) -> Image.Image:
     icon = Image.open(ROOT / "assets/icon-180.png").convert("RGBA").resize((56, 56), Image.LANCZOS)
     icon.putalpha(rounded_mask(icon.size, 14))
     img.paste(icon, (88, 476), icon)
-    d.text((158, 504), t["brand"], font=font(None, "head", 34), fill=TEXT, anchor="lm")
+    short, sub = t["brand"].split(": ", 1)
+    d.text((158, 500), f"{short}:", font=font(None, "head", 34), fill=TEXT, anchor="ls")
+    d.text((159, 526), sub, font=font(None, "body", 20), fill=MUTED, anchor="ls")
     return img.convert("RGB")
 
 

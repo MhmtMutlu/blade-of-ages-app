@@ -1,4 +1,4 @@
-/* Blades of Ages site · "Gün Kili" (daylight clay), the game's UI language (game: Scripts/UI/UiKit.cs).
+/* Blade of Ages: Çağların Kılıcı site · "Gün Kili" (daylight clay), the game's UI language (game: Scripts/UI/UiKit.cs).
    Tokens mirror UiKit: sky → mint page, white clay cards with a two-step soft shadow, buttons with a darker clay lip.
    Reserved colours keep their game roles: gold #F5C451 only for loot, purple #C58BFF for parryable shots,
    red #FF4A5A for area warnings, turquoise #6FE0F2 for elites. */
@@ -91,6 +91,8 @@ ul { margin: 0; padding: 0; list-style: none; }
   box-shadow: var(--shadow-soft); color: var(--text);
 }
 .logo { display: inline-flex; align-items: center; gap: 8px; color: var(--text); text-decoration: none; font: 800 21px/1 var(--head); white-space: nowrap; }
+.logo-name { display: grid; gap: 3px; } /* the one name as a lockup: "Blade of Ages:" over "Çağların Kılıcı" */
+.logo-sub { font: 800 12px/1 var(--body); color: var(--text-muted); }
 .nav { display: flex; gap: 4px; margin-left: auto; }
 .nav a { display: block; padding: 10px 14px; border-radius: 999px; color: var(--text-soft); text-decoration: none; font-weight: 800; font-size: 15px; }
 .nav a:hover { background: var(--surface-2); color: var(--accent-deep); }

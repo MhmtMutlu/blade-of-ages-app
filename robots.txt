@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://bladesofages.mm-apps.com/sitemap.xml
+Sitemap: https://bladeofages.mm-apps.com/sitemap.xml

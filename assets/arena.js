@@ -1,4 +1,4 @@
-/* Blades of Ages · playable hero.
+/* Blade of Ages: Çağların Kılıcı · playable hero.
    A small canvas version of the game's core feel (game: docs/03, reference: HUD.dc.html):
    outward-facing blades orbit the hero; moving = wide orbit, standing = tight and faster; per-blade hit cooldown;
    enemies come from the four edges and in ring waves; a defeated enemy turns into gold that flies to the counter.

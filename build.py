@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Builds the Blades of Ages site into the repository root and checks it.
+"""Builds the Blade of Ages: Çağların Kılıcı site into the repository root and checks it.
 
     python3 build.py            # build + checks (exit 1 on an error)
 
@@ -105,6 +105,12 @@ def mark_svg(cls: str = "mark") -> str:
     return f'<svg class="{cls}" viewBox="0 0 64 64" aria-hidden="true" focusable="false"><use href="/assets/mark.svg#m"/></svg>'
 
 
+def brand_parts(t: T) -> tuple[str, str]:
+    """The one name, split for the two-line lockup: ("Blade of Ages", "Çağların Kılıcı")."""
+    short, sub = t("brand").split(": ", 1)
+    return short, sub
+
+
 def og_image(lang: str, page: str) -> str:
     """The page's share card (scripts/og.py): a realm's own card, else the home card in the page's language."""
     name = f"og-{page.split(':', 1)[1]}-{lang}.jpg" if page.startswith("realm:") else f"og-{lang}.jpg"
@@ -160,6 +166,7 @@ def head(t: T, title: str, desc: str, page: str, jsonld: dict | None, extra: str
 
 
 def header(t: T, page: str = "home") -> str:
+    short, sub = brand_parts(t)
     home = "" if page == "home" else url(t.lang)
     links = "".join(f'<li><a href="{home}#{a}">{t.h(k)}</a></li>' for a, k in (
         ("how", "nav.play"), ("journey", "nav.journey")))
@@ -172,7 +179,7 @@ def header(t: T, page: str = "home") -> str:
                      for c in PUBLISHED if c != t.lang)
     return f"""<a class="skip" href="#main">{t.h('skip')}</a>
 <header class="top">
-  <a class="logo" href="{url(t.lang)}">{mark_svg()}<span>{t.h('brand')}</span></a>
+  <a class="logo" href="{url(t.lang)}">{mark_svg()}<span class="logo-name"><span>{esc(short)}:</span> <span class="logo-sub">{esc(sub)}</span></span></a>
   <nav aria-label="{t.h('nav.label')}"><ul class="nav">{links}</ul></nav>
   <details class="langs"><summary aria-label="{esc(LANGS[t.lang][2].upper())} · {t.h('lang.label')}">{esc(LANGS[t.lang][2].upper())}</summary><ul>{others}</ul></details>
 </header>"""
@@ -291,10 +298,11 @@ def faq(t: T) -> str:
 
 
 def footer(t: T) -> str:
+    short, sub = brand_parts(t)
     langs = " · ".join(f'<a href="{url(c)}" hreflang="{LANGS[c][2]}" lang="{LANGS[c][1]}">{esc(load_i18n(c)["lang.name"])}</a>' for c in PUBLISHED)
     docs = "".join(f'<li><a href="{url(t.lang, d)}">{t.h("doc." + d)}</a></li>' for d in FOOTER_DOCS if t.lang in page_langs(d))
     return f"""<footer class="foot">
-  <div class="foot-brand">{mark_svg()}<div><b>{t.h('brand')}</b><span>{t.h('brand.alt')}</span></div></div>
+  <div class="foot-brand">{mark_svg()}<div><b>{esc(short)}:</b> <span>{esc(sub)}</span></div></div>
   {soon_badge(t, 'soon-dark')}
   <nav aria-label="{t.h('footer.docs')}"><ul class="foot-docs">{docs}</ul></nav>
   <p>{t.h('footer.dev')} · <a href="mailto:{esc(SITE['contact'])}">{t.h('footer.contact')}</a> · {langs}</p>
@@ -309,7 +317,7 @@ def jsonld_home(t: T) -> dict:
          "inLanguage": LANGS[t.lang][2], "publisher": {"@id": f"{BASE}/#developer"}},
         {"@type": "Person", "@id": f"{BASE}/#developer", "name": SITE["copyrightHolder"], "url": SITE["developerUrl"]},
         {"@type": ["VideoGame", "MobileApplication"], "@id": f"{BASE}/#game", "name": t("brand"),
-         "alternateName": t("brand.alt"), "description": t("hero.lead"), "url": page,
+         "alternateName": brand_parts(t)[0], "description": t("hero.lead"), "url": page,
          "image": f"{BASE}/assets/icon-512.png", "operatingSystem": "iOS", "applicationCategory": "GameApplication",
          "gamePlatform": FACTS["platforms"], "inLanguage": FACTS["appLanguages"],
          "author": {"@id": f"{BASE}/#developer"}},
@@ -653,7 +661,7 @@ def build_press(lang: str) -> str:
     crumb_html, crumb_ld = crumbs(t, trail)
     langs = t.vars["appLanguages"]
     status = t("cta.soon") if FACTS["stage"] == "prelaunch" else t("press.status.live")
-    sheet = [(t("press.f.name"), f"{t('brand')} ({t('brand.alt')})"), (t("press.f.dev"), SITE["copyrightHolder"]),
+    sheet = [(t("press.f.name"), t("brand")), (t("press.f.dev"), SITE["copyrightHolder"]),
              (t("press.f.platforms"), ", ".join(FACTS["platforms"])), (t("press.f.status"), status),
              (t("press.f.price"), t("faq.price.a")), (t("press.f.langs"), langs),
              (t("press.f.content"), t("og.counts")), (t("press.f.contact"), SITE["contact"])]
@@ -717,7 +725,7 @@ def llms_txt() -> str:
 > {t('hero.lead')}
 
 Status: not yet released (coming soon to the App Store). Platforms: {', '.join(FACTS['platforms'])}.
-Turkish name: {t('brand.alt')}. Developer: {SITE['copyrightHolder']} ({SITE['developerUrl']}).
+Short name: {brand_parts(t)[0]}. Developer: {SITE['copyrightHolder']} ({SITE['developerUrl']}).
 
 ## Facts
 - Ages: {c['eras']}; mythological realms: {c['realms']}; maps: {c['maps']} ({c['mapsPerRealm']} per realm); heroes: {c['heroes']}

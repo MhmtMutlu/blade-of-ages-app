@@ -1,4 +1,9 @@
-# Çağların Kılıcı / Blades of Ages: web sitesi SEO stratejisi
+# Blade of Ages: Çağların Kılıcı · web sitesi SEO stratejisi
+
+> **19 Kasım 2026 notu:** Oyunun adı her dilde tek: **Blade of Ages: Çağların Kılıcı** (tekil "Blade"); site alan
+> adı `bladeofages.mm-apps.com`. Bu belgedeki ad ve alan adı geçişleri buna göre güncellendi; 17 Kasım'daki aday
+> adlar README'deki karar tablosunda. Bundle id (`com.mhmtmutlu.agesofblades`) ve API (`api.agesofblades…`) teknik
+> kimlik olarak değişmedi.
 
 Araştırma tarihi: 17 Kasım 2026. Kapsam: statik oyun sitesi (tanıtım, oyun ve dünya sayfaları, diyar sayfaları, basın kiti,
 destek, gizlilik, KVKK, koşullar, hesap silme). Bu belge bir araştırma ve öneri raporudur; hiçbir karar uygulanmadı.
@@ -19,11 +24,11 @@ Hiçbir öneri sıralama, zengin sonuç ya da yapay zekâ yanıtlarında anılma
 ## 1. Özet: en önemli 10 karar önerisi (öncelik sırasıyla)
 
 1. **Önce ad, sonra site.** Nihai ad ve alan adı kesinleşmeden hiçbir sayfa dizine açılmasın.
-   - Depoda üç farklı biçim var: belgelerde "Blades of Ages", Unity `productName: Ages of Blades`, bundle id ve API alt
-     alanında `agesofblades` [depo: `blades-of-ages/game/ProjectSettings/ProjectSettings.asset`, `docs/00-vizyon.md`].
+   - Depoda (17 Kasım) üç farklı biçim vardı: belgelerde çoğul İngilizce ad, Unity `productName`'de sözcükleri ters
+     sıralı ad, bundle id ve API alt alanında `agesofblades` [depo: `blades-of-ages/game/ProjectSettings/ProjectSettings.asset`, `docs/00-vizyon.md`].
    - GitHub Pages sunucu tarafı 301 yönlendirmesi yapamaz (çıkarım). Sonradan ad ya da alan adı değişirse yalnız meta
      refresh ile taşınabilir ve sinyalin bir kısmı kaybolabilir.
-   - Alt alan adı (`agesofblades` ya da `bladesofages`), JSON-LD `name`, OG başlıkları ve App Store adı aynı adı taşımalı.
+   - Alt alan adı (19 Kasım kararı: `bladeofages`), JSON-LD `name`, OG başlıkları ve App Store adı aynı adı taşımalı.
 2. **Zirve'nin derleme desenini aynen al.** `build.py`, tek olgu kaynağı `data/facts.json`, `content/i18n/<dil>.json`,
    derleme denetimleri (hreflang, canonical, JSON-LD, yasak ifade, ilk görünüm bütçesi) [depo: `zirve-app/README.md`].
    Yeni bir sistem kurma.
@@ -101,7 +106,7 @@ Hiçbir öneri sıralama, zengin sonuç ya da yapay zekâ yanıtlarında anılma
 | Video | Yumuş: 5 video sayfası, 960×960 sessiz MP4 | Tek fragman izleme sayfası (`/fragman/`, `/en/trailer/`) ve diyar başına kısa döngü klip (izleme sayfası değil, destekleyici). Altyazı WebVTT dosyasıyla, dil başına |
 | `facts.json` sürüm bayrağı (`live`) | Zirve 1.0 → 1.1 | Üç aşama: `prelaunch` → `preorder` → `live`. Rozet, `offers`, `apple-itunes-app` ve metinler bu bayraktan üretilir (§6) |
 | OG görselleri `scripts/og.swift` | Latin dışı yazı için ayrı font gerekti (Zirve uyarısı) | ja, ko ve zh-Hant OG kartı için baştan CJK font desteği planlanmalı. Yalnız kendi derleme makinemizde çizilir, siteye font yüklenmez |
-| `alternateName` dizisi | Zirve: App Store'daki her yerel ad | Oyunun yerel adları kesinleşince doldurulur (ör. "Çağların Kılıcı"). Ad kararı verilene kadar boş |
+| `alternateName` dizisi | Zirve: App Store'daki her yerel ad | 19 Kasım: ad her dilde tek (Blade of Ages: Çağların Kılıcı); site kısa adı ("Blade of Ages") `alternateName` olarak veriyor |
 | Yasak ifade listesi | Yumuş: Pop It, Kinetic Sand vb.; sağlık iddiaları | Rakip oyun adları (Vampire Survivors, Survivor.io, Archero, Heroes vs Hordes, Brotato) başlık, H1 ve URL'de hata. Ayrıca "en iyi", "#1", "ilk ve tek". Doğrulanmamış iddialar da yasak listesinde: "enerji yok" (§8 R3), "7+" yaş etiketi (§8 R4), "katlanabilir iPhone" (Apple duyurmadan) |
 | Smart App Banner | Yayındaki uygulama | Pre-order sırasında davranışı doğrulanamadı (§6). Banner yalnız `preorder` aşamasında bir cihazda denendikten sonra açılır |
 
@@ -177,7 +182,7 @@ Hacim sütunu yok; hepsi ölçülmemiş hipotezdir.
 
 | Küme | Örnek sorgular | Niyet | Sayfa |
 |---|---|---|---|
-| Marka | çağların kılıcı, çağların kılıcı oyunu, blades of ages | G | `/` |
+| Marka | çağların kılıcı, çağların kılıcı oyunu, blade of ages | G | `/` |
 | Tür ve platform | iphone aksiyon rpg oyunu, tek elle oynanan oyunlar iphone, roguelite iphone oyun, vampire survivors benzeri oyunlar* | T | `/`, `/nasil-oynanir/` |
 | Yerli mitoloji | türk mitolojisi oyunu, göbeklitepe oyunu, hitit mitolojisi oyun, erlik, albastı, yelbegen | T/B | `/diyarlar/turk-altay/` (bittiğinde), `/diyarlar/gobeklitepe/`, `/diyarlar/hitit/` |
 | Genel mitoloji | mitoloji oyunu, yunan mitolojisi oyunu, mısır mitolojisi oyunu, medusa, humbaba, illuyanka | T/B | `/diyarlar/`, ilgili diyar sayfası |
@@ -192,12 +197,12 @@ dile göre farklı olur (§4.2).
 
 | Küme | Örnek sorgular | Niyet | Sayfa |
 |---|---|---|---|
-| Marka | blades of ages, blades of ages game, blades of ages iphone | G | `/en/` |
+| Marka | blade of ages, blade of ages game, blade of ages iphone | G | `/en/` |
 | Tür | survivor-like iphone, bullet heaven ios, roguelite action rpg iphone, one thumb action game, auto-attack rpg ios | T | `/en/`, `/en/how-to-play/` |
 | Mekanik | spinning swords game, orbiting swords game, sword orbit roguelite | T | `/en/how-to-play/` |
 | Mitoloji | mythology game iphone, greek mythology game ios, egyptian mythology game, hittite mythology, gobekli tepe game, sumerian mythology game | T/B | `/en/realms/`, `/en/realms/<slug>/` |
 | Boss/canavar | medusa boss, humbaba gilgamesh, apep / apophis serpent, illuyanka dragon | B | Diyar sayfasındaki boss bölümü (`#boss`) |
-| Basın | blades of ages press kit, blades of ages trailer | G | `/en/press/`, `/en/trailer/` |
+| Basın | blade of ages press kit, blade of ages trailer | G | `/en/press/`, `/en/trailer/` |
 
 Apep sorgusunda İngilizce aramalar "Apophis" adını da kullanır (bilgi, doğrulanmadı). Sayfada "Apep (Apophis)" yazılırsa
 iki yazım da karşılanır; oyunun kendi metni "Apep, Serpent of Chaos" [depo: `data/l10n/en.json`].
@@ -282,17 +287,18 @@ Oyun Çin diyarını "華夏", Silik'i "褪影" diye adlandırıyor [depo: `data
 
 ### 3.4 Marka adı: çakışma ve ayırt edilebilirlik riski
 
-- **"Blades of Ages" tam adıyla bir oyun bulunmadı.** Yakın adlar var:
+- **17 Kasım adayı (çoğul İngilizce ad) tam adıyla bir oyun bulunmadı.** Yakın adlar var:
   - "Blade of Ages I": itch.io'da Godot platform oyunu, geliştirmede
-    [ikincil: [itch.io](https://lepcquiparle.itch.io/knight-adventure)]
+    [ikincil: [itch.io](https://lepcquiparle.itch.io/knight-adventure)]. **19 Kasım notu:** seçilen tekil ad
+    "Blade of Ages" bununla birebir örtüşüyor; marka taramasında ele alınmalı
   - "Blades of Fire": MercurySteam / 505 Games, 2025, PC ve konsol [ikincil: [Epic](https://store.epicgames.com/p/blades-of-fire-f8178f)]
   - "Blades of Time", "Blades of Worlds", "The Elder Scrolls: Blades"
     [ikincil: [MobyGames](https://www.mobygames.com/game/55930/), [Wikipedia](https://wikipedia.com/wiki/The_Elder_Scrolls:_Blades)]
-- **"Ages of Blades" ya da "Age of Blades" adıyla mobil oyun bulunmadı** [ikincil, arama sonucu].
+- **Sözcükleri ters sıralı Unity adıyla ya da "Age of Blades" adıyla mobil oyun bulunmadı** [ikincil, arama sonucu].
   - "Age of …" önekinin güçlü sahipleri var (Age of Empires Mobile). Bu bir ayırt edilebilirlik riski (çıkarım).
 - **Sonuç** (çıkarım):
-  - "Blades of …" kalıbı kalabalık. Marka sorgusunda ilk sonuç olmak için ad tek başına zayıf.
-  - Başlıkta ad + tanımlayıcı birlikte kullanılmalı. Örnek: "Blades of Ages: Mythic Sword Roguelite".
+  - "Blade(s) of …" kalıbı kalabalık. Marka sorgusunda ilk sonuç olmak için ad tek başına zayıf.
+  - Başlıkta ad + tanımlayıcı birlikte kullanılmalı. Örnek: "Blade of Ages: Mythic Sword Roguelite".
 - **"Çağların Kılıcı" tam ifadesiyle sonuç yok.**
   - Yakın bir Türkçe kitap adı var: "Kılıçlar Çağı" (Michael J. Sullivan çevirisi)
     [ikincil: [Goodreads](https://www.goodreads.com/user_status/book/52122107)].
@@ -331,7 +337,7 @@ Oyun Çin diyarını "華夏", Silik'i "褪影" diye adlandırıyor [depo: `data
 ### 4.2 Sayfa listesi ve yollar
 
 Zirve deseni: TR kökte ve Türkçe slug'la; diğer diller İngilizce slug'ları kendi önekleriyle kullanır (`/ja/realms/hittite/`).
-Alan adı varsayımı: `https://agesofblades.mm-apps.com` (varsayım). Bugün DNS kaydı yok; `api.agesofblades.mm-apps.com`
+Alan adı: `https://bladeofages.mm-apps.com` (19 Kasım kararı; 17 Kasım varsayımı `agesofblades` idi). Bugün DNS kaydı yok; `api.agesofblades.mm-apps.com`
 ve `mm-apps.com` aynı sunucuya (46.45.137.111) çözülüyor [gözlem: `dig`].
 
 | Sayfa | TR | EN (ve `/<dil>/` ile diğerleri) | Diller | Lansman |
@@ -464,38 +470,38 @@ Tutarlılık ve Zirve'nin denetim kodunun yeniden kullanımı için önermiyorum
     },
     {
       "@type": "WebSite",
-      "@id": "https://agesofblades.mm-apps.com/#site",
-      "url": "https://agesofblades.mm-apps.com/",
-      "name": "Blades of Ages",
+      "@id": "https://bladeofages.mm-apps.com/#site",
+      "url": "https://bladeofages.mm-apps.com/",
+      "name": "Blade of Ages: Çağların Kılıcı",
       "inLanguage": ["tr", "en", "ja", "ko", "zh-Hant", "de", "fr"],
       "publisher": { "@id": "https://mm-apps.com/#org" }
     },
     {
       "@type": "WebPage",
-      "@id": "https://agesofblades.mm-apps.com/en/#webpage",
-      "url": "https://agesofblades.mm-apps.com/en/",
-      "name": "Blades of Ages: Mythic Sword Roguelite for iPhone & iPad",
+      "@id": "https://bladeofages.mm-apps.com/en/#webpage",
+      "url": "https://bladeofages.mm-apps.com/en/",
+      "name": "Blade of Ages: Çağların Kılıcı · Mythic Sword Roguelite for iPhone & iPad",
       "description": "Swords spin around your hero and strike on their own. Fight through 12 mythic realms, from Göbekli Tepe to the Hittite storm mountains. One thumb, short runs.",
       "inLanguage": "en",
-      "isPartOf": { "@id": "https://agesofblades.mm-apps.com/#site" },
-      "about": { "@id": "https://agesofblades.mm-apps.com/#game" },
+      "isPartOf": { "@id": "https://bladeofages.mm-apps.com/#site" },
+      "about": { "@id": "https://bladeofages.mm-apps.com/#game" },
       "primaryImageOfPage": {
         "@type": "ImageObject",
-        "url": "https://agesofblades.mm-apps.com/assets/shots/en/hero-hittite.webp"
+        "url": "https://bladeofages.mm-apps.com/assets/shots/en/hero-hittite.webp"
       },
       "dateModified": "2026-12-01"
     },
     {
       "@type": ["VideoGame", "MobileApplication"],
-      "@id": "https://agesofblades.mm-apps.com/#game",
-      "name": "Blades of Ages",
-      "alternateName": ["Çağların Kılıcı"],
-      "description": "Blades of Ages is an action roguelite for iPhone and iPad by mm-apps, an independent developer in Türkiye. Swords orbit the hero and attack automatically; the player only moves. 5 ages, 12 mythology realms, 120 maps.",
-      "url": "https://agesofblades.mm-apps.com/en/",
-      "image": "https://agesofblades.mm-apps.com/assets/icon-512.png",
+      "@id": "https://bladeofages.mm-apps.com/#game",
+      "name": "Blade of Ages: Çağların Kılıcı",
+      "alternateName": ["Blade of Ages"],
+      "description": "Blade of Ages: Çağların Kılıcı is an action roguelite for iPhone and iPad by mm-apps, an independent developer in Türkiye. Swords orbit the hero and attack automatically; the player only moves. 5 ages, 12 mythology realms, 120 maps.",
+      "url": "https://bladeofages.mm-apps.com/en/",
+      "image": "https://bladeofages.mm-apps.com/assets/icon-512.png",
       "screenshot": [
-        "https://agesofblades.mm-apps.com/assets/shots/en/play-gobeklitepe.webp",
-        "https://agesofblades.mm-apps.com/assets/shots/en/boss-medusa.webp"
+        "https://bladeofages.mm-apps.com/assets/shots/en/play-gobeklitepe.webp",
+        "https://bladeofages.mm-apps.com/assets/shots/en/boss-medusa.webp"
       ],
       "applicationCategory": "GameApplication",
       "applicationSubCategory": "Action",
@@ -512,7 +518,7 @@ Tutarlılık ve Zirve'nin denetim kodunun yeniden kullanımı için önermiyorum
         "availability": "https://schema.org/PreOrder",
         "url": "https://apps.apple.com/app/id0000000000"
       },
-      "trailer": { "@id": "https://agesofblades.mm-apps.com/en/trailer/#video" },
+      "trailer": { "@id": "https://bladeofages.mm-apps.com/en/trailer/#video" },
       "sameAs": ["https://mm-apps.com/agesofblades/"],
       "author": { "@id": "https://mm-apps.com/#org" },
       "publisher": { "@id": "https://mm-apps.com/#org" }
@@ -688,7 +694,7 @@ toplu raporlarından yapılır. Kişisel veri bizim tarafımızda işlenmez.
 | Bing Webmaster Tools | Aynı + "AI Performance" (Copilot alıntıları, önizleme, Şubat 2026) | Bizde yok | [resmî: [Bing blog](https://blogs.bing.com/webmaster/February-2026/Introducing-AI-Performance-in-Bing-Webmaster-Tools-Public-Preview)] |
 | App Store Connect kampanya bağlantıları (`pt`/`ct`) + App Analytics | Siteden gelen sayfa görüntüleme, indirme, ön sipariş (kaynağa göre) | Apple'ın toplu raporu; Apple eşik altı veriyi gizler (bilgi, doğrulanmadı) | `ct` değerleri sayfa başına: `site-home`, `site-realm-hittite`, `site-press` |
 | Lighthouse (yerel, her yayından önce) | LCP, CLS, INP yerine TBT, erişilebilirlik puanı | Yok | Derleme sonrası betik olarak çalıştırılabilir |
-| Aylık yapay zekâ görünürlük ölçümü (elle) | ChatGPT, Perplexity, Google AI Modu, Gemini, Copilot oyunu doğru tanıyor mu, kaynak ne | Yok | Zirve `AI_VISIBILITY.md` şablonu. Sorular: "blades of ages game", "mythology roguelite iphone", "game with hittite mythology", "göbeklitepe oyunu", "survivor-like with spinning swords" |
+| Aylık yapay zekâ görünürlük ölçümü (elle) | ChatGPT, Perplexity, Google AI Modu, Gemini, Copilot oyunu doğru tanıyor mu, kaynak ne | Yok | Zirve `AI_VISIBILITY.md` şablonu. Sorular: "blade of ages game", "mythology roguelite iphone", "game with hittite mythology", "göbeklitepe oyunu", "survivor-like with spinning swords" |
 
 **Önerilmeyenler ve neden:**
 - Kendi sunucumuzda çerezsiz sayaç: IP adresi geçici de olsa işlenir, sunucu belleği paylaşımlı ve öncelik verimlilik
@@ -712,7 +718,7 @@ toplu raporlarından yapılır. Kişisel veri bizim tarafımızda işlenmez.
 
 | # | Risk | Etki | Öneri |
 |---|---|---|---|
-| R1 | **Ad ve alan adı kesin değil.** Belgeler "Blades of Ages", Unity "Ages of Blades", alt alan `agesofblades`. "Blades of …" kalıbı kalabalık; tescil taraması yapılmadı | Ad sonradan değişirse URL, OG, JSON-LD, basın kiti ve dış bağlantılar kırılır; GitHub Pages 301 veremez | Ad kararı ve tescil taraması siteden önce |
+| R1 | **Ad ve alan adı kesin değildi** (19 Kasım kararı: Blade of Ages: Çağların Kılıcı, `bladeofages.mm-apps.com`). Belgelerde çoğul İngilizce ad, Unity'de ters sıralı ad, alt alan `agesofblades` vardı. "Blade(s) of …" kalıbı kalabalık; tescil taraması yapılmadı | Ad sonradan değişirse URL, OG, JSON-LD, basın kiti ve dış bağlantılar kırılır; GitHub Pages 301 veremez | Ad kararı ve tescil taraması siteden önce |
 | R2 | **Taslak diyarlar.** 12 diyardan 7'si taslak | Boş ya da şablon sayfa doorway ve scaled content sayılabilir | Yalnız bitmiş diyar yayınlanır; dizinde "yakında" satırı bağlantısız |
 | R3 | **"Enerji yok" iddiası ve can sistemi.** Monetizasyon ilkesi "enerji yok" diyor, ama 12 Kasım kararıyla sefer denemesi can harcıyor (5 can, 20 dk). Karar sabah onayı bekliyor [depo: `docs/07`, `docs/36`] | Sitede "enerji yok" yazılırsa yanıltıcı beyan riski (hukuk kuralı 3) ve kullanıcı güveni kaybı | Can sistemi kesinleşene kadar sitede "enerji yok" yazılmaz. "Zorunlu reklam yok" ve "isteğe bağlı ödüllü reklam" söylenebilir |
 | R4 | **Yaş etiketi.** Belgelerde "7+"; Apple'ın 2025 sonrası dereceleri 4+, 9+, 13+, 16+, 18+ | Sitede uydurma bir derece | Yalnız App Store Connect'teki derece yazılır |
@@ -728,10 +734,8 @@ toplu raporlarından yapılır. Kişisel veri bizim tarafımızda işlenmez.
 
 ### 8.2 Kullanıcıya sorulacaklar
 
-1. **Nihai ad:** EN "Blades of Ages" mı, "Ages of Blades" mı? TR "Çağların Kılıcı" kesin mi? Diğer diller için yerel ad
-   (ja, ko, zh-Hant) olacak mı, yoksa her yerde İngilizce ad mı?
-2. **Alan adı:** `agesofblades.mm-apps.com` mı, nihai adla uyumlu başka bir alt alan mı (`bladesofages`)? Ayrı bir alan
-   adı (`.com` ya da `.game`) düşünülüyor mu?
+1. **Nihai ad:** cevaplandı (19 Kasım 2026): her dilde tek ad, Blade of Ages: Çağların Kılıcı.
+2. **Alan adı:** cevaplandı (19 Kasım 2026): `bladeofages.mm-apps.com`.
 3. **Ne zaman yayına alınsın:** ad kararından hemen sonra mı, yoksa pre-order açılınca mı? Ad kararı gecikirse
    `noindex` ile yalnız hukuk sayfaları kabul mü?
 4. **Pre-order:** lansman öncesi App Store pre-order açılacak mı? Hangi bölgelerde (soft launch ülkeleri mi, global

@@ -1,4 +1,4 @@
-/* Blades of Ages site · small page behaviours (the playable hero lives in arena.js). */
+/* Blade of Ages: Çağların Kılıcı site · small page behaviours (the playable hero lives in arena.js). */
 (() => {
   "use strict";
   const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
