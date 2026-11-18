@@ -202,5 +202,7 @@
  "press.usage": "在與本遊戲相關的新聞、評論和影片中，可直接使用這些圖片與截圖，無須事先徵求同意。請勿修改，並註明遊戲名稱。",
  "press.shots": "遊戲截圖",
  "press.shot.alt": "Blades of Ages 遊戲內截圖 {n}",
- "press.art": "首領插畫"
+ "press.art": "首領插畫",
+ "meta.realm.desc": "Blades of Ages 的{realm}國度（第 {first}–{last} 張地圖）：首領{boss}、精英{elite}。敵人、首領階段與應對方式，以及附出處的神話介紹。",
+ "meta.realms.desc": "Blades of Ages 的 {eras} 個時代與 {realms} 個神話國度：從哥貝克力石陣到蘇美、埃及、希臘、赫梯與北歐。"
 }

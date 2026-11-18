@@ -18,10 +18,11 @@
 
 :root {
   --page-top: #CDEBFF; --page-mid: #E6F6F1; --page-bottom: #F6FBF7;
-  --page-text: #1F3B47; --page-muted: #5D7A83;
+  /* Muted text is a step darker than the game's #5D7A83 so it passes WCAG AA (4.5:1) on the sky gradient and on cards. */
+  --page-text: #1F3B47; --page-muted: #4A6670;
   --surface: #FFFFFF; --surface-2: #F0F5F3; --sunken: #DCE7E2; --border: #E1EAE6;
-  --text: #1F3B47; --text-muted: #5D7A83; --text-soft: #34525C;
-  --accent: #12A684; --accent-deep: #0B7A61; --amber: #C98A12; --gold: #E5A526;
+  --text: #1F3B47; --text-muted: #4A6670; --text-soft: #34525C;
+  --accent: #12A684; --accent-deep: #0B7A61; --amber: #C98A12; --amber-text: #8F6209; --gold: #E5A526;
   --link: #0B7A61; --loot: #F5C451; --parry: #C58BFF; --warn: #FF4A5A; --elite: #6FE0F2;
   --shadow: 0 2px 0 rgba(31, 59, 71, .06), 0 14px 32px rgba(31, 59, 71, .12);
   --shadow-soft: 0 1px 0 rgba(31, 59, 71, .05), 0 6px 16px rgba(31, 59, 71, .08);
@@ -33,7 +34,7 @@
 }
 @media (prefers-color-scheme: dark) {
   /* "Gece": the page dims to dusk, the clay components stay light (as in the game). */
-  :root { --page-top: #2C4C63; --page-mid: #305A5B; --page-bottom: #355F58; --page-text: #F2F8F5; --page-muted: #B9CEC8; --link: #9BE8CF;
+  :root { --page-top: #2C4C63; --page-mid: #305A5B; --page-bottom: #355F58; --page-text: #F2F8F5; --page-muted: #C9DBD6; --link: #9BE8CF;
     --surface: #F6FAF8; --surface-2: #EAF1EE; --sunken: #D3E0DA; --border: #DCE6E1;
     --shadow: 0 2px 0 rgba(0, 10, 15, .18), 0 14px 32px rgba(0, 10, 15, .32); }
 }
@@ -64,7 +65,7 @@ ul { margin: 0; padding: 0; list-style: none; }
 .card { background: var(--surface); color: var(--text); border-radius: var(--radius); box-shadow: var(--shadow); }
 .btn {
   --lip: var(--sunken); display: inline-flex; align-items: center; gap: 8px; min-height: 52px; padding: 0 24px;
-  font: 800 18px/1 var(--head); border: 0; border-radius: 999px; cursor: pointer; text-decoration: none;
+  font: 800 19px/1 var(--head); border: 0; border-radius: 999px; /* 19px bold = WCAG large text: white on accent passes 3:1 */ cursor: pointer; text-decoration: none;
   background: var(--surface); color: var(--text); box-shadow: 0 5px 0 var(--lip), 0 10px 18px rgba(31, 59, 71, .14);
   transition: transform .08s ease, box-shadow .08s ease;
 }
@@ -131,7 +132,7 @@ ul { margin: 0; padding: 0; list-style: none; }
 @keyframes spin { to { transform: rotate(360deg); } }
 .arena.live .arena-poster { display: none; }
 .gold-pill { position: absolute; z-index: 3; right: var(--gutter); top: 92px; display: inline-flex; align-items: center; gap: 6px;
-  padding: 6px 14px 6px 6px; border-radius: 999px; background: var(--surface); color: var(--amber); box-shadow: var(--shadow-soft);
+  padding: 6px 14px 6px 6px; border-radius: 999px; background: var(--surface); color: var(--amber-text); box-shadow: var(--shadow-soft);
   font: 800 18px/1 var(--head); opacity: 0; transition: opacity .3s, transform .15s; }
 .gold-pill img { width: 30px; height: 30px; }
 .gold-pill span { color: var(--text-muted); font: 800 13px/1 var(--body); }
@@ -293,7 +294,7 @@ ul { margin: 0; padding: 0; list-style: none; }
 .steps-list { list-style: none; counter-reset: step; padding-left: 0 !important; }
 .steps-list li { counter-increment: step; position: relative; padding: 4px 0 4px 48px; min-height: 36px; }
 .steps-list li::before { content: counter(step); position: absolute; left: 0; top: 0; width: 34px; height: 34px; display: grid; place-items: center;
-  border-radius: 50%; background: var(--accent); color: #fff; font: 800 17px/1 var(--head); box-shadow: 0 3px 0 var(--accent-deep); }
+  border-radius: 50%; background: var(--accent); color: #fff; font: 800 19px/1 var(--head); box-shadow: 0 3px 0 var(--accent-deep); }
 .note { padding: 16px 18px; border-radius: var(--radius-s); background: #FFF6E6; color: #5C3D05; box-shadow: inset 0 0 0 2px #F1DDB8; }
 .table { overflow-x: auto; margin-inline: -4px; }
 .doc table { width: 100%; border-collapse: collapse; font-size: 15px; min-width: 560px; }
@@ -379,7 +380,7 @@ ul { margin: 0; padding: 0; list-style: none; }
   .phases td { display: block; border: 0; padding: 4px 0; }
 }
 .kit-card { padding: 24px; }
-.kit-kind { font: 800 12px/1.2 var(--body); letter-spacing: .06em; text-transform: uppercase; color: var(--amber); margin-bottom: 8px; }
+.kit-kind { font: 800 12px/1.2 var(--body); letter-spacing: .06em; text-transform: uppercase; color: var(--amber-text); margin-bottom: 8px; }
 .kit-card h3 { margin-bottom: 8px; }
 .kit-card p:last-child { color: var(--text-soft); }
 .h-small { font-size: clamp(24px, 3vw, 30px); }

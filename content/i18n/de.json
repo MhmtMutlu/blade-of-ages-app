@@ -4,7 +4,7 @@
  "brand": "Blades of Ages",
  "brand.alt": "Çağların Kılıcı",
  "meta.home.title": "Blades of Ages · Mythen-Action mit kreisenden Klingen",
- "meta.home.desc": "Blades of Ages ist ein Actionspiel für iPhone und iPad, das du mit einem Daumen spielst: Nach außen gerichtete Klingen kreisen um deinen Helden – durch {eras} Zeitalter, {realms} mythologische Reiche und {maps} Karten.",
+ "meta.home.desc": "Blades of Ages: ein Actionspiel für iPhone und iPad, mit einem Daumen gespielt. Klingen kreisen um deinen Helden, durch {eras} Zeitalter und {realms} mythologische Reiche.",
  "meta.404.title": "Seite nicht gefunden · Blades of Ages",
  "skip": "Zum Inhalt springen",
  "nav.label": "Hauptmenü",
@@ -124,7 +124,7 @@
  "doc.kvkk": "KVKK-Hinweis (auf Türkisch)",
  "doc.terms": "Nutzungsbedingungen",
  "doc.delete": "Konto löschen",
- "meta.privacy.desc": "Welche Daten Blades of Ages verarbeitet und warum: eine zufällige Konto-ID, Fortschritt und Kampfaufzeichnungen, Käufe. Keine Werbung, kein Tracking; der Server steht in der Türkei.",
+ "meta.privacy.desc": "Welche Daten Blades of Ages verarbeitet und warum: zufällige Konto-ID, Fortschritt, Kampfaufzeichnungen, Käufe. Keine Werbung, kein Tracking.",
  "meta.kvkk.desc": "KVKK-Informationstext zu Blades of Ages (auf Türkisch).",
  "meta.terms.desc": "Nutzungsbedingungen von Blades of Ages: Lizenz, Spielgegenstände, Käufe und Erstattungen über Apple, faires Spiel, Haftung und anwendbares Recht.",
  "meta.delete.desc": "So löschst du dein Konto bei Blades of Ages im Spiel, das wird dabei gelöscht, und so beantragst du die Löschung, wenn du das Spiel nicht öffnen kannst.",
@@ -202,5 +202,7 @@
  "press.usage": "Die Bilder und Screenshots darfst du ohne Nachfrage in News, Tests und Videos über das Spiel verwenden. Bitte nutze sie unverändert und nenne den Namen des Spiels.",
  "press.shots": "Screenshots",
  "press.shot.alt": "Blades of Ages, Screenshot {n} aus dem Spiel",
- "press.art": "Boss-Artwork"
+ "press.art": "Boss-Artwork",
+ "meta.realm.desc": "Reich {realm} in Blades of Ages, Karten {first}–{last}: Boss {boss}, Elite {elite}. Gegner, Bossphasen und Konter sowie der Mythos mit Quellen.",
+ "meta.realms.desc": "Die {eras} Zeitalter und {realms} mythologischen Reiche von Blades of Ages: von Göbekli Tepe über Sumer, Ägypten und Griechenland bis Skandinavien."
 }

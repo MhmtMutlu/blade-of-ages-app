@@ -202,5 +202,7 @@
  "press.usage": "The images and screenshots may be used without asking in news, reviews and videos about the game. Please use them unaltered and name the game.",
  "press.shots": "Screenshots",
  "press.shot.alt": "Blades of Ages in-game screenshot {n}",
- "press.art": "Boss art"
+ "press.art": "Boss art",
+ "meta.realm.desc": "The realm of {realm} in Blades of Ages, maps {first}–{last}: boss {boss}, elite {elite}. Enemies, boss phases and counters, and the myth with sources.",
+ "meta.realms.desc": "The {eras} ages and {realms} mythological realms of Blades of Ages, from Göbekli Tepe to Sumer, Egypt, Greece, the Hittites and Scandinavia."
 }

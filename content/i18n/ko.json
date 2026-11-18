@@ -202,5 +202,7 @@
  "press.usage": "이미지와 스크린샷은 게임을 다루는 뉴스, 리뷰, 영상에 별도 허락 없이 사용할 수 있습니다. 수정하지 않은 상태로 사용하고 게임 이름을 밝혀 주세요.",
  "press.shots": "스크린샷",
  "press.shot.alt": "Blades of Ages 게임 스크린샷 {n}",
- "press.art": "보스 일러스트"
+ "press.art": "보스 일러스트",
+ "meta.realm.desc": "Blades of Ages의 {realm} 영역(맵 {first}~{last}). 보스 {boss}, 엘리트 {elite}. 적, 보스 페이즈와 대응법, 출처가 있는 신화 해설.",
+ "meta.realms.desc": "Blades of Ages의 {eras}개 시대와 {realms}개 신화 영역. 괴베클리 테페부터 수메르, 이집트, 그리스, 히타이트, 북유럽까지."
 }

@@ -202,5 +202,7 @@
  "press.usage": "画像とスクリーンショットは、本作に関するニュース、レビュー、動画で、許可なくお使いいただけます。加工せずに使用し、ゲーム名を明記してください。",
  "press.shots": "スクリーンショット",
  "press.shot.alt": "Blades of Ages ゲーム内スクリーンショット{n}",
- "press.art": "ボスのアート"
+ "press.art": "ボスのアート",
+ "meta.realm.desc": "Blades of Agesの{realm}の領域（マップ{first}〜{last}）。ボスは{boss}、エリートは{elite}。敵、ボスのフェーズと対策、出典付きの神話解説。",
+ "meta.realms.desc": "Blades of Agesの{eras}つの時代と{realms}の神話の領域。ギョベクリ・テペからシュメール、エジプト、ギリシャ、ヒッタイト、北欧まで。"
 }

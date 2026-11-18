@@ -202,5 +202,7 @@
  "press.usage": "Görseller ve ekran görüntüleri, oyunla ilgili haber, inceleme ve videolarda izin almadan kullanılabilir. Lütfen değiştirmeden kullan ve oyunun adını belirt.",
  "press.shots": "Ekran görüntüleri",
  "press.shot.alt": "Çağların Kılıcı oyun içi ekran görüntüsü {n}",
- "press.art": "Boss çizimleri"
+ "press.art": "Boss çizimleri",
+ "meta.realm.desc": "Çağların Kılıcı'nda {realm} diyarı, {first}–{last}. haritalar: boss {boss}, elit {elite}. Düşmanlar, boss fazları ve karşı hamleler, mitin kaynaklı özeti.",
+ "meta.realms.desc": "Çağların Kılıcı'nın {eras} çağı ve {realms} mitoloji diyarı: Göbeklitepe'den Sümer, Mısır, Yunan, Hitit ve İskandinav'a düşmanlar, boss'lar ve mitler."
 }

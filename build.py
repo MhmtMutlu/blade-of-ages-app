@@ -546,15 +546,17 @@ def build_realm(rid: str, lang: str) -> str:
 <nav class="band realm-nav" aria-label="{t.h('realm.nav')}">{nav}</nav>
 </main>"""
     page_url = f"{BASE}{url(L, page)}"
+    desc = t("meta.realm.desc", realm=name, first=r["maps"][0], last=r["maps"][1],
+             boss=g(L, f"bosses.{boss}.name"), elite=g(L, f"enemies.{r['elite']}.name"))
     title = t("meta.realm.title", realm=name, mapName=map_name)
     about = [{"@id": f"{BASE}/#game"}]
     jsonld = {"@context": "https://schema.org", "@graph": [
-        {"@type": "WebPage", "@id": f"{page_url}#webpage", "url": page_url, "name": title, "description": lead,
+        {"@type": "WebPage", "@id": f"{page_url}#webpage", "url": page_url, "name": title, "description": desc,
          "inLanguage": LANGS[L][2], "isPartOf": {"@type": "WebSite", "@id": f"{BASE}/#website", "url": f"{BASE}/", "name": t("brand")},
          "about": about, "breadcrumb": {"@id": f"{page_url}#breadcrumb"}},
         {**crumb_ld, "@id": f"{page_url}#breadcrumb"},
     ]}
-    return head(t, title, lead, page, jsonld) + f"\n<body>\n{header(t, page)}{body}{footer(t)}\n</body>\n</html>\n"
+    return head(t, title, desc, page, jsonld) + f"\n<body>\n{header(t, page)}{body}{footer(t)}\n</body>\n</html>\n"
 
 
 def build_realms(lang: str) -> str:
@@ -594,7 +596,7 @@ def build_realms(lang: str) -> str:
          "mainEntity": {"@type": "ItemList", "itemListElement": items}},
         {**crumb_ld, "@id": f"{page_url}#breadcrumb"},
     ]}
-    return head(t, title, lead, page, jsonld) + f"\n<body>\n{header(t, page)}{body}{footer(t)}\n</body>\n</html>\n"
+    return head(t, title, t("meta.realms.desc"), page, jsonld) + f"\n<body>\n{header(t, page)}{body}{footer(t)}\n</body>\n</html>\n"
 
 
 def build_press(lang: str) -> str:

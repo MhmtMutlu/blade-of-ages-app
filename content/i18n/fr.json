@@ -4,7 +4,7 @@
  "brand": "Blades of Ages",
  "brand.alt": "Çağların Kılıcı",
  "meta.home.title": "Blades of Ages · Action mythologique aux lames tournoyantes",
- "meta.home.desc": "Blades of Ages est un jeu d'action pour iPhone et iPad qui se joue d'un seul pouce : des lames tournées vers l'extérieur tournoient autour de ton héros, à travers {eras} âges, {realms} royaumes mythologiques et {maps} cartes.",
+ "meta.home.desc": "Blades of Ages, un jeu d'action pour iPhone et iPad qui se joue d'un pouce : des lames tournoient autour de ton héros à travers {eras} âges et {realms} royaumes.",
  "meta.404.title": "Page introuvable · Blades of Ages",
  "skip": "Aller au contenu",
  "nav.label": "Menu principal",
@@ -124,7 +124,7 @@
  "doc.kvkk": "Notice KVKK (en turc)",
  "doc.terms": "Conditions d'utilisation",
  "doc.delete": "Supprimer le compte",
- "meta.privacy.desc": "Quelles données Blades of Ages traite et pourquoi : un identifiant de compte aléatoire, la progression et les enregistrements de combat, les achats. Ni publicité ni pistage ; le serveur est en Turquie.",
+ "meta.privacy.desc": "Quelles données Blades of Ages traite et pourquoi : identifiant aléatoire, progression, enregistrements de combat, achats. Ni publicité ni pistage.",
  "meta.kvkk.desc": "Notice KVKK de Blades of Ages (en turc).",
  "meta.terms.desc": "Conditions d'utilisation de Blades of Ages : licence, objets du jeu, achats et remboursements via Apple, fair-play, responsabilité et droit applicable.",
  "meta.delete.desc": "Comment supprimer ton compte Blades of Ages dans le jeu, ce qui est supprimé, et comment demander la suppression si tu ne peux pas ouvrir le jeu.",
@@ -202,5 +202,7 @@
  "press.usage": "Les images et captures d'écran peuvent être utilisées sans demande préalable dans des articles, tests et vidéos consacrés au jeu. Merci de les utiliser sans modification et de citer le nom du jeu.",
  "press.shots": "Captures d'écran",
  "press.shot.alt": "Capture d'écran {n} de Blades of Ages",
- "press.art": "Illustrations des boss"
+ "press.art": "Illustrations des boss",
+ "meta.realm.desc": "Royaume : {realm}, dans Blades of Ages, cartes {first} à {last}. Boss : {boss} ; élite : {elite}. Ennemis, phases du boss, parades et mythe sourcé.",
+ "meta.realms.desc": "Les {eras} âges et {realms} royaumes mythologiques de Blades of Ages, de Göbekli Tepe à Sumer, l'Égypte, la Grèce, les Hittites et la Scandinavie."
 }
