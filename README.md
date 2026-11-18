@@ -32,7 +32,7 @@ Araştırma: `docs/research/seo.md`, `docs/research/geo.md`, `docs/research/tasa
 | `assets/site.js` | Dil menüsü ve Çağlar Yolculuğu'ndaki katmanlı kayma |
 | `assets/art/` | Oyunun kil SVG'lerinden üretilen WebP'ler (`scripts/art.py`) |
 | `data/game.json` | Diyar sayfalarının verisi ve oyunun 7 dildeki metinleri (`scripts/sync-game.py`). Elle düzenlenmez; oyun deposundan kayarsa derleme durur |
-| `content/myth.json` | Diyar sayfalarının "Mitte ve tarihte" bölümü ve kaynakları (doğrulanmış bağlantılar) |
+| `content/myth.json` | Diyar sayfalarının "Mitte ve tarihte" bölümü (tr, en) ve kaynakları (doğrulanmış bağlantılar). Diğer diller `content/myth.<dil>.json` |
 | `assets/og/` | Paylaşım kartları, 1200×630, dil ve diyar başına (`scripts/og.py`) |
 | `assets/shots/` | Oyunun PlayMode test koşularından gerçek ekran görüntüleri (`scripts/shots.py`; Türkçe arayüz) |
 | `assets/press/` | Basın kiti dosyaları: 1024 px simge, marka işareti SVG |
@@ -80,7 +80,6 @@ python3 scripts/sync-game.py            # diyar verisi ve oyun metinleri
   Çeviriler yayından önce anadili konuşan birine okutulmalı (LQA)
 
 **Sırada:**
-- Diyar sayfalarının "Mitte ve tarihte" bölümü şimdilik yalnız tr ve en'de; diğer 5 dilde bölüm hiç çıkmıyor.
 - İngilizce arayüzle ekran görüntüleri (şimdi Türkçe; İngilizce sayfalar bunu bir notla söylüyor).
 - DNS (`bladesofages.mm-apps.com`) ve GitHub Pages.
 

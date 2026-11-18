@@ -357,6 +357,12 @@ def build_doc(page: str, lang: str) -> str:
 
 MYTH_PATH = ROOT / "content/myth.json"
 MYTH = json.loads(MYTH_PATH.read_text(encoding="utf-8")) if MYTH_PATH.exists() else {}
+# Translations of the myth sections: content/myth.<lang>.json = {realm: {"myth": [...], "departures": [...]}}
+for _path in sorted((ROOT / "content").glob("myth.*.json")):
+    _lang = _path.name[len("myth."):-len(".json")]
+    for _rid, _entry in json.loads(_path.read_text(encoding="utf-8")).items():
+        if _rid in MYTH:
+            MYTH[_rid][_lang] = _entry
 
 
 def g(lang: str, key: str) -> str:
