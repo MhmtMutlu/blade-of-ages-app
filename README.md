@@ -94,6 +94,8 @@ Oyuna şunlardan biri eklendiğinde aynı değişiklikte `src/privacy.*`, `src/k
   (bugün günlük sınavın ilk 10 sıralaması var; ad sunucunun ürettiği takma ad ya da "Adsız yolcu", varsayılan gizli)
 - Bildirim, Game Center, tanılama (MetricKit)
 
+Oyun deposuna düşen işlerin listesi depo dışında, oturumların ortak not klasöründe tutuluyor (sunucu ayrıntısı içerdiği için).
+
 ## Açık sorular
 
 Raporlarda sahibe sorulacaklar listesi var (`seo.md` §8.2, `geo.md` §9). Siteyi bloklamayanlar sonraya kaldı:

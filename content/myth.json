@@ -1,28 +1,6 @@
 {
-  "_doc": "In myth / in history sections for the realm pages. Myth paragraphs (tr/en) describe only the real myth, text or site, each claim backed by the listed sources; departures compare with the game's boss/elite lore (data/bosses.json, data/l10n/en.json). loreIssues lists factual problems found in the game's own lore texts, with a suggested fix and source. Every source URL was opened and checked on the 'verified' date. Göbeklitepe is an archaeological site, not a myth; 'Akbaba Ana' is the game's invention.",
+  "_doc": "In myth / in history sections for the realm pages. Myth paragraphs (tr/en) describe only the real myth, text or site, each claim backed by the listed sources; departures compare with the game's boss/elite lore (data/bosses.json, data/l10n/en.json). loreIssues lists factual problems found in the game's own lore texts, with a suggested fix and source. Every source URL was opened and checked on the 'verified' date. Göbeklitepe is an archaeological site, not a myth; 'Akbaba Ana' is the game's invention. Texts per language are in content/myth.<lang>.json; this file keeps the sources and the lore issues.",
   "gobeklitepe": {
-    "tr": {
-      "myth": [
-        "Göbeklitepe, Şanlıurfa yakınlarında, Çanak Çömleksiz Neolitik döneme ait bir arkeolojik alandır. Kazıyı yürüten Alman Arkeoloji Enstitüsü (DAI) alanı yaklaşık MÖ 9500 ile 8000 arasına tarihlendirir. Alanın en bilinen yapıları, yuvarlak-oval planlı büyük yapılar ve içlerinde duran T biçimli kireçtaşı dikilitaşlardır. Ortadaki iki dikilitaş yaklaşık 5,5 metre yüksekliğindedir. Kazı ekibinden araştırmacılar, üzerlerindeki kol, el, kemer ve hayvan postu kabartmaları nedeniyle bu taşları soyut insan figürleri olarak yorumlar. Kabartmalarda çoğunlukla yaban hayvanları vardır: tilki, kuş ve yılan en sık görülenlerdir; bir yapıda yaban domuzu ağırlıktadır.",
-        "D Yapısı'ndaki 43 numaralı dikilitaşta büyük bir akbaba kabartması öne çıkar: sol kanadını kaldırmıştır, sağ kanadı ise yakındaki bir küreye ya da diske doğru uzanır. Araştırmacılar bunun bir anlatı sahnesi olabileceğini öne sürer, ancak sahnenin anlamı kesin değildir. Alanın işlevi de tartışmalıdır. İlk yıllarda öncelikle bir ritüel alanı olarak yorumlanmıştır; son kazılar ise ev içi etkinliklere ve kalıcı yerleşime dair izler ortaya koymuştur. DAI bugün alanı belirgin bir ritüel yönü olan bir yerleşim olarak tanımlar. Alan yazıdan binlerce yıl öncesine aittir; ona bağlı bir mit metni bilinmez."
-      ],
-      "departures": [
-        "\"Akbaba Ana\" oyunun icadıdır ve 43 numaralı dikilitaştaki akbaba kabartmasından esinlenir. Kabartma bir akbabayı gösterir; anlamı kesin değildir ve bir ana figürü ya da boss olarak sunulması oyunun yorumudur.",
-        "Oyundaki düşmanları güçlendiren \"totem taşları\" oyun mekaniğidir. Kazı ekibi T biçimli dikilitaşları soyut insan figürleri olarak yorumlar.",
-        "Taş Domuz ve Tilki Gölgesi gibi düşmanlar kabartmalardaki yaban domuzu ve tilkiden esinlenir; kabartmalarda bunlar ruh ya da gölge değil, oyulmuş hayvan figürleridir."
-      ]
-    },
-    "en": {
-      "myth": [
-        "Göbekli Tepe is an archaeological site near Şanlıurfa in southeastern Türkiye, dating to the Pre-Pottery Neolithic. The German Archaeological Institute (DAI), which leads the excavation, dates it to roughly 9500 to 8000 BCE. Its best-known features are large round-to-oval buildings with T-shaped limestone pillars inside them; the two central pillars stand about 5.5 m tall. Members of the excavation team read the pillars as abstract human figures, because they carry reliefs of arms, hands, belts and animal-skin loincloths. Most of the carved animals are wild: foxes, birds and snakes are the most common, and boars predominate in one enclosure.",
-        "Pillar 43 in Enclosure D is dominated by a large vulture that lifts its left wing while its right wing points towards a nearby sphere or disc. The researchers suggest it may be a narrative scene, but its meaning is not settled. The purpose of the site is also debated. For its first two decades of research it was read mainly as a ritual place; more recent excavations have found evidence of domestic activity and indications of permanent settlement, and the DAI now describes it as a settlement with a strong ritual component. The site predates writing by thousands of years, so no myth text is attached to it."
-      ],
-      "departures": [
-        "\"Mother Vulture\" (Akbaba Ana) is the game's own invention, inspired by the vulture relief on Pillar 43. The relief shows a vulture whose meaning is not settled; presenting it as a mother figure or a boss is the game's interpretation.",
-        "The game's \"totem stones\" that strengthen enemies are a game mechanic. The excavators interpret the T-shaped pillars as abstract human figures.",
-        "Enemies such as the Stone Boar and the Fox Shadow draw on the boars and foxes in the reliefs; in the reliefs they are carved animals, not spirits or shadows."
-      ]
-    },
     "sources": [
       {
         "title": "Göbekli Tepe: Fieldwork and Research",
@@ -40,30 +18,6 @@
     "loreIssues": []
   },
   "sumer": {
-    "tr": {
-      "myth": [
-        "Humbaba (Sümerce adıyla Huvava), Mezopotamya'nın Gılgamış anlatılarında Sedir Ormanı'nın bekçisidir. Akkadca yazılmış Standart Babil Gılgamış Destanı'nda tanrı Enlil onu ormanı korumakla görevlendirir; metin onun kükremesini tufana, ağzını ateşe, nefesini ölüme benzetir. Daha eski Sümerce şiir \"Gılgamış ve Huvava\"da Huvava'nın yedi halesi (korku ışıltısı) vardır. Gılgamış bunları hediyeler ve vaatlerle birer birer ondan alır, sonra onu yakalayıp bağlar; Enkidu da Huvava'nın boğazını keser. Enlil bu cinayete öfkelenir ve haleleri tarlalara, ırmaklara, aslanlara ve başka yerlere dağıtır.",
-        "Gök Boğası, destanın VI. tabletinde yer alır. Gılgamış tanrıça İştar'ın evlilik teklifini reddeder; İştar da babası Anu'dan Gök Boğası'nı ister. Boğanın soluması yerde çukurlar açar ve yüzlerce genci yutar. Enkidu boğayı boynuzlarından yakalar, Gılgamış kılıcını ense ile boynuzların arasına saplar. Kahramanlar boğanın yüreğini güneş tanrısı Şamaş'a sunar; Gılgamış, lapis lazuliden yapıldığı söylenen boynuzları saklar. Sümerce \"Gılgamış ve Gök Boğası\" şiirinde boğayı İnanna babası An'dan alır ve boynuzların İnanna'ya yağ sunmak için kaplara dönüştürüleceği söylenir."
-      ],
-      "departures": [
-        "Diyarın adı Sümer, ama \"Humbaba\" adı ve bilinen haliyle Gılgamış Destanı Akkadcadır; Sümerce şiirlerde ad Huvava'dır.",
-        "Yedi hale Sümerce \"Gılgamış ve Huvava\" şiirinden gelir. Orada Huvava haleleri hediyeler karşılığında kendisi verir; oyundaki gibi kılıçla tek tek kırılmazlar.",
-        "Kök tuzakları ve kozalak yağmuru oyunun icadıdır. Ormanla bağı ise mitle aynıdır: Humbaba, Enlil'in Sedir Ormanı'nı korumak için atadığı bekçidir.",
-        "Gök Boğası'nın \"lapis alın taşı\" zayıf noktası oyunun icadıdır. Destanda boynuzlar lapis lazulidendir ve kılıç ense ile boynuzların arasına saplanır."
-      ]
-    },
-    "en": {
-      "myth": [
-        "Humbaba (Sumerian Huwawa) is the guardian of the Cedar Forest in the Gilgamesh stories of ancient Mesopotamia. In the Standard Babylonian Epic of Gilgamesh, written in Akkadian, the god Enlil appoints him to protect the forest, and the text describes his roar as a flood, his mouth as fire and his breath as death. In the older Sumerian poem Gilgamesh and Huwawa he has seven auras, or terrors. Gilgamesh obtains them from him one by one with gifts and promises, then seizes and binds him, and Enkidu cuts his throat. Enlil is angered and hands the auras out to the fields, rivers, lions and other places.",
-        "The Bull of Heaven appears in Tablet VI of the epic. Gilgamesh rejects the goddess Ishtar's offer of marriage, and she demands the Bull of Heaven from her father Anu. The bull's snorting opens pits that swallow hundreds of young men. Enkidu seizes it by the horns and Gilgamesh thrusts his sword between the nape and the horns. The heroes offer its heart to the sun god Shamash, and Gilgamesh keeps the horns, said to be made of lapis lazuli. In the Sumerian poem Gilgamesh and the Bull of Heaven, Inana obtains the bull from An, and its horns are to become flasks for oil offered to her."
-      ],
-      "departures": [
-        "The realm is named Sumer, but the name \"Humbaba\" and the Epic of Gilgamesh in its best-known form are Akkadian; the Sumerian poems call him Huwawa.",
-        "The seven auras come from the Sumerian poem Gilgamesh and Huwawa, where Huwawa hands them over in exchange for gifts; they are not broken one by one with swords as in the game.",
-        "Root traps and the cedar storm are the game's invention. His tie to the forest matches the myth: Enlil appointed Humbaba to guard the Cedar Forest.",
-        "The Bull of Heaven's \"lapis forehead stone\" weak point is invented. In the epic the horns are of lapis lazuli and the sword strikes between the nape and the horns."
-      ]
-    },
     "sources": [
       {
         "title": "Gilgamesh and Huwawa (version A): translation",
@@ -93,28 +47,6 @@
     "loreIssues": []
   },
   "misir": {
-    "tr": {
-      "myth": [
-        "Apep (Yunanca Apophis), eski Mısır dininde güneş tanrısı Ra'nın en büyük düşmanı olan dev yılandır. Yaratılmış dünyanın dışında durur ve kaosu temsil eder. Emory Üniversitesi'nin Michael C. Carlos Müzesi'ne göre Apep, güneş tanrısını her gece yeraltı dünyasındaki yolculuğunda yenerse güneş doğmaz ve yaratılış çöker; Ra ve onu koruyan tanrılar yılana keskin bıçaklarla saldırır. Global Egyptian Museum sözlüğü, Apep'in tutulmaların ve bulutların yarattığı karanlıkla da ilişkilendirildiğini ve güneşin teknesini durdurmaya çalıştığını, örneğin teknenin yüzdüğü suyu içerek onu karaya oturtmak istediğini belirtir.",
-        "Bu savaşın kesin bir sonu yoktur; güneş tanrısı her doğuşunda yeniden savaşmak zorundadır. Bu yüzden Apep'e karşı ritüeller yapılırdı. Bugün British Museum'da bulunan Bremner-Rhind papirüsü, Karnak'taki Amon tapınağında her gün okunması amaçlanan, Apep'e karşı sözler içerir. Diyarın elit düşmanı sfenksten esinlenir. Mısır sanatında sfenks, kralı aslan gövdesiyle ve gücünün bir göstergesi olarak tasvir eder. Gize'deki Büyük Sfenks, 4. Hanedan döneminde, büyük olasılıkla Kral Khafre zamanında ana kayadan oyulmuş, daha sonra Horus'un bir biçimi olan Horemakhet olarak görülmüştür."
-      ],
-      "departures": [
-        "Apep'in kuma dalması, zehir küreleri tükürmesi ve skarabe sürüleri çağırması oyunun icadıdır. Mitte Apep güneş tanrısının teknesine saldırır ve her seferinde geri püskürtülür.",
-        "Oyunda Apep güneşi yutar ve arena kararır. Kaynaklar Apep'i tutulma karanlığıyla ilişkilendirir, ama mitte güneş tanrısı her gün yeniden doğar.",
-        "Gözlerinden ışın atan \"Sfenks Bekçisi\" oyunun icadıdır. Mısır sanatında sfenks, kralı aslan gövdesiyle gösteren bir tasvirdir."
-      ]
-    },
-    "en": {
-      "myth": [
-        "Apep (Greek Apophis) is the giant serpent who is the great enemy of the sun god Ra in ancient Egyptian religion. He lies outside the created world and stands for chaos. According to Emory University's Michael C. Carlos Museum, if Apep defeated the sun god during his nightly journey through the underworld, the sun would not rise and creation would collapse; Ra and his defenders attack the serpent with sharp knives. The Global Egyptian Museum glossary adds that Apep was linked with the darkness of eclipses and clouds, and that he tries to halt the sun's boat, for example by drinking up the water so that it runs aground.",
-        "The struggle never ends for good: the sun god has to fight again each time he rises. Rituals were therefore performed against Apep. The Bremner-Rhind papyrus, now in the British Museum, contains spells against him that were meant to be recited daily in the temple of Amun at Karnak. The realm's elite draws on the sphinx. In Egyptian art a sphinx shows the king with the body of a lion, as a sign of his power. The Great Sphinx at Giza was carved from the bedrock in the 4th Dynasty, most likely under King Khafre, and was later seen as a form of Horus, Horemakhet."
-      ],
-      "departures": [
-        "Apep diving under the sand, spitting venom orbs and summoning scarab swarms are the game's invention. In the myth he attacks the sun god's boat and is driven back each time.",
-        "In the game Apep swallows the sun and the arena goes dark. The sources link Apep with the darkness of eclipses, but in the myth the sun god rises again every day.",
-        "A \"Sphinx Warden\" that fires beams from its eyes is invented. In Egyptian art the sphinx is an image of the king with a lion's body."
-      ]
-    },
     "sources": [
       {
         "title": "Ssslithering Through Egypt (family guide)",
@@ -138,30 +70,6 @@
     "loreIssues": []
   },
   "yunan": {
-    "tr": {
-      "myth": [
-        "Yunan mitolojisinde Medusa, üç Gorgon'dan biridir; deniz tanrıları Phorkys ile Keto'nun kızıdır. Hesiodos'un Theogonia'sı Gorgonları Okeanos'un ötesine, Gece'ye doğru uzanan sınır ülkesine yerleştirir. Kız kardeşleri Stheno ve Euryale ölümsüzdür, yalnızca Medusa ölümlüdür. Perseus onun başını kestiğinde boynundan Khrysaor ve kanatlı at Pegasos doğar. Atina Ulusal Arkeoloji Müzesi'ne göre Medusa'nın bakışı, yüzüne bakan herkesi taşa çevirir. Perseus bu işi Athena'nın yardımıyla yapar ve başı tanrıçaya verir; Athena da onu egisine ve kalkanına yerleştirir.",
-        "Sonraki anlatılar ayrıntı ekler. Ovidius'un Dönüşümler'inde Perseus, Medusa'nın evine giderken onun yüzünü gördükleri için taşa dönmüş insan ve hayvan figürlerinin yanından geçtiğini anlatır. Aynı eserde Minerva (Athena), tapınağında işlenen bir suç yüzünden Medusa'nın saçlarını yılana çevirir. Diyarın elit düşmanı Kiklop başka bir gelenekten gelir. Homeros'un Odysseia'sında Odysseus, adının \"Hiçkimse\" olduğunu söyleyerek Kiklop Polifemos'u kandırır ve ateşte kızdırılmış bir kazığı onun gözüne saplayarak kör eder."
-      ],
-      "departures": [
-        "Medusa'nın bir \"labirent adasının bekçisi\" olması oyunun icadıdır. Hesiodos Gorgonları Okeanos'un ötesine yerleştirir.",
-        "Ovidius taşa dönmüş figürlerden söz eder, ama heykellerin İskelet Hoplit olarak canlanması oyunun icadıdır.",
-        "Oyunda bakış kahramanı öldürmez, yalnızca yavaşlatır. Mitte Medusa'nın bakışı taşa çevirir.",
-        "Yılan saçların zehir küreleri tükürmesi ve harpi çağırması oyunun icadıdır."
-      ]
-    },
-    "en": {
-      "myth": [
-        "In Greek myth Medusa is one of the three Gorgons, daughters of the sea deities Phorcys and Ceto. Hesiod's Theogony places the Gorgons beyond the river Ocean, in the frontier land towards Night. Her sisters Stheno and Euryale were immortal; Medusa alone was mortal. When Perseus cut off her head, Chrysaor and the winged horse Pegasus sprang from her neck. According to the National Archaeological Museum in Athens, her gaze turned anyone who looked her in the face to stone. Perseus killed her with Athena's help and gave the head to the goddess, who placed it on her aegis and shield.",
-        "Later accounts add detail. In Ovid's Metamorphoses, Perseus tells how, on the way to Medusa's home, he passed figures of men and animals turned to stone by the sight of her face. In the same work Minerva (Athena) changes Medusa's hair into snakes to punish a crime committed in her temple. The realm's elite, the Cyclops, comes from another tradition. In Homer's Odyssey, Odysseus tricks the Cyclops Polyphemus by giving his name as \"Noman\" (Nobody), then blinds him by driving a heated stake into his eye."
-      ],
-      "departures": [
-        "Medusa as \"the guardian of the labyrinth island\" is the game's invention. Hesiod places the Gorgons beyond the river Ocean.",
-        "Ovid mentions figures turned to stone, but statues that come back to life as Skeleton Hoplites are the game's invention.",
-        "In the game the gaze only slows the hero and does not kill. In the myth her gaze turns people to stone.",
-        "Snake hair that spits venom orbs and the summoning of harpies are the game's invention."
-      ]
-    },
     "sources": [
       {
         "title": "Hesiod, Theogony, lines 270-303 (translation by Hugh G. Evelyn-White)",
@@ -191,30 +99,6 @@
     "loreIssues": []
   },
   "hitit": {
-    "tr": {
-      "myth": [
-        "İlluyanka, fırtına tanrısının savaşını anlatan Hitit mitindeki yılandır (Hitit metinleri kataloğunda CTH 321). Metinde yaratık yalnızca \"yılan\" diye anılır ve görünüşü betimlenmez. Metin purulli bayramına bağlanır ve Nerik fırtına tanrısının rahibi Kella'nın ağzından aktarılır. İlk anlatıda yılan fırtına tanrısını yener. Tanrıça İnara bir şölen hazırlar ve yılanı davet eder. Yılan yavrularıyla birlikte yukarı çıkar, doyasıya yiyip içer ve deliğine geri inmez. İnara'yla anlaşma yapan ölümlü Hupašiya onu iple bağlar; fırtına tanrısı gelip yılanı öldürür.",
-        "İkinci anlatıda yılan fırtına tanrısının yüreğini ve gözlerini alır. Tanrının oğlu yılanın kızıyla evlenir ve bunları yılanın evinden ister; tanrı iyileşir, yılanla yeniden savaşır ve onu, oğluyla birlikte öldürür. Diyarın elit düşmanı Ullikummi ise Hititçe versiyonu korunan Ullikummi Şarkısı'ndan gelir (CTH 345). Tanrı Kumarbi, Kummiya kentini ezsin ve fırtına tanrısını yensin diye bir taş çocuk dünyaya getirir ve ona Ullikummi adını verir. Taş, Upelluri'nin sağ omzuna yerleştirilir ve suyun içinde büyür. Ea, bir zamanlar göğü yerden ayıran eski testerenin çıkarılmasını ister; Ullikummi ayaklarının altından kesilecektir."
-      ],
-      "departures": [
-        "Oyun İlluyanka'yı \"boynuzlu ejderha-yılan\" olarak tanımlar; mit metni yılanın görünüşünü betimlemez.",
-        "Ziyafet tuzağı mite yakındır, ama mitte şölen yılan ve yavruları içindir; yılanı iyileştiren Fırtına Ruhları oyunun icadıdır.",
-        "Ullikummi'nin her 8 saniyede büyümesi ve ayak bileğindeki mavi damar oyunun yorumudur. Mitte taş dev suda büyür ve Ea onu ayaklarının altından kesmek için eski testereyi getirtir.",
-        "İlluyanka ve Ullikummi iki ayrı metinden gelir (İlluyanka miti ve Ullikummi Şarkısı); oyun onları aynı diyarda buluşturur."
-      ]
-    },
-    "en": {
-      "myth": [
-        "Illuyanka is the serpent in the Hittite myth of the storm god's fight (catalogued as CTH 321). The text simply calls it \"the serpent\" and does not describe its appearance. The myth is tied to the purulli festival and told by Kella, priest of the storm god of Nerik. In the first version the serpent defeats the storm god. The goddess Inara prepares a feast and invites it. The serpent comes up with its children, eats and drinks its fill, and does not go back down into its hole. Hupašiya, a mortal who has made a pact with Inara, ties it up with a rope, and the storm god kills it.",
-        "In the second version the serpent takes the storm god's heart and eyes. The god's son marries the serpent's daughter and asks her household for them; the god recovers and kills the serpent, and his own son with it. The elite, Ullikummi, comes from the Song of Ullikummi, preserved in a Hittite version (CTH 345). The god Kumarbi fathers a stone child named Ullikummi to crush the city of Kummiya and strike down the storm god. It is set on Upelluri's right shoulder and grows in the water. Ea has the old saw that once cut heaven and earth apart brought out, to cut Ullikummi away beneath its feet."
-      ],
-      "departures": [
-        "The game calls Illuyanka a \"horned dragon-serpent\"; the myth text does not describe the serpent's appearance.",
-        "The feast trap follows the myth closely, but in the myth the feast is for the serpent and its children; Storm Spirits that heal it are the game's invention.",
-        "Ullikummi growing every 8 seconds and the blue vein at its ankle are the game's interpretation. In the myth the stone giant grows in the water, and Ea has the old saw brought out to cut it away beneath its feet.",
-        "Illuyanka and Ullikummi come from two separate texts (the Illuyanka myth and the Song of Ullikummi); the game brings them together in one realm."
-      ]
-    },
     "sources": [
       {
         "title": "CTH 321: Der Drachenkampf oder Illuyanka (German translation), Corpus of Hittite Mythological Texts",
@@ -257,28 +141,6 @@
     ]
   },
   "iskandinav": {
-    "tr": {
-      "myth": [
-        "Fenrir (Fenris Kurdu), İskandinav mitolojisinde dev bir kurttur. En ayrıntılı anlatısı Snorri Sturluson'un Düzyazı Edda'sındadır. Tanrılar onu yanlarında büyütür, ama kehanetler kurdun onların yıkımı olacağını söyler; bu yüzden onu bağlamaya karar verirler. Fenrir önce Læding adlı zinciri, ardından daha da güçlü Drómi'yi koparır. Bunun üzerine cüceler, kedinin ayak sesi gibi var olmayan altı şeyden Gleipnir adlı ipek gibi yumuşak bir bağ yapar. Fenrir, iyi niyet rehini olarak bir tanrının elini ağzına koyması şartıyla bağlanmayı kabul eder. Týr elini uzatır; bağ dayanınca elini kaybeder.",
-        "Tanrılar bağın zincirini büyük bir kayadan geçirip toprağın derinlerine sabitler. Ragnarök geldiğinde bütün bağlar kopar ve Fenrir serbest kalır; alt çenesi yerde, üst çenesi gökte ilerler ve Odin'i yutar. Odin'in oğlu Vidar onun çenelerini ayırarak kurdu öldürür. Diyarın elit düşmanı aynı geleneğin devlerinden esinlenir. Snorri'ye göre ilk varlık Ymir ve onun soyu kırağı devleri (hrímþursar) olarak anılır; Ragnarök'te kırağı devleri de tanrılara karşı savaşa katılır."
-      ],
-      "departures": [
-        "Fenrir'in arenada bir kazığa zincirli olması mitteki zincirin kayaya sabitlenmesini andırır, ama zincir halkalarının birkaç atılışta bir kopması oyunun icadıdır. Mitte Gleipnir Ragnarök'e kadar dayanır.",
-        "Ay Uluması ve Buz Kurdu çağırma oyunun icadıdır. Snorri'de Ragnarök'te ayı yakalayan Fenrir değil, başka bir kurttur.",
-        "Buz Devi'nin buz sütunları ve göğsündeki kristal oyunun icadıdır."
-      ]
-    },
-    "en": {
-      "myth": [
-        "Fenrir (the Fenris-Wolf) is a giant wolf in Norse myth, told most fully in Snorri Sturluson's Prose Edda. The gods raise him among them, but prophecies say he is fated to be their destruction, so they decide to bind him. He breaks the first fetter, Lædingr, and then a second, much stronger one called Drómi. Dwarves then make Gleipnir, a band as soft as silk made of six impossible things, such as the noise of a cat's footfall. Fenrir agrees to be bound only if a god puts a hand in his mouth as a pledge of good faith. Týr does so, and loses his hand when the band holds.",
-        "The gods pass the fetter's chain through a great rock and fix it deep in the earth. At Ragnarök all bonds break and Fenrir gets loose; he advances with his lower jaw against the earth and his upper jaw against the sky, and swallows Odin. Odin's son Vidar then kills him by tearing his jaws apart. The realm's elite draws on the giants of the same tradition. Snorri calls the first being, Ymir, and his descendants rime-giants (hrímþursar), and at Ragnarök the rime-giants join the attack on the gods."
-      ],
-      "departures": [
-        "Fenrir chained to a stake in the arena echoes the chain fixed through a rock in the myth, but chain links snapping every few lunges are the game's invention. In the myth Gleipnir holds until Ragnarök.",
-        "The Moon Howl and the summoning of Ice Wolves are invented. In Snorri's account it is another wolf, not Fenrir, that seizes the moon at Ragnarök.",
-        "The Frost Giant's ice pillars and chest crystal are the game's invention."
-      ]
-    },
     "sources": [
       {
         "title": "The Prose Edda, by Snorri Sturluson, translated by Arthur Gilchrist Brodeur (1916)",
