@@ -80,6 +80,7 @@ python3 scripts/sync-game.py            # diyar verisi ve oyun metinleri
   Çeviriler yayından önce anadili konuşan birine okutulmalı (LQA)
 
 **Sırada:**
+- Diyar sayfalarının "Mitte ve tarihte" bölümü şimdilik yalnız tr ve en'de; diğer 5 dilde bölüm hiç çıkmıyor.
 - İngilizce arayüzle ekran görüntüleri (şimdi Türkçe; İngilizce sayfalar bunu bir notla söylüyor).
 - DNS (`bladesofages.mm-apps.com`) ve GitHub Pages.
 
