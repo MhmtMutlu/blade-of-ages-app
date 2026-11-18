@@ -87,7 +87,6 @@ python3 scripts/sync-game.py            # diyar verisi ve oyun metinleri
 **Sırada:**
 - İngilizce arayüzle ekran görüntüleri (şimdi Türkçe; İngilizce sayfalar bunu bir notla söylüyor).
 - DNS (`bladeofages.mm-apps.com`) ve GitHub Pages.
-- Paylaşım kartlarını (`assets/og/*.jpg`) yeni adla yeniden üret (`scripts/og.py`); 19 Kasım'da hepsi eski adı taşıyor.
 
 ## Hukuk metinleri ve oyun birlikte değişir
 
