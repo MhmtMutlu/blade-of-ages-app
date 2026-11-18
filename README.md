@@ -24,6 +24,7 @@ Araştırma: `docs/research/seo.md`, `docs/research/geo.md`, `docs/research/tasa
 | --- | --- |
 | `data/facts.json` | Olguların tek kaynağı: aşama (`prelaunch` → `preorder` → `live`), sayılar, çağlar, vitrin kahramanları |
 | `data/site.json` | Taban adres, iletişim, telif ve Apple ticari marka satırı |
+| `src/<sayfa>.<dil>.html` | Hukuk ve destek sayfalarının gövdesi (gizlilik, KVKK, koşullar, hesap silme, destek). `{{CONTACT}}` ve `{{page:<id>}}` derlemede dolar. Sayfa yalnız dosyası olan dillerde üretilir; KVKK yalnız Türkçe |
 | `content/i18n/<dil>.json` | Bütün metinler. Sayılar `{eras}` gibi yer tutucularla yazılır. `era.`, `realm.`, `boss.`, `hero.` adları oyunun verisiyle aynı olmalı |
 | `build.py` → `LANGS` | Diller. Yayında tr ve en; ja, ko, zh-Hant, de, fr metinleri gelince `published` açılır |
 | `assets/site.css` | Gün Kili stili (oyunun `UiKit.cs` token'ları), gece teması `prefers-color-scheme` ile |
@@ -56,16 +57,28 @@ python3 -m venv .venv && .venv/bin/pip install pillow numpy fonttools brotli
 
 **Var:**
 - Tanıtım sayfası (tr, en), 404, `robots.txt`, `sitemap.xml`, `llms.txt`
+- Gizlilik, KVKK (yalnız tr), kullanım koşulları, hesap silme, destek (tr, en). Oyunun 18 Kasım'daki gerçek veri
+  akışından yazıldı: anonim hesap, ilerleme, savaş kayıtları, günlük sınav, satın alma (RevenueCat yalnız mağaza
+  açılınca). Reklam, Apple ile giriş ve sunucuya giden analitik bu sürümde yok; metinler de öyle söylüyor
 - Oynanabilir giriş
 - Çağlar Yolculuğu: I–III. çağ diorama; IV–V. çağ "Silik'in sildiği" çağlar olarak
 - Nasıl oynanır, kahramanlar, adil oyun, SSS
 
 **Sırada:**
-- Gizlilik, KVKK, kullanım koşulları, hesap silme ve destek. Bunlar oyunun gerçek veri akışından yazılacak.
 - Diyar ve boss sayfaları ("Gün Işığında Mit Müzesi").
 - ja, ko, zh-Hant, de ve fr metinleri.
 - OG görselleri, basın kiti.
 - DNS (`bladesofages.mm-apps.com`) ve GitHub Pages.
+
+## Hukuk metinleri ve oyun birlikte değişir
+
+Oyuna şunlardan biri eklendiğinde aynı değişiklikte `src/privacy.*`, `src/kvkk.tr.html`, `src/terms.*`,
+`src/delete.*` ve `src/support.*` güncellenir (App Privacy etiketi ve `PrivacyInfo.xcprivacy` de):
+- Ödüllü reklam (AdMob, UMP, ATT): reklam bölümü, sağlayıcılar, yurt dışı aktarım, rıza
+- Apple ile giriş: hesap bölümü, cihazlar arası taşıma, silmede Apple jeton iptali
+- Sunucuya giden analitik (`game.analytics_events`, 90 gün): veri tablosu, hukuki sebep, AEA rızası, kapatma anahtarı
+- Oyuncu adı ya da sıralama tablosu (`docs/40` 2. aşama): "diğer oyunculara görünenler", moderasyon maddesi
+- Bildirim, Game Center, tanılama (MetricKit)
 
 ## Açık sorular
 

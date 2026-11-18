@@ -117,5 +117,16 @@
  "hero.tomoe": "Tomoe",
  "hero.tomris": "Tomyris",
  "hero.itzel": "Itzel",
- "hero.jin": "Master Jin"
+ "hero.jin": "Master Jin",
+ "footer.docs": "Help and legal",
+ "doc.support": "Support",
+ "doc.privacy": "Privacy",
+ "doc.kvkk": "KVKK notice (Turkish)",
+ "doc.terms": "Terms of Use",
+ "doc.delete": "Delete account",
+ "meta.privacy.desc": "What data Blades of Ages processes and why: a random account ID, progress and battle recordings, purchases. No ads or tracking; the server is in Turkey.",
+ "meta.kvkk.desc": "KVKK notice for Blades of Ages (in Turkish).",
+ "meta.terms.desc": "Blades of Ages terms of use: licence, in-game items, purchases and refunds through Apple, fair play, liability and governing law.",
+ "meta.delete.desc": "How to delete your Blades of Ages account in the game, what is deleted, and how to ask for deletion if you cannot open the game.",
+ "meta.support.desc": "Blades of Ages support: playing offline, missing rewards and diamonds, refunds, language settings and how to reach us."
 }

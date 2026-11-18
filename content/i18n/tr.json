@@ -117,5 +117,16 @@
  "hero.tomoe": "Tomoe",
  "hero.tomris": "Tomris",
  "hero.itzel": "Itzel",
- "hero.jin": "Usta Jin"
+ "hero.jin": "Usta Jin",
+ "footer.docs": "Yardım ve hukuk",
+ "doc.support": "Destek",
+ "doc.privacy": "Gizlilik",
+ "doc.kvkk": "KVKK",
+ "doc.terms": "Kullanım Koşulları",
+ "doc.delete": "Hesap silme",
+ "meta.privacy.desc": "Çağların Kılıcı hangi verileri neden işler: rastgele hesap kimliği, ilerleme ve savaş kayıtları, satın almalar. Reklam ve takip yok; sunucu Türkiye'de.",
+ "meta.kvkk.desc": "Çağların Kılıcı için 6698 sayılı KVKK m.10 kapsamında aydınlatma metni: işlenen veriler, amaçlar, hukuki sebepler, aktarım, saklama ve hakların.",
+ "meta.terms.desc": "Çağların Kılıcı kullanım koşulları: lisans, oyun içi öğeler, Apple üzerinden satın almalar ve iadeler, adil oyun, sorumluluk ve uygulanacak hukuk.",
+ "meta.delete.desc": "Çağların Kılıcı hesabını oyunun içinden nasıl silersin, neler silinir ve oyuna erişemiyorsan silmeyi nasıl istersin.",
+ "meta.support.desc": "Çağların Kılıcı destek: çevrimdışı oynama, gelmeyen ödüller ve elmaslar, iadeler, dil ayarı ve bize nasıl yazacağın."
 }

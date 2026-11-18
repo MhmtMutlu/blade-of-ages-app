@@ -4,7 +4,8 @@
     python3 build.py            # build + checks (exit 1 on an error)
 
 Sources: data/facts.json (facts, numbers), data/site.json (settings), content/i18n/<lang>.json (all text).
-Outputs: index.html, <lang>/index.html, 404.html, robots.txt, sitemap.xml, llms.txt.
+Legal and help pages: src/<page>.<lang>.html (body fragments; {{CONTACT}} and {{page:<id>}} are filled in).
+Outputs: index.html, <lang>/index.html, the pages in PAGES, 404.html, robots.txt, sitemap.xml, llms.txt.
 The pages are static and host-independent: no server headers are assumed (CSP and referrer via <meta>), internal
 links are root-relative, canonical/hreflang/OG URLs are absolute.
 """
@@ -31,6 +32,20 @@ X_DEFAULT = "en"
 CSP = ("default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; font-src 'self'; "
        "connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'")
 ROMAN = ["I", "II", "III", "IV", "V"]
+SRC = ROOT / "src"
+
+# page id: {lang: path under the language prefix}; "*" is every other language. A document page exists in a language
+# only when src/<page>.<lang>.html does (kvkk is Turkish law, so it is Turkish only).
+PAGES = {
+    "home": {"*": ""},
+    "privacy": {"tr": "gizlilik/", "*": "privacy/"},
+    "kvkk": {"tr": "kvkk/"},
+    "terms": {"tr": "kosullar/", "*": "terms/"},
+    "delete": {"tr": "hesap-silme/", "*": "delete-account/"},
+    "support": {"tr": "destek/", "*": "support/"},
+}
+DOCS = [p for p in PAGES if p != "home"]
+FOOTER_DOCS = ["support", "privacy", "kvkk", "terms", "delete"]
 
 errors: list[str] = []
 warnings: list[str] = []
@@ -64,8 +79,15 @@ class T:
 
 
 def url(lang: str, page: str = "home") -> str:
-    assert page == "home"
-    return LANGS[lang][0]
+    slugs = PAGES[page]
+    return LANGS[lang][0] + slugs.get(lang, slugs.get("*", ""))
+
+
+def page_langs(page: str) -> list[str]:
+    """Published languages this page exists in."""
+    if page == "home":
+        return PUBLISHED
+    return [c for c in PUBLISHED if (SRC / f"{page}.{c}.html").exists()]
 
 
 # ---------------------------------------------------------------- page parts
@@ -78,8 +100,11 @@ def mark_svg(cls: str = "mark") -> str:
 def head(t: T, title: str, desc: str, page: str, jsonld: dict | None, extra: str = "") -> str:
     lang = t.lang
     code = LANGS[lang]
-    alts = "".join(f'<link rel="alternate" hreflang="{LANGS[c][2]}" href="{BASE}{url(c, page)}">' for c in PUBLISHED)
-    alts += f'<link rel="alternate" hreflang="x-default" href="{BASE}{url(X_DEFAULT, page)}">'
+    langs = page_langs(page)
+    alts = ""
+    if len(langs) > 1:
+        alts = "".join(f'<link rel="alternate" hreflang="{LANGS[c][2]}" href="{BASE}{url(c, page)}">' for c in langs)
+        alts += f'<link rel="alternate" hreflang="x-default" href="{BASE}{url(X_DEFAULT if X_DEFAULT in langs else langs[0], page)}">'
     fonts = ""
     if code[5]:
         fonts = ('<link rel="preload" href="/assets/fonts/baloo2-800-latin.woff2" as="font" type="font/woff2" crossorigin>'
@@ -87,7 +112,7 @@ def head(t: T, title: str, desc: str, page: str, jsonld: dict | None, extra: str
     ld = ""
     if jsonld:
         ld = '<script type="application/ld+json">' + json.dumps(jsonld, ensure_ascii=False, separators=(",", ":")) + "</script>"
-    og_locale_alts = "".join(f'<meta property="og:locale:alternate" content="{LANGS[c][3]}">' for c in PUBLISHED if c != lang)
+    og_locale_alts = "".join(f'<meta property="og:locale:alternate" content="{LANGS[c][3]}">' for c in langs if c != lang)
     return f"""<!doctype html>
 <html lang="{code[1]}">
 <head>
@@ -117,10 +142,12 @@ def head(t: T, title: str, desc: str, page: str, jsonld: dict | None, extra: str
 </head>"""
 
 
-def header(t: T) -> str:
-    links = "".join(f'<li><a href="#{a}">{t.h(k)}</a></li>' for a, k in (
+def header(t: T, page: str = "home") -> str:
+    home = "" if page == "home" else url(t.lang)
+    links = "".join(f'<li><a href="{home}#{a}">{t.h(k)}</a></li>' for a, k in (
         ("how", "nav.play"), ("journey", "nav.journey"), ("heroes", "nav.heroes"), ("fair", "nav.fair"), ("faq", "nav.faq")))
-    others = "".join(f'<li><a href="{url(c)}" hreflang="{LANGS[c][2]}" lang="{LANGS[c][1]}">{esc(load_i18n(c)["lang.name"])}</a></li>'
+    langs = page_langs(page)
+    others = "".join(f'<li><a href="{url(c, page if c in langs else "home")}" hreflang="{LANGS[c][2]}" lang="{LANGS[c][1]}">{esc(load_i18n(c)["lang.name"])}</a></li>'
                      for c in PUBLISHED if c != t.lang)
     return f"""<a class="skip" href="#main">{t.h('skip')}</a>
 <header class="top">
@@ -237,9 +264,11 @@ def faq(t: T) -> str:
 
 def footer(t: T) -> str:
     langs = " · ".join(f'<a href="{url(c)}" hreflang="{LANGS[c][2]}" lang="{LANGS[c][1]}">{esc(load_i18n(c)["lang.name"])}</a>' for c in PUBLISHED)
+    docs = "".join(f'<li><a href="{url(t.lang, d)}">{t.h("doc." + d)}</a></li>' for d in FOOTER_DOCS if t.lang in page_langs(d))
     return f"""<footer class="foot">
   <div class="foot-brand">{mark_svg()}<div><b>{t.h('brand')}</b><span>{t.h('brand.alt')}</span></div></div>
   {soon_badge(t, 'soon-dark')}
+  <nav aria-label="{t.h('footer.docs')}"><ul class="foot-docs">{docs}</ul></nav>
   <p>{t.h('footer.dev')} · <a href="mailto:{esc(SITE['contact'])}">{t.h('footer.contact')}</a> · {langs}</p>
   <p class="fine">© {SITE['copyrightYear']} {esc(SITE['copyrightHolder'])}. {esc(SITE['trademarkLine'])}</p>
 </footer>"""
@@ -269,6 +298,40 @@ def build_home(lang: str) -> str:
     return head(t, t("meta.home.title"), t("meta.home.desc"), "home", jsonld_home(t), extra) + f"\n<body>\n{body}\n</body>\n</html>\n"
 
 
+def doc_body(page: str, lang: str) -> str:
+    """The page's hand-written body fragment with its placeholders filled; an unknown placeholder is a build error."""
+    text = (SRC / f"{page}.{lang}.html").read_text(encoding="utf-8").replace("{{CONTACT}}", esc(SITE["contact"]))
+
+    def link(m: re.Match) -> str:
+        target = m.group(1)
+        if target not in PAGES or lang not in page_langs(target):
+            errors.append(f"src/{page}.{lang}.html: no page {target} in {lang}")
+            return "#"
+        return url(lang, target)
+
+    text = re.sub(r"\{\{page:([a-z]+)\}\}", link, text)
+    for left in re.findall(r"\{\{[^}]*\}\}", text):
+        errors.append(f"src/{page}.{lang}.html: unknown placeholder {left}")
+    return text
+
+
+def build_doc(page: str, lang: str) -> str:
+    t = T(lang)
+    body = doc_body(page, lang)
+    h1 = re.sub(r"<[^>]+>", "", re.search(r"<h1[^>]*>(.*?)</h1>", body, re.S).group(1)).strip()
+    title = f"{h1} · {t('brand')}"
+    page_url = f"{BASE}{url(lang, page)}"
+    jsonld = {"@context": "https://schema.org", "@graph": [
+        {"@type": "WebPage", "@id": f"{page_url}#webpage", "url": page_url, "name": title,
+         "description": t(f"meta.{page}.desc"), "inLanguage": LANGS[lang][2],
+         "isPartOf": {"@type": "WebSite", "@id": f"{BASE}/#website", "url": f"{BASE}/", "name": t("brand")},
+         "about": {"@id": f"{BASE}/#game"}},
+    ]}
+    main = f'<main id="main" class="doc"><div class="doc-card card">{body}</div></main>'
+    return (head(t, title, t(f"meta.{page}.desc"), page, jsonld)
+            + f"\n<body>\n{header(t, page)}{main}{footer(t)}\n</body>\n</html>\n")
+
+
 def build_404() -> str:
     t = T("tr")
     e = T("en")
@@ -284,6 +347,7 @@ def llms_txt() -> str:
     eras = "\n".join(f"- {t('era.' + e['id'] + '.name')} ({t('era.' + e['id'] + '.period')}): "
                      + ", ".join(t('realm.' + r) for r in e["realms"]) for e in FACTS["eras"])
     pages = "\n".join(f"- [{load_i18n(l)['lang.name']}]({BASE}{url(l)})" for l in PUBLISHED)
+    pages += "\n" + "\n".join(f"- [{t('doc.' + d)}]({BASE}{url('en', d)})" for d in FOOTER_DOCS if "en" in page_langs(d))
     return f"""# {t('brand')}
 
 > {t('hero.lead')}
@@ -402,22 +466,29 @@ def write(rel: str, text: str) -> None:
 def main() -> int:
     check_i18n()
     check_game()
-    pages = {}
-    for lang in PUBLISHED:
-        rel = url(lang).lstrip("/") + "index.html"
-        pages[rel] = build_home(lang)
+    pages, entries = {}, []
+    for page in PAGES:
+        for lang in page_langs(page):
+            rel = url(lang, page).lstrip("/") + "index.html"
+            pages[rel] = build_home(lang) if page == "home" else build_doc(page, lang)
+            entries.append((page, lang))
     pages["404.html"] = build_404()
     for rel, doc in pages.items():
         write(rel, doc)
     for rel, doc in pages.items():
         check_page(rel, doc)
-    urls = "".join(
-        f"<url><loc>{BASE}{url(l)}</loc>" + "".join(
-            f'<xhtml:link rel="alternate" hreflang="{LANGS[a][2]}" href="{BASE}{url(a)}"/>' for a in PUBLISHED)
-        + f'<xhtml:link rel="alternate" hreflang="x-default" href="{BASE}{url(X_DEFAULT)}"/></url>'
-        for l in PUBLISHED)
+
+    def sitemap_entry(page: str, lang: str) -> str:
+        langs = page_langs(page)
+        alts = ""
+        if len(langs) > 1:
+            alts = "".join(f'<xhtml:link rel="alternate" hreflang="{LANGS[a][2]}" href="{BASE}{url(a, page)}"/>' for a in langs)
+            alts += f'<xhtml:link rel="alternate" hreflang="x-default" href="{BASE}{url(X_DEFAULT if X_DEFAULT in langs else langs[0], page)}"/>'
+        return f"<url><loc>{BASE}{url(lang, page)}</loc>{alts}</url>"
+
+    urls = "\n".join(sitemap_entry(p, l) for p, l in entries)
     write("sitemap.xml", '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" '
-          f'xmlns:xhtml="http://www.w3.org/1999/xhtml">{urls}</urlset>\n')
+          f'xmlns:xhtml="http://www.w3.org/1999/xhtml">\n{urls}\n</urlset>\n')
     write("robots.txt", f"User-agent: *\nAllow: /\n\nSitemap: {BASE}/sitemap.xml\n")
     write("llms.txt", llms_txt())
     for w in warnings:
