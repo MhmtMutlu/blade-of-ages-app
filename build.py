@@ -21,11 +21,11 @@ BASE = SITE["baseUrl"]
 LANGS = {
     "tr": ("/", "tr", "tr", "tr_TR", True, True),
     "en": ("/en/", "en", "en", "en_US", True, True),
-    "ja": ("/ja/", "ja", "ja", "ja_JP", False, False),
-    "ko": ("/ko/", "ko", "ko", "ko_KR", False, False),
-    "zh-Hant": ("/zh-hant/", "zh-Hant", "zh-Hant", "zh_TW", False, False),
-    "de": ("/de/", "de", "de", "de_DE", False, True),
-    "fr": ("/fr/", "fr", "fr", "fr_FR", False, True),
+    "ja": ("/ja/", "ja", "ja", "ja_JP", True, False),
+    "ko": ("/ko/", "ko", "ko", "ko_KR", True, False),
+    "zh-Hant": ("/zh-hant/", "zh-Hant", "zh-Hant", "zh_TW", True, False),
+    "de": ("/de/", "de", "de", "de_DE", True, True),
+    "fr": ("/fr/", "fr", "fr", "fr_FR", True, True),
 }
 PUBLISHED = [c for c, v in LANGS.items() if v[4]]
 X_DEFAULT = "en"
@@ -73,7 +73,7 @@ class T:
         self.lang, self.d = lang, load_i18n(lang)
         names = [self.d[f"langnames.{c}"] for c in FACTS["appLanguages"]]
         self.vars = dict(FACTS["counts"], holder=SITE["copyrightHolder"],
-                         appLanguages=", ".join(names))
+                         appLanguages={"ja": "、", "zh-Hant": "、"}.get(lang, ", ").join(names))
 
     def __call__(self, key: str, **extra) -> str:
         if key not in self.d:
@@ -387,8 +387,12 @@ def era_index(era_id: str) -> int:
     return next(i for i, e in enumerate(FACTS["eras"]) if e["id"] == era_id)
 
 
+LIST_SEP = {"ja": "、", "zh-Hant": "、"}  # list separator; ", " elsewhere
+
+
 def join_names(t: T, names: list[str]) -> str:
-    return names[0] if len(names) == 1 else t("list.and", head=", ".join(names[:-1]), last=names[-1])
+    sep = LIST_SEP.get(t.lang, ", ")
+    return names[0] if len(names) == 1 else t("list.and", head=sep.join(names[:-1]), last=names[-1])
 
 
 def crumbs(t: T, trail: list[tuple[str, str | None]]) -> tuple[str, dict]:
@@ -435,7 +439,7 @@ def realm_myth(t: T, rid: str) -> str:
 
 def realm_sources(t: T, rid: str) -> str:
     sources = MYTH.get(rid, {}).get("sources", [])
-    if not sources:
+    if not sources or t.lang not in MYTH[rid]:
         return ""
     items = "".join(f'<li><a href="{esc(s["url"])}" rel="noopener">{esc(s["title"])}</a> · {esc(s["publisher"])}</li>' for s in sources)
     return f"""<section class="band narrow" id="sources" aria-labelledby="sources-title">
@@ -703,7 +707,7 @@ def check_page(path: str, doc: str) -> None:
         text = visible_text(doc)
         for node in data["@graph"]:
             for key in ("name", "alternateName", "description"):
-                if key in node and node[key] not in text and node["@type"] != "WebPage":
+                if key in node and re.sub(r"\s+", " ", node[key]) not in text and node["@type"] != "WebPage":
                     errors.append(f"{path}: JSON-LD {key} is not visible on the page: {node[key][:60]}")
     if re.search(r"\b(first|only|best|ilk|tek|en iyi)\b", re.sub(r"<[^>]+>", " ", doc.split("<title>")[1].split("</title>")[0]), re.I):
         errors.append(f"{path}: superlative in <title>")
@@ -758,6 +762,16 @@ def check_game() -> None:
     for h in FACTS["heroShowcase"]:
         if h not in heroes:
             errors.append(f"heroShowcase: unknown hero {h}")
+    # Every published language names eras, realms, bosses and heroes exactly as the game does.
+    for lang in PUBLISHED:
+        site, game = load_i18n(lang), GAMEDATA["text"][lang]
+        pairs = [(f"era.{e['id']}.{k}", f"eras.{e['id']}.{k}") for e in FACTS["eras"] for k in ("name", "period")]
+        pairs += [(f"realm.{r}", f"realms.{r}.name") for e in FACTS["eras"] for r in e["realms"]]
+        pairs += [(f"boss.{b}", f"bosses.{b}.name") for e in FACTS["eras"] for b in e["bosses"] + [e["guardian"]]]
+        pairs += [(f"hero.{h}", f"heroes.{h}.name") for h in FACTS["heroShowcase"]]
+        for site_key, game_key in pairs:
+            if game_key in game and site.get(site_key) != game[game_key]:
+                errors.append(f"[{lang}] {site_key} = {site.get(site_key)!r}, the game says {game[game_key]!r}")
     import importlib.util
     spec = importlib.util.spec_from_file_location("sync_game", ROOT / "scripts/sync-game.py")
     sync = importlib.util.module_from_spec(spec)

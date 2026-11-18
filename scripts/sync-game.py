@@ -46,6 +46,7 @@ def snapshot(game: pathlib.Path) -> dict:
         if power:
             keys += [f"content.myth-powers.{power['id']}.{k}" for k in ("name", "effect")]
     keys += [f"content.eras.{e['id']}.{k}" for e in eras for k in ("name", "period")]
+    keys += [f"content.heroes.{h['id']}.name" for h in load("heroes.json")["heroes"]]
     text = {}
     for site_lang, game_lang in LANGS.items():
         l10n = json.loads((data / "l10n" / f"{game_lang}.json").read_text(encoding="utf-8"))

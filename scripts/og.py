@@ -7,7 +7,7 @@ game's daylight clay look. Run it after the text or the art changes; the JPEGs a
     .venv/bin/python scripts/og.py --only en      # one language
 
 Needs Pillow and the game's TTF fonts (../blades-of-ages/game/Assets/_Project/Art/Fonts or AOB_FONTS). Languages
-outside the Latin script use the system's CJK fonts (macOS Hiragino / Apple SD Gothic Neo / PingFang).
+outside the Latin script use the system's CJK fonts (macOS Hiragino Sans, Apple SD Gothic Neo, Heiti TC).
 """
 import argparse, json, math, os, pathlib, sys
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
@@ -19,8 +19,12 @@ OUT = ROOT / "assets/og"
 W, H = 1200, 630
 TEXT, MUTED, ACCENT, ACCENT_DEEP, AMBER = "#1F3B47", "#5D7A83", "#12A684", "#0B7A61", "#C98A12"
 SKY, MINT = (205, 235, 255), (230, 246, 241)
-CJK = {"ja": "/System/Library/Fonts/ヒラギノ角ゴシック W6.ttc", "ko": "/System/Library/Fonts/AppleSDGothicNeo.ttc",
-       "zh-Hant": "/System/Library/Fonts/PingFang.ttc"}
+# (file, collection index) per face; macOS system fonts, since the game's Baloo 2 and Nunito are Latin only.
+CJK = {
+    "ja": {"head": ("/System/Library/Fonts/ヒラギノ角ゴシック W8.ttc", 0), "body": ("/System/Library/Fonts/ヒラギノ角ゴシック W6.ttc", 0)},
+    "ko": {"head": ("/System/Library/Fonts/AppleSDGothicNeo.ttc", 16), "body": ("/System/Library/Fonts/AppleSDGothicNeo.ttc", 6)},
+    "zh-Hant": {"head": ("/System/Library/Fonts/STHeiti Medium.ttc", 0), "body": ("/System/Library/Fonts/STHeiti Medium.ttc", 0)},
+}
 ROMAN = ["I", "II", "III", "IV", "V"]
 
 FACTS = json.loads((ROOT / "data/facts.json").read_text(encoding="utf-8"))
@@ -29,9 +33,16 @@ REALMS = {r["id"]: r for r in GAME["realms"]}
 
 
 def font(lang: str, face: str, size: int) -> ImageFont.FreeTypeFont:
+    """lang None = the game's Latin fonts (brand names are Latin in every language)."""
     if lang in CJK:
-        return ImageFont.truetype(CJK[lang], size)
+        path, index = CJK[lang][face]
+        return ImageFont.truetype(path, round(size * 0.86), index=index)
     return ImageFont.truetype(str(FONTS / {"head": "Baloo2-ExtraBold.ttf", "body": "Nunito-ExtraBold.ttf"}[face]), size)
+
+
+def bold(lang: str) -> dict:
+    """Heiti TC has no heavy weight: thicken its headings with a same-colour stroke."""
+    return {"stroke_width": 1, "stroke_fill": TEXT} if lang == "zh-Hant" else {}
 
 
 def wrap(draw: ImageDraw.ImageDraw, text: str, f: ImageFont.FreeTypeFont, width: int) -> list[str]:
@@ -136,18 +147,25 @@ def home_card(lang: str, t: dict) -> Image.Image:
     icon = Image.open(ROOT / "assets/icon-180.png").convert("RGBA").resize((92, 92), Image.LANCZOS)
     icon.putalpha(rounded_mask(icon.size, 22))
     img.paste(icon, (88, 100), icon)
-    d.text((200, 146), t["brand"], font=font(lang, "head", 54), fill=TEXT, anchor="ls")
-    d.text((202, 184), t["brand.alt"], font=font(lang, "body", 24), fill=MUTED, anchor="ls")
-    y = 238
-    title_font = font(lang, "head", 60)
-    for line in wrap(d, t["hero.title"], title_font, 500):
-        d.text((88, y), line, font=title_font, fill=TEXT)
-        y += 70
-    y += 18
-    counts = FACTS["counts"]
-    line = t["og.counts"].format(**counts)
-    d.text((88, y), line, font=font(lang, "body", 26), fill=MUTED)
-    pill(img, (88, 470), t["cta.soon"], font(lang, "body", 26), "#FFFFFF", ACCENT)
+    d.text((200, 146), t["brand"], font=font(None, "head", 54), fill=TEXT, anchor="ls")
+    d.text((202, 184), t["brand.alt"], font=font(None, "body", 24), fill=MUTED, anchor="ls")
+    y = 230
+    size = 60
+    while True:  # shrink the title until it fits in two lines
+        title_font = font(lang, "head", size)
+        lines = wrap(d, t["hero.title"], title_font, 510)
+        if len(lines) <= 2 or size <= 40:
+            break
+        size -= 4
+    for line in lines:
+        d.text((88, y), line, font=title_font, fill=TEXT, **bold(lang))
+        y += round(size * 1.17)
+    y += 14
+    body = font(lang, "body", 24)
+    for line in wrap(d, t["og.counts"].format(**FACTS["counts"]), body, 510):
+        d.text((88, y), line, font=body, fill=MUTED)
+        y += 32
+    pill(img, (88, max(470, y + 14)), t["cta.soon"], font(lang, "body", 26), "#FFFFFF", ACCENT)
     return img.convert("RGB")
 
 
@@ -169,10 +187,16 @@ def realm_card(lang: str, t: dict, rid: str) -> Image.Image:
     pill(img, (88, 108), f"{ROMAN[i]} · {era}", font(lang, "body", 22), ACCENT_DEEP, "#E3F6EF")
     y = 176
     h1 = t["realm.h1"].format(realm=gt[f"realms.{rid}.name"], mapName=gt[f"realms.{rid}.mapName"])
-    hf = font(lang, "head", 56)
-    for line in wrap(d, h1, hf, 490):
-        d.text((88, y), line, font=hf, fill=TEXT)
-        y += 64
+    size = 56
+    while True:
+        hf = font(lang, "head", size)
+        h1_lines = wrap(d, h1, hf, 490)
+        if len(h1_lines) <= 2 or size <= 40:
+            break
+        size -= 4
+    for line in h1_lines:
+        d.text((88, y), line, font=hf, fill=TEXT, **bold(lang))
+        y += round(size * 1.14)
     y += 10
     sub = t["og.realm"].format(boss=gt[f"bosses.{r['boss']}.name"], first=r["maps"][0], last=r["maps"][1])
     bf = font(lang, "body", 25)
@@ -182,7 +206,7 @@ def realm_card(lang: str, t: dict, rid: str) -> Image.Image:
     icon = Image.open(ROOT / "assets/icon-180.png").convert("RGBA").resize((56, 56), Image.LANCZOS)
     icon.putalpha(rounded_mask(icon.size, 14))
     img.paste(icon, (88, 476), icon)
-    d.text((158, 504), t["brand"], font=font(lang, "head", 34), fill=TEXT, anchor="lm")
+    d.text((158, 504), t["brand"], font=font(None, "head", 34), fill=TEXT, anchor="lm")
     return img.convert("RGB")
 
 

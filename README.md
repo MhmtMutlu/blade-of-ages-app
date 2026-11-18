@@ -26,7 +26,7 @@ Araştırma: `docs/research/seo.md`, `docs/research/geo.md`, `docs/research/tasa
 | `data/site.json` | Taban adres, iletişim, telif ve Apple ticari marka satırı |
 | `src/<sayfa>.<dil>.html` | Hukuk ve destek sayfalarının gövdesi (gizlilik, KVKK, koşullar, hesap silme, destek). `{{CONTACT}}` ve `{{page:<id>}}` derlemede dolar. Sayfa yalnız dosyası olan dillerde üretilir; KVKK yalnız Türkçe |
 | `content/i18n/<dil>.json` | Bütün metinler. Sayılar `{eras}` gibi yer tutucularla yazılır. `era.`, `realm.`, `boss.`, `hero.` adları oyunun verisiyle aynı olmalı |
-| `build.py` → `LANGS` | Diller. Yayında tr ve en; ja, ko, zh-Hant, de, fr metinleri gelince `published` açılır |
+| `build.py` → `LANGS` | Diller; yedisi de yayında. Oyun içi adlar ve düğme metinleri oyunun kendi çevirileriyle aynı (derleme karşılaştırır) |
 | `assets/site.css` | Gün Kili stili (oyunun `UiKit.cs` token'ları), gece teması `prefers-color-scheme` ile |
 | `assets/arena.js` | Oynanabilir giriş: dışa bakan kılıçlar, yürü = geniş yörünge, dur = dar ve hızlı, dört yönden ve halka dalgalarıyla gelen düşmanlar. İlk boyamadan sonra başlar, ekran dışında durur, hareket azaltma tercihinde kendiliğinden başlamaz |
 | `assets/site.js` | Dil menüsü ve Çağlar Yolculuğu'ndaki katmanlı kayma |
@@ -76,8 +76,10 @@ python3 scripts/sync-game.py            # diyar verisi ve oyun metinleri
   düşmanlar, boss fazları ve karşı hamleler, diyar donanımı, oyun içi görüntüler, BreadcrumbList
 - Paylaşım kartları (ana sayfa ve her diyar, tr/en), basın kiti (`/basin/`, `/en/press/`)
 
+- 7 dil: tr, en, ja, ko, zh-Hant, de, fr (site metinleri, gizlilik, koşullar, hesap silme, destek, paylaşım kartları).
+  Çeviriler yayından önce anadili konuşan birine okutulmalı (LQA)
+
 **Sırada:**
-- ja, ko, zh-Hant, de ve fr metinleri.
 - İngilizce arayüzle ekran görüntüleri (şimdi Türkçe; İngilizce sayfalar bunu bir notla söylüyor).
 - DNS (`bladesofages.mm-apps.com`) ve GitHub Pages.
 
@@ -88,7 +90,8 @@ Oyuna şunlardan biri eklendiğinde aynı değişiklikte `src/privacy.*`, `src/k
 - Ödüllü reklam (AdMob, UMP, ATT): reklam bölümü, sağlayıcılar, yurt dışı aktarım, rıza
 - Apple ile giriş: hesap bölümü, cihazlar arası taşıma, silmede Apple jeton iptali
 - Sunucuya giden analitik (`game.analytics_events`, 90 gün): veri tablosu, hukuki sebep, AEA rızası, kapatma anahtarı
-- Oyuncu adı ya da sıralama tablosu (`docs/40` 2. aşama): "diğer oyunculara görünenler", moderasyon maddesi
+- Oyuncunun kendi yazdığı bir ad, sohbet ya da arkadaş listesi: "diğer oyunculara görünenler", moderasyon maddesi
+  (bugün günlük sınavın ilk 10 sıralaması var; ad sunucunun ürettiği takma ad ya da "Adsız yolcu", varsayılan gizli)
 - Bildirim, Game Center, tanılama (MetricKit)
 
 ## Açık sorular
