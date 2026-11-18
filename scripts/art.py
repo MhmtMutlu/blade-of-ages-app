@@ -59,7 +59,16 @@ IMAGES = [
     ("ground-hitit", "hitit/hitit_ground_0.svg", 256, "tile"),
     ("ground-iskandinav", "iskandinav/iskandinav_ground_0.svg", 256, "tile"),
 ] + [(f"hero-{h}", f"heroes/hero_{h}.svg", 240, "sprite") for h in (
-    "nefertari", "muwatalli", "antiope", "sigrun", "tomoe", "tomris", "itzel", "jin")]
+    "nefertari", "muwatalli", "antiope", "sigrun", "tomoe", "tomris", "itzel", "jin")] + [
+    # Realm pages: the rest of each live realm's enemies (240) and elites (320)
+    (rel.split("/")[1].removesuffix(".svg").replace("_", "-"), rel, size, "sprite") for rel, size in (
+        ("gobeklitepe/totem_tasiyici.svg", 320),
+        ("sumer/kanatli_cin.svg", 240), ("sumer/akrep_adam.svg", 240), ("sumer/gok_bogasi.svg", 320),
+        ("misir/skarabe.svg", 240), ("misir/cakal_muhafiz.svg", 240),
+        ("yunan/satir_okcu.svg", 240), ("yunan/harpi.svg", 240), ("yunan/kiklop.svg", 320),
+        ("hitit/firtina_ruhu.svg", 240), ("hitit/dag_kecisi_suvari.svg", 240), ("hitit/ullikummi.svg", 320),
+        ("iskandinav/kuzgun_surusu.svg", 240), ("iskandinav/buz_devi.svg", 320),
+    )]
 
 PIVOTS = re.compile(r'<g id="pivots">.*?</g>', re.S)
 

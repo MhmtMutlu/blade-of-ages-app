@@ -1,27 +1,189 @@
 {
-  "_doc": "Single source of truth for every fact the site, the JSON-LD and llms.txt state. Numbers are never written into the text; the text uses {placeholders}. build.py compares the values marked (game) with the game repository (../blades-of-ages or $AOB_GAME_REPO) and fails on a mismatch. stage: prelaunch -> preorder -> live (README).",
-  "stage": "prelaunch",
-  "appStoreId": null,
-  "releaseDate": null,
-  "developer": "mm-apps",
-  "platforms": ["iPhone", "iPad"],
-  "appLanguages": ["tr", "en", "ja", "ko", "zh-Hant", "de", "fr"],
-  "counts": {
-    "eras": 5,
-    "realms": 12,
-    "maps": 120,
-    "heroes": 21,
-    "mapsPerRealm": 10
+ "_doc": "Single source of truth for every fact the site, the JSON-LD and llms.txt state. Numbers are never written into the text; the text uses {placeholders}. build.py compares the values marked (game) with the game repository (../blades-of-ages or $AOB_GAME_REPO) and fails on a mismatch. stage: prelaunch -> preorder -> live (README).",
+ "stage": "prelaunch",
+ "appStoreId": null,
+ "releaseDate": null,
+ "developer": "mm-apps",
+ "platforms": [
+  "iPhone",
+  "iPad"
+ ],
+ "appLanguages": [
+  "tr",
+  "en",
+  "ja",
+  "ko",
+  "zh-Hant",
+  "de",
+  "fr"
+ ],
+ "counts": {
+  "eras": 5,
+  "realms": 12,
+  "maps": 120,
+  "heroes": 21,
+  "mapsPerRealm": 10
+ },
+ "eras": [
+  {
+   "id": "era_1",
+   "realms": [
+    "gobeklitepe",
+    "sumer"
+   ],
+   "bosses": [
+    "akbaba_ana",
+    "humbaba"
+   ],
+   "guardian": "tufan_titani",
+   "revealed": true,
+   "ground": "gobeklitepe",
+   "art": [
+    {
+     "img": "teras",
+     "w": 400,
+     "role": "set"
+    },
+    {
+     "img": "akbaba-ana",
+     "w": 480,
+     "role": "boss"
+    },
+    {
+     "img": "humbaba",
+     "w": 480,
+     "role": "boss2"
+    },
+    {
+     "img": "kil-golem",
+     "w": 240,
+     "role": "minion"
+    }
+   ]
   },
-  "eras": [
-    { "id": "era_1", "realms": ["gobeklitepe", "sumer"], "bosses": ["akbaba_ana", "humbaba"], "guardian": "tufan_titani", "revealed": true, "ground": "gobeklitepe",
-      "art": [{ "img": "teras", "w": 400, "role": "set" }, { "img": "akbaba-ana", "w": 480, "role": "boss" }, { "img": "humbaba", "w": 480, "role": "boss2" }, { "img": "kil-golem", "w": 240, "role": "minion" }] },
-    { "id": "era_2", "realms": ["misir", "yunan", "hitit"], "bosses": ["apep", "medusa", "illuyanka"], "guardian": "kum_firtina_hidrasi", "revealed": true, "ground": "misir",
-      "art": [{ "img": "tapinak", "w": 400, "role": "set" }, { "img": "apep", "w": 480, "role": "boss" }, { "img": "medusa", "w": 480, "role": "boss2" }, { "img": "mumya", "w": 240, "role": "minion" }] },
-    { "id": "era_3", "realms": ["iskandinav", "turk_altay", "kelt"], "bosses": ["fenrir", "erlik_golgesi", "balor"], "guardian": "kis_kurdu", "revealed": true, "ground": "iskandinav",
-      "art": [{ "img": "fenrir", "w": 480, "role": "boss" }, { "img": "draugr", "w": 240, "role": "minion" }, { "img": "buz-kurdu", "w": 240, "role": "minion2" }] },
-    { "id": "era_4", "realms": ["japon", "cin", "mezoamerika"], "bosses": [], "guardian": "tutulma_ejderi", "revealed": false },
-    { "id": "era_5", "realms": ["silik"], "bosses": [], "guardian": "silik", "revealed": false }
-  ],
-  "heroShowcase": ["kaya", "nefertari", "muwatalli", "antiope", "sigrun", "tomoe", "tomris", "itzel", "jin"]
+  {
+   "id": "era_2",
+   "realms": [
+    "misir",
+    "yunan",
+    "hitit"
+   ],
+   "bosses": [
+    "apep",
+    "medusa",
+    "illuyanka"
+   ],
+   "guardian": "kum_firtina_hidrasi",
+   "revealed": true,
+   "ground": "misir",
+   "art": [
+    {
+     "img": "tapinak",
+     "w": 400,
+     "role": "set"
+    },
+    {
+     "img": "apep",
+     "w": 480,
+     "role": "boss"
+    },
+    {
+     "img": "medusa",
+     "w": 480,
+     "role": "boss2"
+    },
+    {
+     "img": "mumya",
+     "w": 240,
+     "role": "minion"
+    }
+   ]
+  },
+  {
+   "id": "era_3",
+   "realms": [
+    "iskandinav",
+    "turk_altay",
+    "kelt"
+   ],
+   "bosses": [
+    "fenrir",
+    "erlik_golgesi",
+    "balor"
+   ],
+   "guardian": "kis_kurdu",
+   "revealed": true,
+   "ground": "iskandinav",
+   "art": [
+    {
+     "img": "fenrir",
+     "w": 480,
+     "role": "boss"
+    },
+    {
+     "img": "draugr",
+     "w": 240,
+     "role": "minion"
+    },
+    {
+     "img": "buz-kurdu",
+     "w": 240,
+     "role": "minion2"
+    }
+   ]
+  },
+  {
+   "id": "era_4",
+   "realms": [
+    "japon",
+    "cin",
+    "mezoamerika"
+   ],
+   "bosses": [],
+   "guardian": "tutulma_ejderi",
+   "revealed": false
+  },
+  {
+   "id": "era_5",
+   "realms": [
+    "silik"
+   ],
+   "bosses": [],
+   "guardian": "silik",
+   "revealed": false
+  }
+ ],
+ "heroShowcase": [
+  "kaya",
+  "nefertari",
+  "muwatalli",
+  "antiope",
+  "sigrun",
+  "tomoe",
+  "tomris",
+  "itzel",
+  "jin"
+ ],
+ "realmsLive": [
+  "gobeklitepe",
+  "sumer",
+  "misir",
+  "yunan",
+  "hitit",
+  "iskandinav"
+ ],
+ "realmSlugs": {
+  "gobeklitepe": "gobekli-tepe",
+  "sumer": "sumer",
+  "misir": "egypt",
+  "yunan": "greece",
+  "hitit": "hittite",
+  "iskandinav": "norse",
+  "turk_altay": "turkic-altai",
+  "kelt": "celtic",
+  "japon": "japan",
+  "cin": "china",
+  "mezoamerika": "mesoamerica",
+  "silik": "silik"
+ }
 }

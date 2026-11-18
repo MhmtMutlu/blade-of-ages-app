@@ -204,6 +204,9 @@ ul { margin: 0; padding: 0; list-style: none; }
 .ground-gobeklitepe { background: url(art/ground-gobeklitepe.webp) 0 0 / 256px #A8D27C; }
 .ground-misir { background: url(art/ground-misir.webp) 0 0 / 256px #F0D59E; }
 .ground-iskandinav { background: url(art/ground-iskandinav.webp) 0 0 / 256px #E3EEF4; }
+.ground-sumer { background: url(art/ground-sumer.webp) 0 0 / 256px #E8D3A6; }
+.ground-yunan { background: url(art/ground-yunan.webp) 0 0 / 256px #E9E4D2; }
+.ground-hitit { background: url(art/ground-hitit.webp) 0 0 / 256px #B9C79A; }
 .era-body { padding: 26px; position: relative; z-index: 2; }
 .era-body > p { color: var(--text-soft); margin: 10px 0 18px; }
 .era-head { display: flex; align-items: center; gap: 14px; }
@@ -306,6 +309,110 @@ ul { margin: 0; padding: 0; list-style: none; }
 }
 .fine { font-size: 12px; max-width: 760px; opacity: .85; }
 .lost { min-height: 80svh; display: grid; place-content: center; justify-items: center; gap: 16px; text-align: center; padding: 40px var(--gutter); }
+
+/* ---------------------------------------------------------------- realm pages: a daylight myth museum */
+.crumbs ol { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 4px 0; font-weight: 800; font-size: 14px; }
+.crumbs li + li::before { content: "›"; margin: 0 8px; opacity: .6; }
+.crumbs a { color: inherit; }
+.realm-hero { position: relative; margin: -66px 0 0; padding: 92px var(--gutter) 40px; border-radius: 0 0 40px 40px; isolation: isolate; overflow: hidden; }
+.realm-hero::before { content: ""; position: absolute; inset: 0; z-index: -1;
+  background: linear-gradient(180deg, rgba(205, 235, 255, .8), rgba(205, 235, 255, .15) 45%, rgba(31, 59, 71, .12)); }
+.realm-hero .crumbs { max-width: 1180px; margin: 0 auto 18px; color: var(--text); }
+.realm-hero .crumbs ol { display: inline-flex; padding: 6px 14px; border-radius: 999px; background: rgba(255, 255, 255, .8); }
+.exhibit { max-width: 1180px; margin: 0 auto; display: grid; grid-template-columns: 1fr minmax(320px, 520px); gap: 24px; align-items: center; }
+.exhibit-stage { position: relative; display: grid; place-items: center; min-height: 380px; }
+.exhibit-boss { width: min(100%, 440px); filter: drop-shadow(0 16px 0 rgba(31, 59, 71, .14)); }
+.exhibit-minion { position: absolute; bottom: 0; width: min(26%, 150px); filter: drop-shadow(0 8px 0 rgba(31, 59, 71, .14)); }
+.exhibit-minion.m0 { left: 4%; }
+.exhibit-minion.m1 { right: 6%; bottom: 6%; width: min(22%, 130px); }
+.exhibit-label { padding: clamp(22px, 3.4vw, 34px); }
+.exhibit-label h1 { font-size: clamp(32px, 4.4vw, 52px); margin: 12px 0 10px; }
+.facts { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 18px; margin: 20px 0 0; padding-top: 18px; border-top: 2px solid var(--border); }
+.facts dt { font: 800 12px/1.2 var(--body); letter-spacing: .06em; text-transform: uppercase; color: var(--text-muted); }
+.facts dd { margin: 2px 0 0; font-weight: 800; color: var(--text); font-size: 15px; }
+@media (max-width: 860px) {
+  .exhibit { grid-template-columns: 1fr; }
+  .exhibit-stage { min-height: 0; }
+  .exhibit-boss { width: 62%; }
+  .facts { grid-template-columns: 1fr; }
+}
+.museum-card { padding: clamp(24px, 4vw, 40px); }
+.museum-card h2 { font-size: clamp(26px, 3.4vw, 36px); margin: 12px 0 14px; }
+.museum-card p + p { margin-top: 12px; }
+.museum-card h3 { margin: 22px 0 10px; font-size: 19px; }
+.museum-card > p, .museum-card li { color: var(--text-soft); }
+.fine-note { margin-top: 16px; font-size: 14px; color: var(--text-muted); }
+.dots { list-style: disc; padding-left: 20px; }
+.dots li + li { margin-top: 6px; }
+.dots li::marker { color: var(--accent); }
+.foes { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+@media (max-width: 860px) { .foes { grid-template-columns: 1fr; } }
+.foe { display: grid; grid-template-columns: 140px 1fr; gap: 18px; padding: 18px; align-items: start; }
+.foe-fig { border-radius: 18px; background: radial-gradient(circle at 50% 70%, #E6F6F1, #fff 72%); padding: 8px; }
+.foe-body h3 { margin-bottom: 2px; }
+.foe-role { color: var(--text-muted); font-weight: 800; font-size: 14px; margin-bottom: 8px; }
+.foe-body > p { color: var(--text-soft); }
+.foe-teach { margin-top: 8px; font-size: 15px; }
+.foe-elite { box-shadow: 0 0 0 3px var(--elite), var(--shadow); }
+.foe-elite .foe-fig { background: radial-gradient(circle at 50% 70%, #DDF8FC, #fff 72%); }
+.foe-badge { display: inline-block; margin-bottom: 6px; padding: 3px 10px; border-radius: 999px; background: #DDF8FC; color: #0E5866;
+  font: 800 12px/1.3 var(--body); letter-spacing: .05em; text-transform: uppercase; box-shadow: 0 2px 0 #A9E9F3; }
+@media (max-width: 480px) { .foe { grid-template-columns: 96px 1fr; gap: 14px; } }
+.boss-card { display: grid; grid-template-columns: minmax(220px, 380px) 1fr; gap: 10px 28px; padding: clamp(20px, 3.6vw, 36px); align-items: center; }
+.boss-fig { background: radial-gradient(circle at 50% 65%, #FFF1D6, #fff 70%); border-radius: 24px; padding: 10px; }
+.boss-body h2 { text-align: left; margin: 10px 0 12px; }
+.boss-lore { color: var(--text-soft); }
+.eyebrow-boss { background: #FFF1D6; color: #7A4F06; }
+.boss-card .phases, .boss-foot { grid-column: 1 / -1; }
+.boss-foot { display: grid; gap: 6px; }
+.boss-foot h3 { font-size: 18px; margin-top: 8px; }
+@media (max-width: 860px) { .boss-card { grid-template-columns: 1fr; } .boss-fig { max-width: 300px; } }
+.phases { margin-top: 18px; }
+.phases table { width: 100%; border-collapse: collapse; font-size: 15px; }
+.phases th, .phases td { text-align: left; vertical-align: top; padding: 14px 12px; border-bottom: 1px solid var(--border); color: var(--text-soft); }
+.phases th { font: 800 12px/1.2 var(--body); letter-spacing: .05em; text-transform: uppercase; color: var(--text-muted); background: var(--surface-2); }
+.phases td b { display: block; color: var(--text); font: 800 17px/1.2 var(--head); }
+.phases .hp { display: inline-block; margin-top: 6px; padding: 2px 8px; border-radius: 999px; background: #FFE4E7; color: #9A1C2A; font-weight: 800; font-size: 13px; }
+@media (max-width: 600px) {
+  .phases thead { display: none; }
+  .phases tr { display: block; padding: 12px 0; border-bottom: 1px solid var(--border); }
+  .phases td { display: block; border: 0; padding: 4px 0; }
+}
+.kit-card { padding: 24px; }
+.kit-kind { font: 800 12px/1.2 var(--body); letter-spacing: .06em; text-transform: uppercase; color: var(--amber); margin-bottom: 8px; }
+.kit-card h3 { margin-bottom: 8px; }
+.kit-card p:last-child { color: var(--text-soft); }
+.h-small { font-size: clamp(24px, 3vw, 30px); }
+.band > .h-small { text-align: left; }
+.sources { display: grid; gap: 10px; margin-top: 16px; font-size: 15px; color: var(--page-muted); }
+.realm-nav { display: flex; justify-content: space-between; gap: 16px; }
+.realm-step { display: grid; gap: 2px; padding: 16px 22px; text-decoration: none; flex: 0 1 260px; min-width: 0; }
+.realm-step span { color: var(--text-muted); font-size: 14px; font-weight: 800; }
+.realm-step b { font: 800 22px/1.2 var(--head); color: var(--text); }
+.realm-next { margin-left: auto; text-align: right; }
+.card.realm-step:hover { transform: translateY(-2px); }
+/* realms index */
+.realms-index { padding-top: 40px; }
+.realms-index h1 { font-size: clamp(38px, 5.4vw, 64px); margin: 18px 0 0; }
+.section-lead.left { margin-left: 0; text-align: left; }
+.era-row { margin-top: 34px; }
+.era-row h2 { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 16px; }
+.era-row h2 .period { font: 600 15px/1.2 var(--body); color: var(--page-muted); }
+.realm-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+@media (max-width: 860px) { .realm-grid { grid-template-columns: 1fr; } }
+.realm-card { position: relative; display: grid; grid-template-rows: 150px auto; gap: 10px; height: 100%;
+  padding: 12px; overflow: hidden; text-decoration: none; color: var(--text); isolation: isolate; transition: transform .15s; }
+a.realm-card:hover { transform: translateY(-3px); }
+.realm-card img { width: 150px; height: 150px; justify-self: center; filter: drop-shadow(0 6px 0 rgba(31, 59, 71, .14)); }
+.realm-card-body { display: grid; gap: 4px; padding: 12px 14px; border-radius: 16px; background: rgba(255, 255, 255, .92); font-size: 14px; }
+.realm-card-body b { font: 800 22px/1.1 var(--head); }
+.realm-card-body .muted { color: var(--text-muted); }
+.realm-soon { grid-template-rows: auto; background: rgba(255, 255, 255, .55); box-shadow: none; border: 2px dashed rgba(31, 59, 71, .18); }
+.realm-soon .realm-card-body { background: transparent; color: var(--page-text); }
+.realm-soon .realm-card-body .muted { color: var(--page-muted); }
+.chips a { color: inherit; text-decoration: none; }
+.chips a:hover { text-decoration: underline; }
+.nav a[aria-current] { background: var(--surface-2); color: var(--accent-deep); }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }

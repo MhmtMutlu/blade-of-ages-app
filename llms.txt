@@ -25,3 +25,10 @@ Turkish name: Çağların Kılıcı. Developer: Mehmet Mutlu (https://mm-apps.co
 - [Privacy](https://bladesofages.mm-apps.com/en/privacy/)
 - [Terms of Use](https://bladesofages.mm-apps.com/en/terms/)
 - [Delete account](https://bladesofages.mm-apps.com/en/delete-account/)
+- [Realms](https://bladesofages.mm-apps.com/en/realms/)
+- [Realm of Göbekli Tepe: Hill of Standing Stones](https://bladesofages.mm-apps.com/en/realms/gobekli-tepe/): boss Mother Vulture, maps 1–10
+- [Realm of Sumer: Cedar Forest of Uruk](https://bladesofages.mm-apps.com/en/realms/sumer/): boss Humbaba, maps 11–20
+- [Realm of Egypt: Hourglass Desert](https://bladesofages.mm-apps.com/en/realms/egypt/): boss Apep, Serpent of Chaos, maps 21–30
+- [Realm of Greece: Labyrinth Island](https://bladesofages.mm-apps.com/en/realms/greece/): boss Medusa, the Gorgon, maps 31–40
+- [Realm of Hatti: Storm Mountains](https://bladesofages.mm-apps.com/en/realms/hittite/): boss Illuyanka, maps 41–50
+- [Realm of Scandinavia: Frozen Fjord](https://bladesofages.mm-apps.com/en/realms/norse/): boss Fenrir, maps 51–60

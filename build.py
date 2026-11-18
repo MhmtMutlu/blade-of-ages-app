@@ -44,7 +44,12 @@ PAGES = {
     "delete": {"tr": "hesap-silme/", "*": "delete-account/"},
     "support": {"tr": "destek/", "*": "support/"},
 }
-DOCS = [p for p in PAGES if p != "home"]
+GAMEDATA = json.loads((ROOT / "data/game.json").read_text(encoding="utf-8"))
+REALMS = {r["id"]: r for r in GAMEDATA["realms"]}
+PAGES["realms"] = {"tr": "diyarlar/", "*": "realms/"}
+for _rid in FACTS["realmsLive"]:
+    PAGES[f"realm:{_rid}"] = {"tr": f"diyarlar/{_rid}/", "*": f"realms/{FACTS['realmSlugs'][_rid]}/"}
+GENERATED = {"home", "realms"} | {f"realm:{r}" for r in FACTS["realmsLive"]}
 FOOTER_DOCS = ["support", "privacy", "kvkk", "terms", "delete"]
 
 errors: list[str] = []
@@ -68,14 +73,14 @@ class T:
         self.vars = dict(FACTS["counts"], holder=SITE["copyrightHolder"],
                          appLanguages=", ".join(names))
 
-    def __call__(self, key: str) -> str:
+    def __call__(self, key: str, **extra) -> str:
         if key not in self.d:
             errors.append(f"[{self.lang}] missing text key: {key}")
             return key
-        return self.d[key].format(**self.vars)
+        return self.d[key].format(**self.vars, **extra)
 
-    def h(self, key: str) -> str:
-        return esc(self(key))
+    def h(self, key: str, **extra) -> str:
+        return esc(self(key, **extra))
 
 
 def url(lang: str, page: str = "home") -> str:
@@ -85,7 +90,7 @@ def url(lang: str, page: str = "home") -> str:
 
 def page_langs(page: str) -> list[str]:
     """Published languages this page exists in."""
-    if page == "home":
+    if page in GENERATED:
         return PUBLISHED
     return [c for c in PUBLISHED if (SRC / f"{page}.{c}.html").exists()]
 
@@ -145,7 +150,11 @@ def head(t: T, title: str, desc: str, page: str, jsonld: dict | None, extra: str
 def header(t: T, page: str = "home") -> str:
     home = "" if page == "home" else url(t.lang)
     links = "".join(f'<li><a href="{home}#{a}">{t.h(k)}</a></li>' for a, k in (
-        ("how", "nav.play"), ("journey", "nav.journey"), ("heroes", "nav.heroes"), ("fair", "nav.fair"), ("faq", "nav.faq")))
+        ("how", "nav.play"), ("journey", "nav.journey")))
+    current = ' aria-current="page"' if page == "realms" else ""
+    links += f'<li><a href="{url(t.lang, "realms")}"{current}>{t.h("nav.realms")}</a></li>'
+    links += "".join(f'<li><a href="{home}#{a}">{t.h(k)}</a></li>' for a, k in (
+        ("heroes", "nav.heroes"), ("fair", "nav.fair"), ("faq", "nav.faq")))
     langs = page_langs(page)
     others = "".join(f'<li><a href="{url(c, page if c in langs else "home")}" hreflang="{LANGS[c][2]}" lang="{LANGS[c][1]}">{esc(load_i18n(c)["lang.name"])}</a></li>'
                      for c in PUBLISHED if c != t.lang)
@@ -200,7 +209,8 @@ def how(t: T) -> str:
 
 def era(t: T, i: int, e: dict) -> str:
     eid = e["id"]
-    realms = "".join(f"<li>{t.h('realm.' + r)}</li>" for r in e["realms"])
+    realms = "".join(f"<li><a href=\"{url(t.lang, 'realm:' + r)}\">{t.h('realm.' + r)}</a></li>" if r in FACTS["realmsLive"]
+                     else f"<li>{t.h('realm.' + r)}</li>" for r in e["realms"])
     head_html = f"""<header class="era-head"><span class="era-num" aria-hidden="true">{ROMAN[i]}</span>
   <div><h3>{t.h(f'era.{eid}.name')}</h3><p class="period">{t.h(f'era.{eid}.period')}</p></div></header>"""
     if not e["revealed"]:
@@ -332,6 +342,226 @@ def build_doc(page: str, lang: str) -> str:
             + f"\n<body>\n{header(t, page)}{main}{footer(t)}\n</body>\n</html>\n")
 
 
+# ---------------------------------------------------------------- realm pages ("Mit Müzesi" in daylight)
+
+MYTH_PATH = ROOT / "content/myth.json"
+MYTH = json.loads(MYTH_PATH.read_text(encoding="utf-8")) if MYTH_PATH.exists() else {}
+
+
+def g(lang: str, key: str) -> str:
+    """A text the game ships (data/game.json, synced from the game's l10n). Missing is a build error."""
+    text = GAMEDATA["text"][lang]
+    if key not in text:
+        errors.append(f"[{lang}] game text missing: {key} (run scripts/sync-game.py)")
+        return key
+    return text[key]
+
+
+def gh(lang: str, key: str) -> str:
+    return esc(g(lang, key))
+
+
+ART_FILE = {"skarabe_surusu": "skarabe"}  # the swarm is drawn as one beetle (game: art/source/misir/skarabe.svg)
+
+
+def art(name: str) -> str:
+    return ART_FILE.get(name, name).replace("_", "-")
+
+
+def art_size(name: str) -> int:
+    return {"boss": 480, "elite": 320}.get(name, 240)
+
+
+def era_index(era_id: str) -> int:
+    return next(i for i, e in enumerate(FACTS["eras"]) if e["id"] == era_id)
+
+
+def join_names(t: T, names: list[str]) -> str:
+    return names[0] if len(names) == 1 else t("list.and", head=", ".join(names[:-1]), last=names[-1])
+
+
+def crumbs(t: T, trail: list[tuple[str, str | None]]) -> tuple[str, dict]:
+    """Visible breadcrumb and its BreadcrumbList; the last item is the current page (no link)."""
+    items = "".join(f'<li><a href="{href}">{esc(name)}</a></li>' if href else f'<li aria-current="page">{esc(name)}</li>'
+                    for name, href in trail)
+    ld = {"@type": "BreadcrumbList", "itemListElement": [
+        {"@type": "ListItem", "position": i + 1, "name": name, **({"item": f"{BASE}{href}"} if href else {})}
+        for i, (name, href) in enumerate(trail)]}
+    return f'<nav class="crumbs" aria-label="{t.h("crumb.label")}"><ol>{items}</ol></nav>', ld
+
+
+def realm_lead(t: T, rid: str) -> str:
+    r, L = REALMS[rid], t.lang
+    enemies = join_names(t, [g(L, f"enemies.{e}.name") for e in r["enemies"]])
+    return t("realm.lead", realm=g(L, f"realms.{rid}.name"), first=r["maps"][0], last=r["maps"][1],
+                                  mapName=g(L, f"realms.{rid}.mapName"), rule=g(L, f"realms.{rid}.rule"),
+                                  enemies=enemies, elite=g(L, f"enemies.{r['elite']}.name"), boss=g(L, f"bosses.{r['boss']}.name"))
+
+
+def foe_card(t: T, eid: str, kind: str) -> str:
+    L = t.lang
+    size = art_size(kind)
+    badge = f'<span class="foe-badge">{t.h("realm.elite")}</span>' if kind == "elite" else ""
+    return f"""<li class="card foe foe-{kind}">
+  <div class="foe-fig"><img src="/assets/art/{art(eid)}.webp" width="{size}" height="{size}" alt="{gh(L, f'enemies.{eid}.name')}" loading="lazy" decoding="async"></div>
+  <div class="foe-body">{badge}<h3>{gh(L, f'enemies.{eid}.name')}</h3><p class="foe-role">{gh(L, f'enemies.{eid}.role')}</p>
+  <p>{gh(L, f'enemies.{eid}.behavior')}</p><p class="foe-teach"><b>{t.h('realm.teaches')}</b> {gh(L, f'enemies.{eid}.teaches')}</p></div>
+</li>"""
+
+
+def realm_myth(t: T, rid: str) -> str:
+    entry = MYTH.get(rid)
+    if not entry or t.lang not in entry:
+        return ""
+    paras = "".join(f"<p>{esc(p)}</p>" for p in entry[t.lang]["myth"])
+    departs = "".join(f"<li>{esc(d)}</li>" for d in entry[t.lang].get("departures", []))
+    departs_html = f'<h3>{t.h("realm.departures")}</h3><ul class="dots">{departs}</ul>' if departs else ""
+    return f"""<section class="band narrow realm-myth" id="myth" aria-labelledby="myth-title">
+  <div class="card museum-card"><p class="eyebrow">{t.h('realm.myth.eyebrow')}</p><h2 id="myth-title">{t.h('realm.myth.title')}</h2>{paras}{departs_html}
+  <p class="fine-note">{t.h('realm.myth.note')}</p></div>
+</section>"""
+
+
+def realm_sources(t: T, rid: str) -> str:
+    sources = MYTH.get(rid, {}).get("sources", [])
+    if not sources:
+        return ""
+    items = "".join(f'<li><a href="{esc(s["url"])}" rel="noopener">{esc(s["title"])}</a> · {esc(s["publisher"])}</li>' for s in sources)
+    return f"""<section class="band narrow" id="sources" aria-labelledby="sources-title">
+  <h2 id="sources-title" class="h-small">{t.h('realm.sources')}</h2><ul class="sources">{items}</ul></section>"""
+
+
+def build_realm(rid: str, lang: str) -> str:
+    t, r, L = T(lang), REALMS[rid], lang
+    i = era_index(r["era"])
+    era = FACTS["eras"][i]
+    name, map_name = g(L, f"realms.{rid}.name"), g(L, f"realms.{rid}.mapName")
+    h1 = t("realm.h1", realm=name, mapName=map_name)
+    lead = realm_lead(t, rid)
+    page = f"realm:{rid}"
+    trail = [(t("crumb.home"), url(L)), (t("crumb.realms"), url(L, "realms")), (name, None)]
+    crumb_html, crumb_ld = crumbs(t, trail)
+    boss = r["boss"]
+    facts = [
+        (t("realm.fact.era"), f"{ROMAN[i]} · {t('era.' + era['id'] + '.name')}"),
+        (t("realm.fact.maps"), t("realm.maps", first=r["maps"][0], last=r["maps"][1])),
+        (t("realm.fact.myth"), g(L, f"realms.{rid}.mythology")),
+        (t("realm.fact.rule"), g(L, f"realms.{rid}.rule")),
+    ]
+    facts_html = "".join(f"<div><dt>{esc(k)}</dt><dd>{esc(v)}</dd></div>" for k, v in facts)
+    foes = "".join(foe_card(t, e, "enemy") for e in r["enemies"]) + foe_card(t, r["elite"], "elite")
+    phases = "".join(
+        f"<tr><td><b>{gh(L, f'bosses.{boss}.phases.{n}.name')}</b><span class=\"hp\">{esc(hp)}</span></td>"
+        f"<td>{gh(L, f'bosses.{boss}.phases.{n}.text')}</td><td>{gh(L, f'bosses.{boss}.phases.{n}.counter')}</td></tr>"
+        for n, hp in enumerate(r["phases"]))
+    rewards = "".join(f"<li>{gh(L, f'bosses.{boss}.rewards.{n}')}</li>" for n in range(r["rewards"]))
+    rewards_html = f'<h3>{t.h("realm.rewards")}</h3><ul class="dots">{rewards}</ul>' if rewards else ""
+    kit = [(t("realm.kit.weapon"), g(L, f"weapons.{r['weapon']}.name"), g(L, f"weapons.{r['weapon']}.behavior"))]
+    kit.append((t("realm.kit.set"), g(L, f"armor-sets.{r['armorSet']}.name"),
+                t("realm.kit.setbonus", two=g(L, f"armor-sets.{r['armorSet']}.bonus2"), four=g(L, f"armor-sets.{r['armorSet']}.bonus4"))))
+    if r["mythPower"]:
+        kit.append((t("realm.kit.power"), g(L, f"myth-powers.{r['mythPower']}.name"), g(L, f"myth-powers.{r['mythPower']}.effect")))
+    kit_html = "".join(f'<li class="card kit-card"><p class="kit-kind">{esc(k)}</p><h3>{esc(n)}</h3><p>{esc(d)}</p></li>' for k, n, d in kit)
+    minions = "".join(f'<img class="exhibit-minion m{n}" src="/assets/art/{art(e)}.webp" width="240" height="240" alt="" decoding="async">'
+                      for n, e in enumerate(r["enemies"][:2]))
+    live = FACTS["realmsLive"]
+    pos = live.index(rid)
+    nav = ""
+    for cls, other, key in (("prev", live[pos - 1] if pos else None, "realm.prev"), ("next", live[pos + 1] if pos + 1 < len(live) else None, "realm.next")):
+        if other:
+            nav += f'<a class="card realm-step realm-{cls}" href="{url(L, "realm:" + other)}"><span>{t.h(key)}</span><b>{gh(L, f"realms.{other}.name")}</b></a>'
+    body = f"""<main id="main" class="realm">
+<header class="realm-hero ground-{rid}">
+  {crumb_html}
+  <div class="exhibit">
+    <div class="exhibit-stage" aria-hidden="true"><img class="exhibit-boss" src="/assets/art/{art(boss)}.webp" width="480" height="480" alt="" fetchpriority="high">{minions}</div>
+    <div class="card exhibit-label">
+      <p class="eyebrow">{esc(ROMAN[i])} · {t.h('era.' + era['id'] + '.name')}</p>
+      <h1>{esc(h1)}</h1>
+      <p class="lead">{esc(lead)}</p>
+      <dl class="facts">{facts_html}</dl>
+    </div>
+  </div>
+</header>
+{realm_myth(t, rid)}
+<section class="band" id="foes" aria-labelledby="foes-title">
+  <h2 id="foes-title">{t.h('realm.foes.title')}</h2><p class="section-lead">{t.h('realm.foes.lead')}</p>
+  <ul class="foes">{foes}</ul>
+</section>
+<section class="band" id="boss" aria-labelledby="boss-title">
+  <div class="card boss-card">
+    <div class="boss-fig"><img src="/assets/art/{art(boss)}.webp" width="480" height="480" alt="{gh(L, f'bosses.{boss}.name')}" loading="lazy" decoding="async"></div>
+    <div class="boss-body">
+      <p class="eyebrow eyebrow-boss">{t.h('realm.boss.eyebrow', map=r['maps'][1])}</p>
+      <h2 id="boss-title">{gh(L, f'bosses.{boss}.name')}</h2>
+      <p class="boss-lore">{gh(L, f'bosses.{boss}.lore')}</p>
+    </div>
+    <div class="table phases"><table>
+      <caption class="sr-only">{t.h('realm.phases.caption')}</caption>
+      <thead><tr><th scope="col">{t.h('realm.phase')}</th><th scope="col">{t.h('realm.phase.does')}</th><th scope="col">{t.h('realm.phase.counter')}</th></tr></thead>
+      <tbody>{phases}</tbody></table></div>
+    <div class="boss-foot">{rewards_html}<p class="fine-note">{t.h('realm.balance.note')}</p></div>
+  </div>
+</section>
+<section class="band" id="kit" aria-labelledby="kit-title">
+  <h2 id="kit-title">{t.h('realm.kit.title')}</h2><p class="section-lead">{t.h('realm.kit.lead')}</p>
+  <ul class="grid3">{kit_html}</ul>
+</section>
+{realm_sources(t, rid)}
+<nav class="band realm-nav" aria-label="{t.h('realm.nav')}">{nav}</nav>
+</main>"""
+    page_url = f"{BASE}{url(L, page)}"
+    title = t("meta.realm.title", realm=name, mapName=map_name)
+    about = [{"@id": f"{BASE}/#game"}]
+    jsonld = {"@context": "https://schema.org", "@graph": [
+        {"@type": "WebPage", "@id": f"{page_url}#webpage", "url": page_url, "name": title, "description": lead,
+         "inLanguage": LANGS[L][2], "isPartOf": {"@type": "WebSite", "@id": f"{BASE}/#website", "url": f"{BASE}/", "name": t("brand")},
+         "about": about, "breadcrumb": {"@id": f"{page_url}#breadcrumb"}},
+        {**crumb_ld, "@id": f"{page_url}#breadcrumb"},
+    ]}
+    return head(t, title, lead, page, jsonld) + f"\n<body>\n{header(t, page)}{body}{footer(t)}\n</body>\n</html>\n"
+
+
+def build_realms(lang: str) -> str:
+    t, L = T(lang), lang
+    page = "realms"
+    trail = [(t("crumb.home"), url(L)), (t("crumb.realms"), None)]
+    crumb_html, crumb_ld = crumbs(t, trail)
+    cards, items = "", []
+    for e_i, e in enumerate(FACTS["eras"]):
+        realm_cards = ""
+        for rid in e["realms"]:
+            r = REALMS[rid]
+            name = g(L, f"realms.{rid}.name")
+            maps = t("realm.maps", first=r["maps"][0], last=r["maps"][1])
+            if rid in FACTS["realmsLive"]:
+                href = url(L, f"realm:{rid}")
+                items.append({"@type": "ListItem", "position": len(items) + 1, "name": name, "url": f"{BASE}{href}"})
+                realm_cards += f"""<li><a class="card realm-card ground-{rid}" href="{href}">
+  <img src="/assets/art/{art(r['boss'])}.webp" width="480" height="480" alt="" loading="lazy" decoding="async">
+  <span class="realm-card-body"><b>{esc(name)}</b><span>{gh(L, f'realms.{rid}.mapName')} · {esc(maps)}</span><span class="muted">{gh(L, f'realms.{rid}.mythology')}</span></span></a></li>"""
+            else:
+                realm_cards += f"""<li class="card realm-card realm-soon"><span class="realm-card-body"><b>{esc(name)}</b><span>{esc(maps)}</span><span class="muted">{t.h('realms.soon')}</span></span></li>"""
+        cards += f"""<section class="era-row" aria-labelledby="row-{e['id']}"><h2 id="row-{e['id']}" class="h-small"><span class="era-num" aria-hidden="true">{ROMAN[e_i]}</span>{t.h('era.' + e['id'] + '.name')}<span class="period">{t.h('era.' + e['id'] + '.period')}</span></h2>
+  <ul class="realm-grid">{realm_cards}</ul></section>"""
+    h1, lead = t("realms.title"), t("realms.lead")
+    body = f"""<main id="main" class="band realms-index">
+  {crumb_html}
+  <h1>{esc(h1)}</h1><p class="section-lead left">{esc(lead)}</p>
+  {cards}
+</main>"""
+    page_url = f"{BASE}{url(L, page)}"
+    title = t("meta.realms.title")
+    jsonld = {"@context": "https://schema.org", "@graph": [
+        {"@type": "CollectionPage", "@id": f"{page_url}#webpage", "url": page_url, "name": h1, "description": lead,
+         "inLanguage": LANGS[L][2], "isPartOf": {"@type": "WebSite", "@id": f"{BASE}/#website", "url": f"{BASE}/", "name": t("brand")},
+         "about": {"@id": f"{BASE}/#game"}, "breadcrumb": {"@id": f"{page_url}#breadcrumb"},
+         "mainEntity": {"@type": "ItemList", "itemListElement": items}},
+        {**crumb_ld, "@id": f"{page_url}#breadcrumb"},
+    ]}
+    return head(t, title, lead, page, jsonld) + f"\n<body>\n{header(t, page)}{body}{footer(t)}\n</body>\n</html>\n"
+
+
 def build_404() -> str:
     t = T("tr")
     e = T("en")
@@ -348,6 +578,11 @@ def llms_txt() -> str:
                      + ", ".join(t('realm.' + r) for r in e["realms"]) for e in FACTS["eras"])
     pages = "\n".join(f"- [{load_i18n(l)['lang.name']}]({BASE}{url(l)})" for l in PUBLISHED)
     pages += "\n" + "\n".join(f"- [{t('doc.' + d)}]({BASE}{url('en', d)})" for d in FOOTER_DOCS if "en" in page_langs(d))
+    pages += f"\n- [{t('realms.title')}]({BASE}{url('en', 'realms')})"
+    pages += "\n" + "\n".join(
+        f"- [{t('realm.h1', realm=g('en', f'realms.{r}.name'), mapName=g('en', f'realms.{r}.mapName'))}]({BASE}{url('en', 'realm:' + r)}): "
+        f"boss {g('en', 'bosses.' + REALMS[r]['boss'] + '.name')}, maps {REALMS[r]['maps'][0]}–{REALMS[r]['maps'][1]}"
+        for r in FACTS["realmsLive"])
     return f"""# {t('brand')}
 
 > {t('hero.lead')}
@@ -453,6 +688,13 @@ def check_game() -> None:
     for h in FACTS["heroShowcase"]:
         if h not in heroes:
             errors.append(f"heroShowcase: unknown hero {h}")
+    import importlib.util
+    spec = importlib.util.spec_from_file_location("sync_game", ROOT / "scripts/sync-game.py")
+    sync = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(sync)
+    fresh = sync.snapshot(GAME)
+    if fresh["realms"] != GAMEDATA["realms"] or fresh["text"] != GAMEDATA["text"]:
+        errors.append("data/game.json differs from the game repo: run python3 scripts/sync-game.py")
 
 
 # ---------------------------------------------------------------- main
@@ -470,7 +712,14 @@ def main() -> int:
     for page in PAGES:
         for lang in page_langs(page):
             rel = url(lang, page).lstrip("/") + "index.html"
-            pages[rel] = build_home(lang) if page == "home" else build_doc(page, lang)
+            if page == "home":
+                pages[rel] = build_home(lang)
+            elif page == "realms":
+                pages[rel] = build_realms(lang)
+            elif page.startswith("realm:"):
+                pages[rel] = build_realm(page.split(":", 1)[1], lang)
+            else:
+                pages[rel] = build_doc(page, lang)
             entries.append((page, lang))
     pages["404.html"] = build_404()
     for rel, doc in pages.items():
