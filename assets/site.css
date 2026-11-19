@@ -419,6 +419,9 @@ ul { margin: 0; padding: 0; list-style: none; }
 .hero-card-full { display: grid; grid-template-rows: auto 1fr; gap: 12px; padding: 18px; scroll-margin-top: 90px; }
 .hero-card-full .hero-fig { width: 150px; justify-self: center; }
 .hero-card-full:target { box-shadow: 0 0 0 3px var(--accent), var(--shadow); }
+.hero-card-full .hero-story { grid-column: 1 / -1; color: var(--text-soft); font-size: 15px; }
+.hero-story p { margin: 0 0 8px; }
+.hero-story a { overflow-wrap: anywhere; }
 .hero-fig { border-radius: 18px; background: radial-gradient(circle at 50% 70%, #E6F6F1, #fff 72%); padding: 6px; }
 .hero-body .h-small { font-size: 24px; text-align: center; }
 .hero-body .hero-title { text-align: center; }

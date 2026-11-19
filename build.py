@@ -49,9 +49,12 @@ REALMS = {r["id"]: r for r in GAMEDATA["realms"]}
 PAGES["realms"] = {"tr": "diyarlar/", "*": "realms/"}
 PAGES["press"] = {"tr": "basin/", "*": "press/"}
 PAGES["heroes"] = {"tr": "kahramanlar/", "*": "heroes/"}
+PAGES["story"] = {"tr": "hikaye/", "*": "story/"}
 for _rid in FACTS["realmsLive"]:
     PAGES[f"realm:{_rid}"] = {"tr": f"diyarlar/{_rid}/", "*": f"realms/{FACTS['realmSlugs'][_rid]}/"}
-GENERATED = {"home", "realms", "press", "heroes"} | {f"realm:{r}" for r in FACTS["realmsLive"]}
+GENERATED = {"home", "realms", "press", "heroes", "story"} | {f"realm:{r}" for r in FACTS["realmsLive"]}
+# Sources for the heroes' "in myth and history" line: {hero: [{title, url}]}, language-neutral.
+HERO_SOURCES = json.loads((ROOT / "content/hero-sources.json").read_text(encoding="utf-8"))
 FOOTER_DOCS = ["support", "press", "privacy", "kvkk", "terms", "delete"]
 SHOTS_LANG = "tr"  # the in-game screenshots (scripts/shots.py) are captured with the Turkish interface
 
@@ -170,8 +173,9 @@ def header(t: T, page: str = "home") -> str:
     home = "" if page == "home" else url(t.lang)
     links = "".join(f'<li><a href="{home}#{a}">{t.h(k)}</a></li>' for a, k in (
         ("how", "nav.play"), ("journey", "nav.journey")))
-    current = ' aria-current="page"' if page == "realms" else ""
-    links += f'<li><a href="{url(t.lang, "realms")}"{current}>{t.h("nav.realms")}</a></li>'
+    for target, key in (("realms", "nav.realms"), ("story", "nav.story")):
+        current = ' aria-current="page"' if page == target else ""
+        links += f'<li><a href="{url(t.lang, target)}"{current}>{t.h(key)}</a></li>'
     links += "".join(f'<li><a href="{home}#{a}">{t.h(k)}</a></li>' for a, k in (
         ("heroes", "nav.heroes"), ("fair", "nav.fair"), ("faq", "nav.faq")))
     langs = page_langs(page)
@@ -289,9 +293,18 @@ def fair(t: T) -> str:
 </section>"""
 
 
+def parents(t: T) -> str:
+    """What a parent should know; every line must be true in the game today (no claim about planned features)."""
+    items = "".join(f"<li>{t.h(f'parents.{k}')}</li>" for k in ("gore", "iap", "lives", "board", "apple"))
+    return f"""<section class="band narrow" id="parents" aria-labelledby="parents-title">
+  <div class="card museum-card"><h2 id="parents-title">{t.h('parents.title')}</h2><p>{t.h('parents.lead')}</p>
+  <ul class="dots">{items}</ul><p class="fine-note">{t.h('parents.ask')}</p></div>
+</section>"""
+
+
 def faq(t: T) -> str:
     items = "".join(f'<details class="card qa"><summary><h3>{t.h(f"faq.{k}.q")}</h3></summary><p>{t.h(f"faq.{k}.a")}</p></details>'
-                    for k in ("when", "devices", "price", "langs", "myth"))
+                    for k in ("story", "when", "devices", "price", "langs", "myth"))
     return f"""<section class="band narrow" id="faq" aria-labelledby="faq-title">
   <h2 id="faq-title">{t.h('faq.title')}</h2>{items}
 </section>"""
@@ -330,7 +343,7 @@ def jsonld_home(t: T) -> dict:
 def build_home(lang: str) -> str:
     t = T(lang)
     extra = '<script src="/assets/arena.js" defer></script>'
-    body = "".join([header(t), '<main id="main">', hero(t), how(t), journey(t), heroes(t), fair(t), faq(t), "</main>", footer(t)])
+    body = "".join([header(t), '<main id="main">', hero(t), how(t), journey(t), heroes(t), fair(t), parents(t), faq(t), "</main>", footer(t)])
     return head(t, t("meta.home.title"), t("meta.home.desc"), "home", jsonld_home(t), extra) + f"\n<body>\n{body}\n</body>\n</html>\n"
 
 
@@ -458,6 +471,47 @@ def realm_myth(t: T, rid: str) -> str:
 </section>"""
 
 
+def realm_story(t: T, rid: str) -> str:
+    """The game's own tale of the realm, after the museum card that tells the myth itself."""
+    return f"""<section class="band narrow" id="story" aria-labelledby="story-title">
+  <div class="card museum-card"><h2 id="story-title" class="h-small">{t.h('realm.story.title')}</h2><p>{t.h(f'realm.story.{rid}')}</p>
+  <p><a href="{url(t.lang, 'story')}">{t.h('nav.story')}</a></p></div>
+</section>"""
+
+
+def build_story(lang: str) -> str:
+    t, L = T(lang), lang
+    page = "story"
+    h1, lead = t("story.h1"), t("story.lead")
+    trail = [(t("crumb.home"), url(L)), (t("nav.story"), None)]
+    crumb_html, crumb_ld = crumbs(t, trail)
+    revealed = [e for e in FACTS["eras"] if e.get("revealed")]
+    ages = " · ".join(t(f"era.{e['id']}.name") for e in revealed)  # era names may contain "and" themselves
+    parts = "".join(
+        f'<section class="card museum-card" aria-labelledby="story-{k}"><h2 id="story-{k}" class="h-small">{t.h(f"story.{k}.title")}</h2>'
+        f'<p>{t.h(f"story.{k}.text")}</p></section>'
+        for k in ("tree", "silik", "blades", "teller"))
+    parts += (f'<section class="card museum-card" aria-labelledby="story-ages"><h2 id="story-ages" class="h-small">{t.h("story.ages.title")}</h2>'
+              f'<p>{esc(ages)}. {t.h("story.ages.text")}</p><p><a href="{url(L, "realms")}">{t.h("nav.realms")}</a></p></section>')
+    parts += "".join(
+        f'<section class="card museum-card" aria-labelledby="story-{k}"><h2 id="story-{k}" class="h-small">{t.h(f"story.{k}.title")}</h2>'
+        f'<p>{t.h(f"story.{k}.text")}</p></section>'
+        for k in ("unutus", "myth"))
+    body = f"""<main id="main" class="band narrow story-page">
+  {crumb_html}
+  <h1>{esc(h1)}</h1><p class="eyebrow">{t.h('story.opening')}</p><p class="section-lead left">{esc(lead)}</p>
+  {parts}
+</main>"""
+    page_url = f"{BASE}{url(L, page)}"
+    jsonld = {"@context": "https://schema.org", "@graph": [
+        {"@type": "WebPage", "@id": f"{page_url}#webpage", "url": page_url, "name": h1, "description": lead,
+         "inLanguage": LANGS[L][2], "isPartOf": {"@type": "WebSite", "@id": f"{BASE}/#website", "url": f"{BASE}/", "name": t("brand")},
+         "about": {"@id": f"{BASE}/#game"}, "breadcrumb": {"@id": f"{page_url}#breadcrumb"}},
+        {**crumb_ld, "@id": f"{page_url}#breadcrumb"},
+    ]}
+    return head(t, t("meta.story.title"), t("meta.story.desc"), page, jsonld) + f"\n<body>\n{header(t, page)}{body}{footer(t)}\n</body>\n</html>\n"
+
+
 def realm_sources(t: T, rid: str) -> str:
     sources = MYTH.get(rid, {}).get("sources", [])
     if not sources or t.lang not in MYTH[rid]:
@@ -533,6 +587,7 @@ def build_realm(rid: str, lang: str) -> str:
   </div>
 </header>
 {realm_myth(t, rid)}
+{realm_story(t, rid)}
 <section class="band" id="foes" aria-labelledby="foes-title">
   <h2 id="foes-title">{t.h('realm.foes.title')}</h2><p class="section-lead">{t.h('realm.foes.lead')}</p>
   <ul class="foes">{foes}</ul>
@@ -634,9 +689,13 @@ def build_heroes(lang: str) -> str:
             details += f'<div><dt>{t.h("hero.f.style")}</dt><dd>{esc(style)}</dd></div>'
         details += "</dl>"
         details += f'<blockquote class="hero-quote">{esc(quote)}</blockquote>' if quote else f'<p class="fine-note">{t.h("hero.unknown")}</p>'
+        sources = "".join(f' <a href="{esc(s["url"])}" rel="noopener">{esc(s["title"])}</a>' for s in HERO_SOURCES.get(h, []))
+        story = (f'<div class="hero-story"><p>{t.h(f"hero.bio.{h}")}</p>'
+                 f'<p class="fine-note"><b>{t.h("hero.f.myth")}:</b> {t.h(f"hero.myth.{h}")}{sources}</p></div>')
         cards += f"""<li class="card hero-card-full" id="hero-{h}">
   <div class="hero-fig">{hero_img(h, esc(name))}</div>
   <div class="hero-body"><h2 class="h-small">{esc(name)}</h2>{details}</div>
+  {story}
 </li>"""
     body = f"""<main id="main" class="band heroes-page">
   {crumb_html}
@@ -732,6 +791,9 @@ Short name: {brand_parts(t)[0]}. Developer: {SITE['copyrightHolder']} ({SITE['de
 - Controls: one thumb. Walking widens the blades' orbit; standing still draws them in and spins them faster.
 - Monetization: free to download, optional in-app purchases, no forced ads; rewarded ads only by choice.
 - Game languages: {t.vars['appLanguages']}
+
+## Story
+{t('story.llms')} More: {BASE}{url('en', 'story')}
 
 ## Ages and realms
 {eras}
@@ -867,6 +929,8 @@ def main() -> int:
                 pages[rel] = build_heroes(lang)
             elif page == "press":
                 pages[rel] = build_press(lang)
+            elif page == "story":
+                pages[rel] = build_story(lang)
             elif page.startswith("realm:"):
                 pages[rel] = build_realm(page.split(":", 1)[1], lang)
             else:

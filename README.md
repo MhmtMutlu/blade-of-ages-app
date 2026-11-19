@@ -34,6 +34,7 @@ Araştırma: `docs/research/seo.md`, `docs/research/geo.md`, `docs/research/tasa
 | `assets/art/` | Oyunun kil SVG'lerinden üretilen WebP'ler (`scripts/art.py`) |
 | `data/game.json` | Diyar sayfalarının verisi ve oyunun 7 dildeki metinleri (`scripts/sync-game.py`). Elle düzenlenmez; oyun deposundan kayarsa derleme durur |
 | `content/myth.json` | Diyar sayfalarının "Mitte ve tarihte" bölümü (tr, en) ve kaynakları (doğrulanmış bağlantılar). Diğer diller `content/myth.<dil>.json` |
+| `content/hero-sources.json` | Kahramanlar sayfasındaki "Mitte ve tarihte" satırlarının kaynak bağlantıları (dilden bağımsız). Kahraman biyografileri ve hikâye sayfası metinleri `content/i18n/` içinde (`hero.bio.*`, `hero.myth.*`, `story.*`); kanon oyun deposunda `docs/hikaye/` |
 | `assets/og/` | Paylaşım kartları, 1200×630, dil ve diyar başına (`scripts/og.py`) |
 | `assets/shots/` | Oyunun PlayMode test koşularından gerçek ekran görüntüleri (`scripts/shots.py`; Türkçe arayüz) |
 | `assets/press/` | Basın kiti dosyaları: 1024 px simge, marka işareti SVG |

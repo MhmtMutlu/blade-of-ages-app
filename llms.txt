@@ -11,6 +11,9 @@ Short name: Blade of Ages. Developer: Mehmet Mutlu (https://mm-apps.com/).
 - Monetization: free to download, optional in-app purchases, no forced ads; rewarded ads only by choice.
 - Game languages: Turkish, English, Japanese, Korean, Traditional Chinese, German, French
 
+## Story
+The world's tales live on the branches of the Tree of Ages; a tale that is not told fades (people call this fading Silik) and its monsters spill into other realms. The player is a Rememberer whose orbiting blades are the memories of other heroes; defeated creatures return to their own tales and leave gold behind. The Tree of Ages is the game's own tale, inspired by real myths; gods of living faiths are never enemies. More: https://bladeofages.mm-apps.com/en/story/
+
 ## Ages and realms
 - First Age (Stone and Bronze · 9600–2000 BC): Göbekli Tepe, Sumer
 - Ancient Age (Bronze and Iron · 2000–300 BC): Egypt, Greece, Hatti
